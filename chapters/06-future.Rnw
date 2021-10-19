@@ -1,0 +1,12 @@
+There are many possible extensions and future projects to the thesis at hand.
+
+\begin{itemize}
+	\item Are shrinkage intensities for the sample covariance matrix optimal for the precision or MPT problem? 
+	\item One of the most interesting issues of the elliptical distribution and its inverse sample dispersion matrix. What are the moments of $(\mathbf{Z} \mathbf{R} \mathbf{Z}^\top)^{-1}$?
+	\item There are different ways of incorporating estimation uncertainty, one solution is robust optimization. Are there connections to be made? Is robust optimization just Emperical Bayes?
+	\item Sequential reweighting extension to Paper 3. When should we reweight?
+	\item Higher dimensions, other estimators, hard shrinkage.
+	\item BEKK models are usually hard to fit and use for MPT and even when their coefficients have been estimated their forecasts are not always positive definite. The first issue can be coped with if one can formulate the models as Recurrent Neural Networks and use deep-learning libraries Torch or Tensorflow. These are tailored to solve the specifc problem of fitting very large models! By doing so, one also has the possibility to develop new models. The development is solely determined by constructing new layers to the networks. It would also be easier to integrate different sources of information in the models.
+\end{itemize}
+
+Although not part of this Phd thesis - Flipped classroom and online learning tools.

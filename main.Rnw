@@ -1,0 +1,75 @@
+\documentclass[]{book}
+
+\input{header.tex}
+
+%opening
+\title{Optimal portfolios - estimation and uncertainty assessment in the higher dimensional setting}
+\author{Erik Thorsén}
+
+\begin{document}
+
+% \SweaveOpts{concordance=TRUE}
+
+
+\maketitle
+
+\section*{Acknowledgements}
+
+\newpage
+\section*{List of papers}
+<<setup, echo=FALSE, results='hide', message=FALSE, warning=FALSE>>=
+library(knitr)
+opts_knit$set(self.contained=FALSE)
+knitr::opts_chunk$set(
+  comment = '', fig.width = '0.75\\textwidth', fig.height = 4,
+  echo=FALSE, fig.align = "center"
+)
+library(tidyverse)
+set.seed(123)
+STANDARD_TEXT_SIZE <- 13
+@
+
+<<include=FALSE>>=
+#https://stackoverflow.com/questions/16405536/knitr-inline-chunk-options-no-evaluation-or-just-render-highlighted-code
+knit_hooks$set(inline = function(x) { 
+  if (is.numeric(x)) return(knitr:::format_sci(x, 'latex')) 
+  highr::hi_latex(x) 
+}) 
+@
+\tableofcontents
+%%%%%% ------------------------------------------------------------------------
+\chapter[Introduction]{Introduction - making decisions and allocations}\label{ch:intro}
+%%%%%% ------------------------------------------------------------------------
+\input{chapters/01-Introduction}
+%%%%%% ------------------------------------------------------------------------
+\chapter{Modern Portfolio Theory}\label{ch:MPT}
+%%%%%% ------------------------------------------------------------------------
+<<introduction, child='chapters/02-MPT.Rnw'>>=
+@
+%%%%%% ------------------------------------------------------------------------
+\chapter{Statistical models and estimation}\label{ch:estim}
+%%%%%% ------------------------------------------------------------------------
+<<StatModels, child='chapters/03-StatModel_and_Estimation.Rnw'>>=
+@
+%%%%%% ------------------------------------------------------------------------
+\chapter{The higher dimensional setting and portfolios with infinitely many assets}\label{ch:highdim}
+%%%%%% ------------------------------------------------------------------------
+<<HighDim, child='chapters/04-HighDim_portfolios.Rnw'>>=
+@
+%%%%%% ------------------------------------------------------------------------
+\chapter{Summary of Papers}\label{ch:papersummary}
+%%%%%% ------------------------------------------------------------------------
+<<Summary, child='chapters/05-paper_summary.Rnw'>>=
+@
+%%%%%% ------------------------------------------------------------------------
+\chapter{Future research}\label{ch:future}
+%%%%%% ------------------------------------------------------------------------
+<<Future, child='chapters/06-future.Rnw'>>=
+@
+\bibliography{references}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Insert papers here
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
