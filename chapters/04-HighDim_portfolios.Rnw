@@ -23,7 +23,7 @@ F'(x) = \begin{cases}
 0 & \text{ otherwise.}
 \end{cases}
 $$
-Although there are many interesting facts about the empirical spectral distribution and its limiting distribution one of the most surprising is the support of the limiting distribution. The normal distribution has unbounded support but the eigenvalues of $\bX$ converges to a distribution with bounded support (see \citet{livan2018introduction} for a good introduction). \citet{zbMATH03244317} extended the result of \citet{wigner1993characteristic} to the sample covariance matrix. Assume that $\bX$ is a $p \times n$ matrix that contains i.i.d random variables with zero mean and variance equal to $1$. The limit is now taken over the two quantities $p$ and $n$ at the same time, such that $p/n$ stays constant equal to the concentration ratio $c$. We assume that $c<1$ in this introduction. The limiting spectral distribution of $\bS=\frac{1}{n} \bX \bX^\top$ was then shown to be
+There are many interesting facts about the empirical spectral distribution and its limiting distribution. One of the most interesting is the support of the limiting distribution. The normal distribution has unbounded support but the eigenvalues of $\bX$ converges to a distribution with bounded support (see \citet{livan2018introduction} for a good introduction on why this is). \citet{zbMATH03244317} extended the result of \citet{wigner1993characteristic} to the sample covariance matrix. Assume that $\bX$ is a $p \times n$ matrix that contains i.i.d random variables with zero mean and variance equal to $1$. The limit is now taken over the two quantities $p$ and $n$ at the same time, such that $p/n$ stays constant, equal to the concentration ratio $c$. We assume that $c<1$ in this introduction. The limiting spectral distribution of $\bS=\frac{1}{n} \bX \bX^\top$ was then shown to be
 $$
 F'(x) = \begin{cases}
 \frac{1}{2\pi x c} \sqrt{(b-x)(x-a)} & \text{ if } a \leq x \leq b\\
@@ -32,7 +32,7 @@ F'(x) = \begin{cases}
 $$
 where $a=(1-\sqrt{c})^2$ and $b=(1+\sqrt{c})^2$. The distribution has, once again, bounded support! The eigenvalues seem to attract each other. Although the sample covariance matrix appears very often in the context of MPT, its not usually the object of interest. We are interested in its inverse, as we discussed in chapter \ref{ch:MPT}. However, the Stieltjes transform can help us with that.
 
-For a function $F(x)$ the Stieltjes transform is defined as 
+For a function $F: \mathbbm{C} \rightarrow \mathbbm{R}$ the Stieltjes transform is defined as 
 \begin{equation}\label{eqn:stieltjes}
 m^F(z) = \int \frac{1}{x-z}dF(x)
 \end{equation}
@@ -40,8 +40,7 @@ where $z \in \{z \in \mathbbm{C}: \mathbbm{Im}(z)>0 \}$. The Stieltjes has many 
 \begin{equation}
 \frac{1}{p}\tr \left( \bS^{-1} \right) = \lim_{z\rightarrow 0^+} \frac{1}{p} \tr \left( (\Lambda -z\bI)^{-1} \right) = \lim_{z\rightarrow 0^+} \int_0^\infty \frac{1}{x - z} dF_n(x).
 \end{equation}
-
-Although the two objects $\tr(\bS^{-1})$ and $\tr(\ones^\top \bS^{-1} \ones)$ may look similar their limiting objects will behave quite differently. This is due to the fact that the former does not depend on the eigenvectors while latter does.  Theorem 1 of \citet{rubio2011spectral}
+From... object $\tr(\bS^{-1})$ is slightly different from  and $\tr(\ones^\top \bS^{-1} \ones)$ may look similar their limiting objects will behave quite differently. This is due to the fact that the former does not depend on the eigenvectors while latter does.  Theorem 1 of \citet{rubio2011spectral}
 \section{Shrinkage estimators}
 
 
