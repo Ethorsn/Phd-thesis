@@ -6,6 +6,9 @@
 \title{Optimal portfolios - estimation and uncertainty assessment in the higher dimensional setting}
 \author{Erik Thorsén}
 
+
+\addbibresource{references.bib}
+
 \begin{document}
 
 % \SweaveOpts{concordance=TRUE}
@@ -66,7 +69,9 @@ knit_hooks$set(inline = function(x) {
 %%%%%% ------------------------------------------------------------------------
 <<Future, child='chapters/06-future.Rnw'>>=
 @
-\bibliography{references}
+
+\printbibliography
+%\bibliography{references}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Insert papers here

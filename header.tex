@@ -27,8 +27,14 @@
 
 \usepackage{hyperref}
 % References
-\usepackage{natbib}
-\bibliographystyle{apalike}
+\usepackage[
+backend=biber,
+style=authoryear,
+sorting=ynt
+]{biblatex}
+\renewcommand{\citet}[#1]{\textcite{#1}}
+%\usepackage{natbib}
+%\bibliographystyle{apalike}
 %\bibpunct[, ]{(}{)}{,}{a}{}{,}%
 %\def\bibfont{\small}%
 %\def\bibsep{\smallskipamount}%

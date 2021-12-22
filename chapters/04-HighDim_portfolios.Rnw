@@ -2,20 +2,21 @@ In the previous chapter we presented different ways of estimating the covariance
 %If we hold $p$ constant and let $n$ grow the sample covariance matrix is consistent. 
 If we have a lot of data on the assets that we are trying to invest in then we can most often be certain that we will hold the correct portfolio.
 Our estimated portfolio will be consistent, e.g. it estimates the correct object of interest. 
-However, if we believe in diversification then $p$ should be big as well. 
+Furthermore, since diversification is one, if not the best, risk management tool there is, we want our asset universe to be big.
+If we believe in diversification then $p$ should be big as well. 
 It should, in theory, decrease the risk (variance) of the portfolio. 
 That is not always the case.
 By introducing one new asset to our portfolio of size $p$ we need to estimate all covariances for that asset in the sample covariance matrix. They will constitute an additional $p+1$ quantities. 
 The sample covariance matrix suffers from the curse of dimensionality. 
 In terms of estimation uncertainty, this does not scale well.
-From \citet{bodnar2016optimal} Proposition 2.2 we know that $\hV \rightarrow \V/(1-c)$ whenever $p,n \rightarrow \infty$ s.t. $p/n \rightarrow c \in [0,1)$. This makes some (although quite general) assumptions on the return distribution which we will ignore for now. If $c$ is close to one, then the sample GMV portfolios variance will explode. \textit{Estimation uncertainty dominates the diversification effect}. There are many solutions to the problem at hand (see e.g. \citet{lw17} or \citet{bodnar2021recent} and the references therein). We will focus on Random Matrix Theory (RMT) and the use of some type of shrinkage estimator. Both subjects are grand though we hope to provide some introduction to them in the following sections.
+From \citet{bodnar2016optimal} Proposition 2.2 we know that $\hV \rightarrow \V/(1-c)$ whenever $p,n \rightarrow \infty$ s.t. $p/n \rightarrow c \in [0,1)$. If $c$ is close to one, then the sample GMV portfolios variance will explode. \textit{Estimation uncertainty dominates the diversification effect}. There are many solutions to the problem at hand (see e.g. \citet{lw17} or \citet{bodnar2021recent} and the references therein). We will focus on some topics in Random Matrix Theory (RMT) and the use of some type of shrinkage estimator. Both subjects are grand. Our aim is to provide a small introduction to them in the following sections.
 
 \section{A short introduction to RMT and the Stieltjes transform}
-The subject of Random matrix theory (RMT) has many applications. It was originally developed in the context of quantum physics (see Ch. 1 of \citet{mehta2004random}). The theory and its applications has since developed quite a lot. Many fields, such as combinatorics, computational biology, wireless communication and finance (see \citet{REF} for an overview) use these results. One of the seminal work in RMT was made by \citet{wigner1993characteristic}. He originally modeled the limiting spectral distribution of an $n \times n$ dimensional standard Gaussian random matrices $\bX$. The term "standard" might be a little misleading for statisticians as the matrix $\bX$ contains independent random variables although not identically distributed. The entries on the diagonal are $N(0,2)$ and the entries on the off-diagonal are $N(0,1)$. However, the more generalized definition only demands that the matrix $\bX$ is Hermitian and its entries on the diagonal or above the diagonal are independent. We define the empirical spectral distribution (ESD) of a matrix $\bA$ as
+The subject of Random matrix theory (RMT) has many applications. It was originally developed in the context of quantum physics (see Ch. 1 of \citet{mehta2004random}). The theory and its applications has since then developed quite a lot. Many fields, such as combinatorics, computational biology, wireless communication and finance (see \citet{REF} for an overview) use these results. One of the seminal work in RMT was made by \citet{wigner1993characteristic}. He originally modeled the limiting spectral distribution of an $p \times p$ dimensional standard Gaussian random matrices $\bX$. The term "standard" might be a little misleading for statisticians as the matrix $\bX$ contains independent random variables although not identically distributed. The entries on the diagonal are $N(0,2)$ and the entries on the off-diagonal are $N(0,1)$. However, the more generalized definition only demands that the matrix $\bX$ is Hermitian and its entries on the diagonal or above the diagonal are independent. We define the empirical spectral distribution (ESD) of a matrix $\bA$ as
 $$
-F^{\bA}(x)= \frac{1}{n} \sum_{i=1}^p \mathbbm{1}(\lambda_i \leq x)
+F^{\bA}(x)= \frac{1}{p} \sum_{i=1}^p \mathbbm{1}(\lambda_i \leq x)
 $$ 
-where $\lambda_i$ are the eigenvalues from the eigenvalue decomposition, see section \ref{subsec:cov_prec_matrix}. The limit, in this case, is taken as $n \rightarrow \infty$ which implies that $\bA$ will have infinitely many columns as well as rows!
+where $\lambda_i$ are the eigenvalues from the eigenvalue decomposition, see section \ref{subsec:cov_prec_matrix}. The limit, in this case, is taken as $p \rightarrow \infty$ which implies that $\bA$ will have infinitely many columns as well as rows!
 The limiting spectral distribution of $\bX$ can be shown to converge to (see Chapter 2 of \citet{bai2010spectral})
 $$
 F'(x) = \begin{cases}
@@ -23,42 +24,62 @@ F'(x) = \begin{cases}
 0 & \text{ otherwise.}
 \end{cases}
 $$
-There are many interesting facts about the empirical spectral distribution and its limiting distribution. One of the most interesting is the support of the limiting distribution. The normal distribution has unbounded support but the eigenvalues of $\bX$ converges to a distribution with bounded support (see \citet{livan2018introduction} for a good introduction on why this is). \citet{zbMATH03244317} extended the result of \citet{wigner1993characteristic} to the sample covariance matrix. Assume that $\bX$ is a $p \times n$ matrix that contains i.i.d random variables with zero mean and variance equal to $1$. The limit is now taken over the two quantities $p$ and $n$ at the same time, such that $p/n$ stays constant, equal to the concentration ratio $c$. We assume that $c<1$ in this introduction. The limiting spectral distribution of $\bS=\frac{1}{n} \bX \bX^\top$ was then shown to be
+There are many interesting facts about the empirical spectral distribution and its limiting distribution. One of the most interesting is the support of the limiting distribution. The normal distribution has unbounded support but the eigenvalues of $\bX$ converges to a distribution with bounded support (see \citet{livan2018introduction} for a good introduction on why this is). \citet{zbMATH03244317} extended the result of \citet{wigner1993characteristic} to the sample covariance matrix. Assume that $\bX$ is a $p \times n$ matrix that contains i.i.d random variables with zero mean and variance equal to $1$. The limit is now taken over the two quantities $p$ and $n$ at the same time, such that $p/n$ stays constant. We usually call this ratio the concentration ratio $c$. In this introduction we assume that $c<1$. The limiting spectral distribution of $\bS=\frac{1}{n} \bX \bX^\top$ was then shown to be
 $$
 F'(x) = \begin{cases}
 \frac{1}{2\pi x c} \sqrt{(b-x)(x-a)} & \text{ if } a \leq x \leq b\\
 0 & \text{ otherwise.}
 \end{cases}
 $$
-where $a=(1-\sqrt{c})^2$ and $b=(1+\sqrt{c})^2$. The distribution has, once again, bounded support! The eigenvalues seem to attract each other. Although the sample covariance matrix appears very often in the context of MPT, its not usually the object of interest. We are interested in its inverse, as we discussed in chapter \ref{ch:MPT}. However, the Stieltjes transform can help us with that.
-
-For a function $F: \mathbbm{C} \rightarrow \mathbbm{R}$ the Stieltjes transform is defined as 
+where $a=(1-\sqrt{c})^2$ and $b=(1+\sqrt{c})^2$. The distribution has, once again, bounded support! The eigenvalues seem to attract each other. Although the sample covariance matrix appears very often in the context of MPT, its not usually the object of interest. We are interested in its inverse, as we discussed in chapter \ref{ch:MPT}. However, the Stieltjes transform can help us with that. The Stieltjes transform of a function $F: \mathbbm{R} \rightarrow \mathbbm{R}$ is defined as 
 \begin{equation}\label{eqn:stieltjes}
 m^F(z) = \int \frac{1}{x-z}dF(x)
 \end{equation}
-where $z \in \{z \in \mathbbm{C}: \mathbbm{Im}(z)>0 \}$. The Stieltjes has many useful properties. If we know the Stieltjes transform, then we can also derive $F$ by its inversion formula. We also have point wise convergence (see appendix B.2 of \citet{bai2010spectral}). To see the importance of the Stieltjes transform for MPT, note that for a sample covariance matrix $\bS$ with ESD $F_n(x)$ we have that
+where $z \in \{z \in \mathbbm{C}: \mathbbm{Im}(z)>0 \}$. The Stieltjes has many useful properties. If we know the Stieltjes transform, then we can also derive the spectral distribution $F$ by its inversion formula. We also have pointwise convergence (see appendix B.2 of \citet{bai2010spectral}). Using the results from RMT in MPT we take a sample covariance matrix $\bS$ with ESD $F_n(x)$ and note that
 \begin{equation}
-\frac{1}{p}\tr \left( \bS^{-1} \right) = \lim_{z\rightarrow 0^+} \frac{1}{p} \tr \left( (\Lambda -z\bI)^{-1} \right) = \lim_{z\rightarrow 0^+} \int_0^\infty \frac{1}{x - z} dF_n(x).
+\frac{1}{p}\tr \left( \bS^{-1} \right) = \lim_{z\rightarrow 0^+} \frac{1}{p} \tr \left( (\Lambda -z\bI)^{-1} \right) = \lim_{z\rightarrow 0^+} \int_0^\infty \frac{1}{x - z} dF_n(x) = \lim_{z\rightarrow 0^+} m^{F_n}(z).
 \end{equation}
-From... object $\tr(\bS^{-1})$ is slightly different from  and $\tr(\ones^\top \bS^{-1} \ones)$ may look similar their limiting objects will behave quite differently. This is due to the fact that the former does not depend on the eigenvectors while latter does.  Theorem 1 of \citet{rubio2011spectral}
-\section{Shrinkage estimators}
+If we are interested in the limiting properties of traces of inverse sample covariance matrices, we can investigate the properties of the Stieltjes transform. However, to make matters slightly worse, we are most often (at least in this thesis) interested in quadratic or bilinear forms where the inverse sample covariance matrix is present. Examples are $\ones^\top \bS^{-1} \ones$ or $\ones^\top \bS^{-1} \bb$ for some vector $\bb$. Altough $\tr(\bS^{-1})$ and $\ones^\top \bS^{-1} \ones$ may look similar, their limiting objects can behave quite differently. This is due to the fact that the former does not depend on the eigenvectors while latter does. \citet{rubio2011spectral} showed the following theorem which allows us to handle limiting objects on this specific form
+\begin{theorem}[Theorem 1 of \citet{rubio2011spectral}]
+\begin{enumerate}[(a)]
+  \item $\bX$ is an $p \times n$ random matrix such that the entier of $\sqrt{n}\bX$ are i.i.d complex random variables with mean 0, variance 1 and finite $8+\epsilon$ moment, for some $\epsilon > 0$.
+  \item $\bA$ and $\mathbf{R}$ are $p \times n$ hermitian nonnegative definite matrices, with the spectral norm (denoted by $||\cdot||$) of $\mathbf{R}$ being bounded uniformly in $p$, and $\mathbf{T}$ is an $n \times n$ diagonal matrix with real nonegative entries  uniformly bounded in $n$.
+  \item $\bB=\bA + \bR^{1/2} \bX \bT \bX^H \bR^{1/2}$, where $\bR^{1/2}$ is the nonnegative definite square root of $\bR$.
+  \item $\bTheta$ is an arbitrary nonrandom $p \times p$ matrix, whose trace norm (i.e., $\tr((\bTheta^H \bTheta)^{1/2}):=||\bTheta||_{tr}$) is bounded uniformly in $p$.
+\end{enumerate}
+Then, with probability 1, for each $z\in \mathbbm{C}-\mathbbm{R}^+$, as $n=n(p) \rightarrow \infty$ such that $0<\lim\inf c_p<\lim \sup c_p < \infty$, with $c_p = p/n$
+\begin{equation}
+  \tr\left(\bTheta\left( \left(\bB - z\bI\right)^{-1} - \left( \bA + x_p(e_p)\bR - z\bI \right)^{-1} \right) \right) \rightarrow 0
+\end{equation}
+where $x_p(e_p)$ is defined as
+\begin{equation}
+  x_p(e_p) = \frac{1}{n}\tr \left( \bT \left(\bI_n + c_p e_p \bT \right)^{-1} \right)
+\end{equation}
+and $e_p=e_p(z)$ is the Stieltjes transform of a certain positive measure on $\mathbbm{R}^+$ with total mass $\tr(\bR)/p$, obtained as the unique solution in $\mathbbm{C}^+$ of the equation
+\begin{equation}
+  e_p = \frac{1}{p}\tr \left( \bR \left(\bA +  x_p(e_p) \bR - z\bI_p \right)^{-1} \right).
+\end{equation}
+\end{theorem}
+This theorem is used repeatedly in papers \ref{sec:paper3} through \ref{sec:paper5}. It is that powerful and flexible. However, we often assume finite $4+\epsilon$ moment, while the theorem above assumes $8+\epsilon$. We can circumvent that by Theorem \citet{REF}... 
 
+When we are able to construct sample estimators on the form of $\bB$ it does not necessarily imply that we can find analytic solutions. \textbf{comment more on it.}
 
+\section{Shrinkage estimators in MPT}
+The estimator $\hV$ is clearly biased, it even diverges when $c$ approaches $1$. This problem is not unique. The least squares estimator is usually very volatile when there are many covariates in your regression model. we can construct an unbiased estimator for the variance of the GMV portfolio by $(1-c)\hV$ which would work great. However, that might not be what we want. We want to create a good estimator for the weights, since these are what we invest in! There are many solutions to this problem but the most common is using a shrinkage estimator. We will introduce bias to our weights but hopefully reduce the variance.
 
-<<MPlaw, eval=FALSE>>=
-#X <- sqrt(3/5)* matrix(rt(600*300, df=10), ncol=600, nrow=300)
-X <- matrix(rnorm(600*300), ncol=600, nrow=300)
-df <- tibble(
-  "values"= eigen(X%*%t(X)/ncol(X), only.values = TRUE)$values,
-  "type"="X t(X)"
-) #%>% bind_rows({
-  #tibble(
-  #  "values"= eigen(t(X)%*% X, only.values = TRUE)$values,
-  #  "type"="t(X) X"
-  #)
-})
-ggplot(df) +
-  geom_histogram(aes(x=values, fill=type), bins = 100) +
-  theme_minimal() +
-  scale_fill_brewer("", type="qual", palette = 6)
-@
+Looking at the GMV portfolio, there are two natural extensions. Either, we regularize the sample covariance matrix $\bS$ or we regularize the weights $\hbw_{GMV}$ directly. Lets start with the latter. The first extension is to combine the GMV portfolio weights with some target portfolio $\bb$. We construct the shrunk portfolio weights $\hbw_{SH}$ as
+\begin{equation}
+  \hbw_{SH} = \alpha\hbw_{GMV} + (1-\alpha)\bb
+\end{equation}
+which introduces the bias $(1-\alpha)(\optn{E}[\hbw_{GMV}]+\bb) - \bw_{GMV}$ but decreases the variance to
+\begin{align}
+  \optn{E}\left[\left(\alpha\hbw_{GMV} - \alpha \optn{E}[\hbw_{GMV}]\right)\left(\alpha\hbw_{GMV} - \alpha \optn{E}[\hbw_{GMV}]\right)^\top\right] 
+  & = 
+  \alpha^2\optn{E}\left[\left(\hbw_{GMV} - \optn{E}[\hbw_{GMV}]\right)\left(\hbw_{GMV} - \optn{E}[\hbw_{GMV}]\right)^\top\right]
+\end{align}
+\citet{bodnar2018estimation} way forward.... this is similar to the linear shrinkage from \citet{REF}....
+
+The shrinkage intensities are most often determined by cross validation. We try to find the best $\theta$ by dividing data into tests and training sets. These are then used to 
+
+a natural choice of loss function  choose the out-of-sample variance as the loss function. If we invest in the GMV portfolio then the obvious choice of loss function is the out-of-sample variance, e.g. $Loss$. Although the loss is the most sensible it depends on a unknown parameter, $\bSigma$. 
+

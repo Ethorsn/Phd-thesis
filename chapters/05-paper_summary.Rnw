@@ -1,76 +1,36 @@
 The papers presented here are among a total of ... papers produced. These are selected based their common theme.
-\section*{Paper 1 - Sampling ...}
-The paper investigates a fundemental question in modern portfolio theory. 
-What are the implications to using the sample covariance matrix $\bS$ and the sample mean $\bxb$ instead of the true covariance matrix $\bSigma$ and $\bmu$?
-The paper does so when returns follow a multivariate normal distribution.
+\subsection*{Paper 1 - Sampling ...}\label{sec:paper1}
+The paper investigates a fundemental question in modern portfolio theory. What are the actual implications of using the sample covariance matrix $\bS$ and the sample mean $\bxb$ instead of the true covariance matrix $\bSigma$ and $\bmu$? The paper does so when returns follow a multivariate normal distribution. In it we derive the distribution for all optimal portfolios which can be found to be on the common form
 
 
-\section*{Paper 2 - Tangency portfolio}
-In this paper we investigate the another portfolio which contains a risk-free asset. The return or rate of the risk-free asset is denoted $r_f$. To introduce this option into our portfolio we add the risk-free rate as part of the portfolio $w_0 r_f + \bw^\top \bx$ and optimize over $w_0$ as well. The portfolio is obtained from the quadratic utility function, that is, it originates from the following portfolio allocation 
+\section*{Paper 2 - Tangency portfolio}\label{sec:paper2}
+In this paper we investigate the another portfolio which contains a risk-free asset. The portfolio is obtained from the quadratic utility function, that is, it originates from the following portfolio allocation 
 \begin{align}
   \min_{w_0,\bw} & w_0 r_f + \bw^\top \bmu - \frac{1}{2\gamma} \bw^\top \bSigma \bw \\
   \text{ s.t.} &\; w_0 + \bw^\top \ones_p = 1
 \end{align}
-However, since $w_0 + \bw^\top \ones=1$ we substitute $w_0=1-\bw^\top \ones$ and solve the unconstrained optimization problem instead. The portfolio has many interesting properties. If there is a risk-free asset we can actually increase the return and decrease the risk of our position in the market. This is most easily explained by the efficient frontier, displayed in Figure \ref{fig:mertons_efficient_frontier}, and what happens with it when the risk-free rate is introduced. In Figure \ref{fig:paper2-summary} we illustrate what happens. Since we have the opportunity to invest in a risk-free asset we can decrease the risk we take in comparison to earlier. If we do not want to take any market risk, then we can place all our cash in a bond with rate $r_f$. Taking any combination between will result in less risk and more return.  
-<<paper2summary, fig.cap="Efficient frontier and the capital market line for 30 (randomly) selected stocks from the S\\&P500" >>=
-set.seed(4)
-df <-  select(HDShOP::SP_daily_asset_returns, -Date) %>%
-  sample(30)
-
-Sigma <- var(df)
-Sigma_inv <- solve(Sigma)
-ones <- rep(1, 30)
-
-r_f <- 0.01
-mu <- colMeans(df)
-Vgmv <- 1/as.numeric(t(ones)%*% Sigma_inv %*% ones)
-Rgmv <- as.numeric(t(mu)%*% Sigma_inv %*% ones / as.numeric(t(ones)%*% Sigma_inv %*% ones))
-Q <- Sigma_inv - Sigma_inv %*% ones %*% t(ones) %*% Sigma_inv / as.numeric(t(ones) %*% Sigma_inv %*% ones)
-s <- as.numeric(t(mu)%*% Q %*% mu)
-
-R <- seq(Rgmv, 0.7, length.out=200)
-V <- sqrt((R-Rgmv)^2 / s + Vgmv)
-
-gamma <- seq(0.07, 300, length.out=100)
-ggplot_df <- data.frame("V"=V,"R"=R, "type"="efficient frontier") %>%
-  bind_rows({
-    map_dfr(gamma, ~{
-      w_tp <- Sigma_inv %*% (mu - r_f * ones) / .x
-      w0 <- 1-sum(w_tp)
-      c(
-        "R"= w0 * r_f + as.numeric(t(w_tp) %*% mu),
-        "V"= sqrt(t(w_tp) %*% Sigma %*% w_tp)
-      )
-    }) %>%
-      mutate("type"="Capital market line")
-  })
-
-ggplot_df %>%
-  ggplot() +
-  geom_line(aes(x=V, y=R, 
-                color=`type`,
-                linetype=`type`),
-            size=1.0, alpha=0.7) +
-  labs(x=expression(sigma[w]), y=expression(mu[w])) +
-  theme_minimal() +
-  scale_color_brewer("", palette = 6, type = "qual") +
-  scale_linetype("") +
-  theme(text = element_text(size=STANDARD_TEXT_SIZE),
-        legend.position = "bottom")
-@
 The paper investigates what the distribution is of the tangency portfolio, or in a more broader context, the capital market line. We use an extension to the multivariate Gaussian Model from Paper 1, the Closed Skew-Normal Matrixvariate Model. This model can include skewness in the asset returns a trait returns usually exhibit (see e.g. \cite{cont2001empirical}). We investigate what implications the model has on the estimated tangency portfolio.
-\section*{Paper 3}
-This paper deals with the fact that taking limits changes estimates. If the investor invest in a portfolio and then wait for a wekk, month or year their perception of what portfolio they should hold will have changed. This is implicit when taking limits.  One can therefore ask how one can rebalance optimally when new data arrives. Assuming that the investor is ok with rebalancing the portfolio at fixed time points we develop a reweighting scheme to do so optimally. Assuming that the investor is completely risk-averse, the proposed method is optimal and consistent with the investors preference. The reallocation is done to be optimal in minimizing the out-of-sample variance. One nice feature of this scheme is that it also decreases transaction costs.
 
-This paper continues on to use another model. Although more general, its also 
+\section*{Paper 3 - DOS}\label{sec:paper3}
+This paper deals with the fact that taking limits changes estimates. If the investor invest in a portfolio and then wait for a weak, month or year their perception of what portfolio they should hold will have changed. This is implicit when taking limits.  A natural question to ask is then how to go from one portfolio to another, e.g. how to rebalance optimally when you have a new set of data. Assuming that the investor is ok with rebalancing the portfolio at fixed time points we develop a rebalancing scheme for the GMV portfolio. This type of "dynamic" shrinkage has a lot of practical implications. If you own one portfolio it most often cost money to go from that to the next. That will take away from the return you make. Decreasing the out-of-sample variance also has the potential of increase return. Furthermore, its not always possible to go from one portfolio to the next on a day. You can influence the market or make to large positional changes, which are not allowed.
 
-The paper is accompanied by a R package, available on CRAN. You are free\footnote{or rather encouraged!} to install it by \Sexpr{'install.packages("DOSPortfolio")'}. Below is a short introduction on how to construct the portfolio estimates  
+\section*{Paper 4 - Is the empirical out-of-sample variance an informative risk measure for high-dimensional portfolios}\label{sec:paper4}
+Any empirical application using the GMV portfolio is bound to include the volatility/variance. A natural question to ask is then; is the empirical out-of-sample variance a consistent estimator of the variance? Furthermore, is it a good option to use or are there perhaps better options of performance measures? In this paper we investigate another common metric of evaluation. The 
+
+\section*{Paper 5 - Double shrinkage}\label{sec:paper5}
+
+%\section*{Paper 6 - The capital market line, tangency portfolio and the effect of Tikhonov regularization in higher dimensions}\label{sec:paper6}
+
+\section{The rest of the papers \& other stuff}
+
+Paper \ref{sec:paper3} is accompanied by a R package, available on CRAN. You are free\footnote{or rather encouraged!} to install it by \Sexpr{'install.packages("DOSPortfolio")'}. The package provides a simple interface for the methods implemented in the paper. Below is a short example on how to construct the portfolio weights. The package is the first iteration of possibly many more portfolios which can be constructed in a similar fashion. 
+
 <<paper3-summary, echo=TRUE, message=FALSE>>=
-df <- read_csv("../data/returns.csv")
 library(DOSPortfolio)
-set.seed(1234)
+df <- read_csv("../data/returns.csv")
 p <- 350; n <- 400
 # Sample p assets
+set.seed(1234)
 asset_cols <- sample(2:ncol(df), size = p)
 # specify reallocation points
 reallocation_points <- seq(n, nrow(df), by=n)
@@ -126,8 +86,5 @@ ggplot(ggplot_df) +
         legend.position = "bottom")
 @
 
-% In Figure  \ref{fig:examplePackage} we can see the wealth and how it develops throughout a little more than 6 years. Although the GMV portfolio is a poor choice in this scenario indicate that the DOSPortfolio is better in terms of welath
-\section*{Paper 4}
-Double shrinkage?
-
-\section*{Paper 5 - The capital market line, tangency portfolio and the effect of Ridge estimators in higher dimensions}
+Furthermore, the following papers were also coauthored throughout the writing of this thesis
+\printbibliography[keyword={thesisbutnotincluded},title={Articles that are not present in this thesis}]

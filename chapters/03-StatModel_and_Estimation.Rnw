@@ -1,12 +1,12 @@
-To \textit{pratically} use the portfolios described by \eqref{eqn:mean_var_solution} we have to specify $\bmu$ and $\bSigma$.
+To \textit{pratically} use the portfolios described by \eqref{eqn:mean_var_solution} we have to specify $\bmu$ and $\bSigma$. This is not really feasible as you might have many assets. We might have a opinion of what they should be but we dont know. Furthermore, even if you have an informed opinion of the parameters the potential loss of using those exact parameters might be paramount. We usually want to rely on data in some regard to estimate the parameters of interest. 
 
-
-To state his portfolio allocation problem we first introduce the relevant quantities. In this thesis we never use the asset prices themselves but their a transformation of the relative differences, that is, their simple returns. The simple return is defined as $r_{i,t} := (y_{i,t}-y_{i,t-1})/y_{i,t-1}$ and the log return is then defined as
+In this thesis we never use the asset prices themselves but a transformation of the relative differences, that is, their simple- and log returns. Let $y_{i,t}$ be the asset price of the $i$th asset at time $t$. The simple return is defined as $r_{i,t} := (y_{i,t}-y_{i,t-1})/y_{i,t-1}$ and the log return is then defined as
 $
-x_{i,t} := \log(r_{i,t} + 1)
+x_{i,t} := \log(r_{i,t} + 1).
 $
-where $y_{i,t}$ is the price of the $i$th asset at time $t$. We model a portfolio with $p$ assets as $\sum_{i=1}^p w_i x_{i,t} = \bw^\top \bx_t$ where $\bw=(w_1, ..., w_p)$ are the portfolio weights and $\bx_t=(x_{1,t},x_{2,t},..., x_{p,t})$ are the log returns. Notice that this is an approximation. In reality we would want to work with $\sum_{i=1}^p w_i r_{i,t}$ since it is additive in the number of assets. However, logarithmic returns are additive in time which can be desirable. Compounding returns results in simple addition. The difference between the two approaches is very small if the returns are small, which is often true for financial assets. The models we work with in this thesis often rely on the log returns and not the returns. We will omit the time index $t$ to keep the notation tidy unless otherwise stated. 
+We model a portfolio with $p$ assets as $\sum_{i=1}^p w_i x_{i,t} = \bw^\top \bx_t$ where $\bw=(w_1, ..., w_p)$ are the portfolio weights and $\bx_t=(x_{1,t},x_{2,t},..., x_{p,t})$ are the log returns. Notice that this is an approximation. In reality we would want to work with $\sum_{i=1}^p w_i r_{i,t}$ (or even $\sum_{i=1}^p w_i y_{i,t}$) since it is additive in the number of assets. However, logarithmic returns are additive in time which can be desirable. Compounding returns is simple addition. The difference between the two approaches is very small if the (log) returns are small, which is often true for financial assets. The models we work with in this thesis often rely on the log returns and not the returns. We will omit the time index $t$ to keep the notation tidy unless otherwise stated. 
 
+A first approach to modelling the joint distribution of log-returns is 
 \begin{itemize}
 	\item Multivariate Normal
 	\item Wishart and inverse wishart distribution, properties
@@ -18,33 +18,33 @@ where $y_{i,t}$ is the price of the $i$th asset at time $t$. We model a portfoli
 	\begin{equation}\label{eqn:multi_density}
 	\frac{|\bSigma|^{-1/2}}{2\pi} \exp \left\{-\frac{1}{2} \left(\bx - \bmu \right)^\top\bSigma^{-1}\left(\bx - \bmu \right) \right\}
 	\end{equation}
-	where $|\bB|$ is the determinant of the matrix $\bB$. We usually use the notation $\bx \sim N_p(\bmu, \bSigma)$ to indicate the above.
+	where $|\bB|$ is the determinant of the matrix $\bB$.
 \end{definition} 
+We usually use the notation $\bx \sim N_p(\bmu, \bSigma)$ as an indicate the above.
 
 \begin{definition}
 	The random matrix $\bS$ of size $p \times p$ follows a $p\times p$ dimensional Wishart distribution with $n$ degrees of freedom, $n > p$, if its density is given by
 	\begin{equation}\label{eqn:wishart_density}
 	\frac{|\bS|^{(n-p-1)/2} |\bSigma|^{- n/2} }{2^{pn/2} \Gamma_p (n/2) } \exp\left\{-\frac{1}{2} \operatorname{tr}(\bSigma^{-1}\bS)  \right\}
 	\end{equation}
-	where $ \Gamma_p (\cdot) $ is the multivariate gamma function and $\operatorname{tr}(\cdot)$ is the trace operator, i.e. the sum of the diagonal elements and $\bSigma, \bS$ are both positive definitie. We use the notation $\bS \sim W_p(n, \bSigma)$ to indicate that $\bS$ follows a Wishart distribution with the given parameters.
+	where $ \Gamma_p (\cdot) $ is the multivariate gamma function and $\operatorname{tr}(\cdot)$ is the trace operator, i.e. the sum of the diagonal elements and $\bSigma, \bS$ are both positive definitie.
 \end{definition}
+We use the notation $\bS \sim W_p(n, \bSigma)$ to indicate that $\bS$ follows a Wishart distribution with the given parameters.
 
 \begin{definition}
-	A positive definitie random matrix $\bA$ is said to be distributed according to a $p\times p$ dimensional inverse Wishart distribution with $n$ degrees of freedom and positive definitie parameter matrix $\bV$ if its density is given by
+	A positive definitie random matrix $\bA$ is said to be distributed according to a $p$ dimensional inverse Wishart distribution with $n$ degrees of freedom and positive definite parameter matrix $\bV$ if its density is given by
 	\begin{equation}\label{eqn:inverse_wishart}
 	\frac{2^{-(n-p-1)p/2} |\bSigma|^{(n-p-1)/2} }{\Gamma_p ((n-p-1)/2) |\bA|^{n/2}} \exp\left\{ -\frac{1}{2} \bA \bV \right\}, \; n> 2p
 	\end{equation}
-	which we denote $\bA \sim W^{-1}_p(n, \bV)$ to indicate that $\bV$ follows an Inverse Wishart distribution with the given parameters.
+	which we denote $\bA \sim W^{-1}_p(n, \bV)$ to indicate that $\bA$ follows an Inverse Wishart distribution with the given parameters.
 \end{definition}
 
-
-\begin{lemma}\label{lem:stoc_rep}
-	$\bx$ is a $k$ dimensional elliptically contoured distributed random variable with mean $\bmu$ and dispersion matrix $\bSigma$ where $\text{rk} (\bSigma) = p$, if and only if 
-	$$
-	\bx \stackrel{d}{=} \bmu + r \bV \bu
-	$$
-	where $r >0$ is a random variable, $\bu$ is a random vector which is uniformly distributed on the sphere, in $\mathbbm{R}^k$, $\bV\bV^\top=\bSigma$, and $r$ and $\bu$ are independent.
-\end{lemma}
+\subsection{Simulations, inverses and why stochastic representations are valuable}
+\begin{itemize}
+	\item Motivating simulations and the issue with inversions.
+	\item Simulation of multi- or matrixvariate distributions can be very computationally consuming.
+	\item ...
+\end{itemize}
 
 \section{Estimation - the name of the game}
 
@@ -52,15 +52,11 @@ where $y_{i,t}$ is the price of the $i$th asset at time $t$. We model a portfoli
 	\item What are the implications of using $\bS$ instead of $\bSigma$?
 	\item why is $\bS$  always an admissible estimator? (MM)
 	\item Other types of estimators and why they might be better than $\bS$.
+	\item Rotation-invariant estimation - what does it mean?
+	\item Estimation uncertainty, mean is usually a noisy estimator, at least in comparison to the covariance matrix.
 \end{itemize}
 
 \begin{remark}
 	Unconditional and conditional covariance estimation. Prediction is very hard and constructing viable models. Are returns predictable? Should we even try?
 \end{remark}
 
-\section{Simulations, inverses and why stochastic representations are valuable}
-\begin{itemize}
-	\item Motivating simulations and the issue with inversions.
-	\item Simulation of multi- or matrixvariate distributions can be very computationally consuming.
-	\item ...
-\end{itemize}

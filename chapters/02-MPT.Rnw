@@ -24,7 +24,7 @@ This problem is a quadratic optimization problem with linear equality and inequa
 The objective is to minimize the variance of the portfolio. 
 %A natural question is to ask whether or not that implies diversification? As it turns out, minimizing the portfolio variance will encourage diversification from the fact that $$
 %\textbf{Give example on using convex combinations on variances.} 
- The constraint $\bw^\top \ones = 1$ essentially states that the investor must invest all available money. 
+The constraint $\bw^\top \ones = 1$ essentially states that the investor must invest all available money. 
 The weights are scaled according to the amount of cash invested.
 The disposition is very different whenever an inequality is used rather than equality. 
 As \citet{hult2012risk} states, if $\bw^\top \ones \leq 1$, then the investor could be throwing money away since there is a lot of opportunity left in the market when investing.
@@ -32,12 +32,11 @@ The second constraint describes the investors expectations on the portfolio.
 As $\mu_0$ grows, the return of the portfolio will grow. 
 However, that has implications for the objective. 
 Increasing $\mu_0$ will change the amount of variance the portfolio can achieve. 
-Depending on the value $\mu_0$ we would be accepting more risk. 
-The last constraint is rather simple though have quite large implications. 
+Depending on the value $\mu_0$ we would be accepting more risk, there is a risk-return trade off. 
+The last constraint is rather simple though it can have quite large implications. 
 It states that the weights can not be negative which means that we can only invest money we have. 
 A negative value of $w_i$ in the $i$th asset is called a short position.
-You borrow the asset from someone who owns it and then sell it. 
-Later on, you can buy it back, hoping that the price is less so that you can make money on such a position. 
+You borrow the asset from someone who owns it and then sell it, hoping that it will be cheaper in the future.
 For certain types of investors this constraint can be limiting and for others its a must.
 In this thesis, we exclude it altogether. That is, this thesis considers
 \begin{equation}\label{eqn:mean_variance}
@@ -54,32 +53,26 @@ which is what we refer to the mean-variance optimization problem. The solution t
 	\bw_{GMV} := \frac{\bSigma^{-1}\ones}{\ones^\top \bSigma^{-1}\ones}, \; R_{GMV} :=\optn{E}(\bw_{GMV}^\top\bx) = \frac{\ones^\top\bSigma^{-1}\bmu}{\ones^\top \bSigma^{-1}\ones}, \;
 	V_{GMV} := \optn{Var}(\bw_{GMV}^\top\bx) =\frac{1}{\ones^\top \bSigma^{-1}\ones}.
 \end{equation}
-The GMV portfolio can be obtained by letting $\mu_0=R_{GMV}$ or by removing the constraint $\bw^\top \bmu \geq \mu_0$. 
-  
-The solution to the mean-variance problem in \eqref{eqn:mean_variance} is equal to
+The GMV portfolio can be obtained by letting $\mu_0=R_{GMV}$ or by removing the constraint $\bw^\top \bmu \geq \mu_0$. The solution to the mean-variance problem in \eqref{eqn:mean_variance} is equal to
 \begin{equation}\label{eqn:mean_var_solution}
 	\bw_{MV} = \frac{\bSigma^{-1}\ones}{\ones^\top \bSigma^{-1}\ones} + \frac{\mu_0 - R_{GMV}}{V_{GMV}} \bQ \bmu,\; \bQ = \bSigma^{-1} - \frac{\bSigma^{-1} \ones \ones^\top \bSigma^{-1}}{\ones^\top \bSigma^{-1} \ones}.
 \end{equation}
-\textbf{.....}
+The solution is a combination of two different portfolios, the GMV portfolio and the self-financing portfolio $\bQ \bmu$. The ratio $(\mu_0 - R_{GMV})/V_{GMV}$ acts as a weight to how much we should allocate in the self-financing portfolio. If we set $\mu_0$ equal to $\bmu^\top \bSigma^{-1} \ones / \ones^\top \bSigma^{-1} \ones$ then the portfolio is equal to the GMV portfolio. Excluding the constraint $\bw^\top \bmu \geq \mu_0$ all together results in the same solution. 
 
 The moments of this portfolio is equal to
 \begin{equation}\label{eqn:moments_mean_var_solution}
 \optn{E}(\bw_{MV}^\top\bx) = R_{GMV} + \frac{\mu_0 - R_{GMV}}{V_{GMV}} \bmu^\top \bQ \bmu, \;
 \optn{Var}(\bw_{MV}^\top\bx) =V_{GMV} + \left(\frac{\mu_0 - R_{GMV}}{V_{GMV}}\right)^2 \bmu^\top \bQ \bmu.
 \end{equation}
-If we set $\mu_0$ equal to $\bmu^\top \bSigma^{-1} \ones / \ones^\top \bSigma^{-1} \ones$ then the portfolio is equal to the GMV portfolio. 
-Excluding the constraint $\bw^\top \bmu \geq \mu_0$ all together results in the same solution.
 From equation \eqref{eqn:moments_mean_var_solution} we can see that all values $\mu_0$ are rescaled according to the moments of the GMV portfolio. 
 If the taget return $\mu_0$ is not $\mu_0>R_{GMV}$ then you are better off with the GMV portfolio in terms of return and risk.
-However, if you choose a value $\mu_0>R_{GMV}$ then the portfolio return will be more than $R_{GMV}$.
-
-\textbf{Introduce merton and the efficient frontier and talk about $\bmu^\top \bQ \bmu$.}
-<<mertons_efficient_frontier, fig.cap="Three different efficient frontiers for different portfolio sizes. The stocks are randomly selected from the S\\&P500. The individual means and std. are displayed as points in the background.">>=
+However, if you choose a value $\mu_0>R_{GMV}$ then the portfolio return ''better'' than $R_{GMV}$. From the two expressions in \eqref{eqn:moments_mean_var_solution} we can see that as $\mu_0$ increases the risk grows quadratic in comparison to the mean which is linear. The portfolio adheres to diminishing marginal returns although in terms of risk and return. This relationship was discovered by \citet{merton1972} which coined the expression ''the efficient frontier''. In Figure \ref{fig:mertons_efficient_frontier} on the left hand side, we show its behavior for two different portfolio sizes. Increasing the portfolio size shifts the location of the parabola, e.g. moves it to the left, which serves as an illustration of the diversification effect. There is no guarantee that an increase in in the portfolio dimension increases the return.
+<<mertons_efficient_frontier, fig.cap="Two figures of efficient frontiers. The left Figure illustrates two different efficient frontiers for different portfolio sizes. The right figure we illustrate the efficient frontier and the capital market line which appears when a riskless asset is available. The stocks are randomly selected from the S\\&P500. The individual means and standard deviations are displayed as points.", fig.height=3.5>>=
 set.seed(4)
 df <-  select(HDShOP::SP_daily_asset_returns, -Date) %>%
   sample(30)
 
-efficient_frontiers <- map_df(c(10,20,30), ~{
+efficient_frontiers <- map_df(c(10,30), ~{
   df_tmp <- df[,1:.x]
   mu <- colMeans(df_tmp)
   Sigma_inv <- solve(var(df_tmp))
@@ -104,28 +97,90 @@ names(x) <- efficient_frontiers$`portfolio size`
 
 ggplot_df <- map_dfr(x, ~{
   t_ <- efficient_frontiers[.x,]
-  R <- seq(t_$Rgmv, 0.25, length.out=200)
+  R <- seq(t_$Rgmv, 0.9, length.out=200)
   data.frame("V"=sqrt((R-t_$Rgmv)^2/t_$s + t_$Vgmv),
              "R"=R)
-}, .id="portfolio size")
+}, .id="portfolio size") %>% 
+  mutate(type="efficient frontier",
+         "Riskless asset avaiable"="No riskless asset avaiable")
+
+Sigma <- var(df)
+Sigma_inv <- solve(Sigma)
+ones <- rep(1, 30)
+
+r_f <- 0.01
+mu <- colMeans(df)
+Vgmv <- 1/as.numeric(t(ones)%*% Sigma_inv %*% ones)
+Rgmv <- as.numeric(t(mu)%*% Sigma_inv %*% ones / as.numeric(t(ones)%*% Sigma_inv %*% ones))
+Q <- Sigma_inv - Sigma_inv %*% ones %*% t(ones) %*% Sigma_inv / as.numeric(t(ones) %*% Sigma_inv %*% ones)
+s <- as.numeric(t(mu)%*% Q %*% mu)
+
+R <- seq(Rgmv, 0.9, length.out=200)
+V <- sqrt((R-Rgmv)^2 / s + Vgmv)
+
+gamma <- seq(0.05, 300, length.out=100)
+ggplot_df <- tibble("V"=V,"R"=R, 
+                        "type"="efficient frontier",
+                        "portfolio size"="30",
+                        "Riskless asset avaiable"="Riskless asset avaiable") %>%
+  bind_rows({
+    map_dfr(gamma, ~{
+      w_tp <- Sigma_inv %*% (mu - r_f * ones) / .x
+      w0 <- 1-sum(w_tp)
+      c(
+        "R"= w0 * r_f + as.numeric(t(w_tp) %*% mu),
+        "V"= sqrt(t(w_tp) %*% Sigma %*% w_tp)
+      )
+    }) %>%
+      mutate("type"="Capital market line",
+             "portfolio size"="30",
+             "Riskless asset avaiable"="Riskless asset avaiable")
+  })  %>%
+  bind_rows(ggplot_df)
 
 ggplot_df %>%
   ggplot() +
   geom_line(aes(x=V, y=R, 
-                color=`portfolio size`,
+                color=`type`,
                 linetype=`portfolio size`),
-            size=1.05) +
-  geom_point(aes(x=sqrt(Vgmv), y=Rgmv, 
-                 color=`portfolio size`), 
-             size=2,
-             alpha=0.7,
-             data=efficient_frontiers) +
-  geom_point(aes(x=V, y=R), data=individual_assets, alpha=0.2) +
+            size=1.06) +
+  geom_point(aes(x=V, y=R), alpha=0.3, data=individual_assets) +
   labs(x=expression(sigma[w]), y=expression(mu[w])) +
   theme_minimal() +
+  facet_grid(.~`Riskless asset avaiable`) +
+  scale_color_brewer("", palette = 6, type = "qual", direction = -1) +
+  coord_cartesian(ylim=c(-0.125, 0.65)) +
   theme(text = element_text(size=STANDARD_TEXT_SIZE),
         legend.position = "bottom")
 @
+Any point on any of the two lines in Figure \ref{fig:mertons_efficient_frontier} on the left hand side corresponds to a certain efficient and optimal portfolio with a specific value of $\mu_0$. The points are the individual stocks return and risk. You can obtain these by investing in everything you got in a specific stock. However, diversification is always better in terms of decreasing risk. No point will (theoretically) ever cross its efficient frontier. That can not happen. The efficient frontier is the best we can do with the stocks at hand, given the objective.
+
+The right hand side figure of Figure \ref{fig:mertons_efficient_frontier}, displays an extension to the mean variance problem. It displays what happens when we include a riskless asset in the portfolio allocation problem. To introduce this option into our allocation problem we add the risk-free rate as part of the portfolio $w_0 r_f + \bw^\top \bx$ and optimize over $w_0$ as well. We assume that the risk-free rate is deterministic and therefore \eqref{eqn:mean_variance} is equal to 
+\begin{equation}\label{eqn:mean_variance_riskfree}
+\begin{aligned}
+& \underset{\bw}{\text{minimize}} 
+& & \bw^\top \bSigma \bw \\
+& \text{subject to}
+& & w_0 + \bw^\top \ones = 1 \\
+& && w_0 r_f + \bw^\top \bmu = \tilde\mu_0 \\
+\end{aligned}
+\end{equation}
+However, since $w_0 + \bw^\top \ones=1$ we substitute $w_0=1-\bw^\top \ones$ and solve the unconstrained optimization problem instead. Its solution is given by 
+\begin{equation}\label{eqn:w_mean_variance_riskfree}
+  \bw_{TP} = \frac{(\tilde\mu_0-r_f)}{(\bmu-r_f \ones)^\top \bSigma^{-1} (\bmu-r_f \ones)} \bSigma^{-1} (\bmu-r_f \ones).
+\end{equation}
+The portfolio defines the whole capital market line which was seen in Figure \ref{fig:mertons_efficient_frontier}. The portfolio has many interesting properties. If there is a risk-free asset we can increase the return and decrease the risk of our position in the market. This is most easily explained by the efficient frontier, displayed in Figure \ref{fig:mertons_efficient_frontier}. For a given level of risk we can get at least the same amount of return or sometimes more. For a given level of return we can sometimes get the same or less risk!
+
+Ever since the end of 2014, there has been a lack of a riskfree asset in Sweden.\footnote{See \href{https://www.riksbank.se/sv/statistik/sok-rantor--valutakurser/reporanta-in--och-utlaningsranta/}{Riksbanken}} The riskfree rate has been equal to or less than zero. Assuming that is true for our hypothetical investor, \eqref{eqn:w_mean_variance_riskfree} reduces to $\bw_{TP} = \tilde\bmu_0 \bSigma^{-1} \bmu / \bmu^\top \bSigma^{-1} \bmu$. The term $\bSigma^{-1} \bmu$ is also present in \eqref{eqn:mean_var_solution}, although hidden with the introduction of the matrix $\bQ$. With a little work, one can rewrite \eqref{eqn:mean_var_solution} as
+$$
+\left(1 - \frac{\bmu_0-\R}{\V} \frac{\R}{\V} \right) \bw_{GMV} + \frac{\bmu_0-\R}{\V} \bSigma^{-1} \bmu.
+$$
+There are two insights to be drawn from this equation. The first is that the weights on the efficient frontier is a combination of two portfolios, in this case the GMV and the tangency portfolios. This result is usually known as the Mutual fund theorem, see \citet{tobin1958liquidity}. To study all the portfolios on the efficient frontier we only need to study these two portfolios. The second is that the true \textit{tangent portfolio} is given by the equation
+$$
+\tilde\mu_0 = \R + \frac{\mu_0-\R}{\V} s  
+$$
+That is where the efficient frontier and the capital market line meet. Any tangency portfolio with $\bmu_0\leq \R + \frac{\mu_0-\R}{\V} s$ will be "more efficient" than the efficient frontier. However, its not always the case that we want to optimize the amount of cash held in the riskfree asset. Given that cash is free, we should most likely borrow as much as possible to invest in the market. 
+\textbf{something as closing remark for this section}
 
 \section{Relationship between assets and the (inverse) Covariance matrix}\label{subsec:cov_prec_matrix}
 %%% ----------------------
@@ -179,7 +234,7 @@ The variance of that portfolio is zero since all eigenvectors are orthonormal an
 If the true covariance matrix is not positive definite there might exist arbitrage opportunities, e.g. the possibility of making profit without taking any risk.
 
 The eigenvalue decomposition is very useful.
-First, it provides a simple way to construct inverses, which is very important for MPT as seen in \eqref{eqn:mean_var_solution}.
+It provides a simple way to construct inverses, which is very important for MPT as seen in \eqref{eqn:mean_var_solution}.
 We claim that $\bB = \bU \boldsymbol{\Lambda}^{-1} \bU^{-1}$ is a valid inverse which is easy to verify since $\bB \bA = \bU \boldsymbol{\Lambda}^{-1} \bU^{-1} \bU \boldsymbol{\Lambda} \bU^{-1} = \bI$. 
 To study the inverse we can study the inverse of the eigenvalues.
 %Secondly, it contains a lot of information that might not be available at first glance. 
