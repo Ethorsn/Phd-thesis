@@ -7,6 +7,11 @@ There are many possible extensions and future projects to the thesis at hand.
 	\item Sequential reweighting extension to Paper 3. When should we reweight?
 	\item Higher dimensions, other estimators, hard shrinkage.
 	\item BEKK models are usually hard to fit and use for MPT. Even when their coefficients have been estimated their forecasts are not always positive definite. The first issue can be solved if one can formulate the models as Recurrent Neural Networks and use deep-learning libraries Torch or Tensorflow to fit the models. These are tailored to solve the specifc problem of fitting very large models! Recent large Natural Languange Processing models have \textit{billions} of parameters. By placing BEKK models in this framework one also has the possibility to develop new models. The development is solely determined by constructing new layers to the networks. It would also be easier to integrate different sources of information in the models.
+	\item Unconditional and conditional covariance estimation. Prediction and constructing viable models is very hard. Are returns predictable? Should we even try?
 \end{itemize}
 
 Although not part of this Phd thesis - Flipped classroom and online learning tools.
+
+
+
+

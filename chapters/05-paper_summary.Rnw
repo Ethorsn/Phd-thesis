@@ -1,6 +1,9 @@
 The papers presented here are among a total of ... papers produced. These are selected based their common theme.
 \subsection*{Paper 1 - Sampling ...}\label{sec:paper1}
-The paper investigates a fundemental question in modern portfolio theory. What are the actual implications of using the sample covariance matrix $\bS$ and the sample mean $\bxb$ instead of the true covariance matrix $\bSigma$ and $\bmu$? The paper does so when returns follow a multivariate normal distribution. In it we derive the distribution for all optimal portfolios which can be found to be on the common form
+The paper investigates a fundemental question in modern portfolio theory. What are the actual implications of using the sample covariance matrix $\bS$ and the sample mean $\bxb$ instead of the true covariance matrix $\bSigma$ and $\bmu$. The paper does so when the returns follow a multivariate normal distribution. In it we derive the distribution for all optimal portfolios on the common form
+$$
+\hbw_{opt} = \hbw_{GMV} + g(\hR, \hV, \hs)\bv
+$$
 
 
 \section*{Paper 2 - Tangency portfolio}\label{sec:paper2}
@@ -9,13 +12,13 @@ In this paper we investigate the another portfolio which contains a risk-free as
   \min_{w_0,\bw} & w_0 r_f + \bw^\top \bmu - \frac{1}{2\gamma} \bw^\top \bSigma \bw \\
   \text{ s.t.} &\; w_0 + \bw^\top \ones_p = 1
 \end{align}
-The paper investigates what the distribution is of the tangency portfolio, or in a more broader context, the capital market line. We use an extension to the multivariate Gaussian Model from Paper 1, the Closed Skew-Normal Matrixvariate Model. This model can include skewness in the asset returns a trait returns usually exhibit (see e.g. \cite{cont2001empirical}). We investigate what implications the model has on the estimated tangency portfolio.
+The paper investigates what the distribution is of the tangency portfolio, or in a more broader context, the capital market line. We use an extension to the multivariate Gaussian Model from Paper 1, the Closed Skew-Normal Matrixvariate Model. This model can include skewness in the asset returns a trait returns usually exhibit (see e.g. \citet{cont2001empirical}). We investigate what implications the model has on the estimated tangency portfolio.
 
 \section*{Paper 3 - DOS}\label{sec:paper3}
 This paper deals with the fact that taking limits changes estimates. If the investor invest in a portfolio and then wait for a weak, month or year their perception of what portfolio they should hold will have changed. This is implicit when taking limits.  A natural question to ask is then how to go from one portfolio to another, e.g. how to rebalance optimally when you have a new set of data. Assuming that the investor is ok with rebalancing the portfolio at fixed time points we develop a rebalancing scheme for the GMV portfolio. This type of "dynamic" shrinkage has a lot of practical implications. If you own one portfolio it most often cost money to go from that to the next. That will take away from the return you make. Decreasing the out-of-sample variance also has the potential of increase return. Furthermore, its not always possible to go from one portfolio to the next on a day. You can influence the market or make to large positional changes, which are not allowed.
 
 \section*{Paper 4 - Is the empirical out-of-sample variance an informative risk measure for high-dimensional portfolios}\label{sec:paper4}
-Any empirical application using the GMV portfolio is bound to include the volatility/variance. A natural question to ask is then; is the empirical out-of-sample variance a consistent estimator of the variance? Furthermore, is it a good option to use or are there perhaps better options of performance measures? In this paper we investigate another common metric of evaluation. The 
+Any empirical application using the GMV portfolio is bound to include the volatility or variance. A natural question to ask is then; is the empirical out-of-sample variance a consistent estimator of the variance? Furthermore, is it a good option to use or are there perhaps better options of performance measures? In this paper we investigate another common metric of evaluation, the relative out-of-sample loss.   
 
 \section*{Paper 5 - Double shrinkage}\label{sec:paper5}
 
@@ -23,7 +26,7 @@ Any empirical application using the GMV portfolio is bound to include the volati
 
 \section{The rest of the papers \& other stuff}
 
-Paper \ref{sec:paper3} is accompanied by a R package, available on CRAN. You are free\footnote{or rather encouraged!} to install it by \Sexpr{'install.packages("DOSPortfolio")'}. The package provides a simple interface for the methods implemented in the paper. Below is a short example on how to construct the portfolio weights. The package is the first iteration of possibly many more portfolios which can be constructed in a similar fashion. 
+Paper \ref{sec:paper3} is accompanied by a R package, available on CRAN. You are free\footnote{or rather encouraged!} to install it with \Sexpr{'install.packages("DOSPortfolio")'}. The package provides a simple interface for the methods implemented in the paper. Below is a short example on how to construct the portfolio weights. The package is the first iteration of possibly many more portfolios which can be constructed in a similar fashion. 
 
 <<paper3-summary, echo=TRUE, message=FALSE>>=
 library(DOSPortfolio)
@@ -41,6 +44,8 @@ dos_weights <- df %>%
                reallocation_points = reallocation_points,
                target_portfolio = rep(1, ncol(.))/ncol(.),
                shrinkage_type = "overlapping")
+
+
 @
 
 <<examplePackage, fig.cap="Development of wealth using the weights from the DOSPortfolio package together with the traditional GMV portfolio estimator. In this scenario, the portfolio size is equal to 380 and the number of data points in each window is equal to 400. Dashed vertical lines indicate a reallocation point.", eval=FALSE>>=
@@ -86,5 +91,6 @@ ggplot(ggplot_df) +
         legend.position = "bottom")
 @
 
-Furthermore, the following papers were also coauthored throughout the writing of this thesis
-\printbibliography[keyword={thesisbutnotincluded},title={Articles that are not present in this thesis}]
+Furthermore, the following papers were also coauthored throughout the writing of this thesis \cite{bodnar2020quantile}, \cite{bodnar2021bayesian}  and \cite{bodnar2021quantile}. The first presents an analytic derivation of the MPT framework in the Bayesian setting. It specifically looks at how quantiles of optimal portfolios can be constructed and the effects of estimation uncertainty in these. This is especially important since the regulations in place demands that you report quantile-based risk measures. The second paper provides a continuation on the first. Our idea is to model the investors beliefs explicitly and construct a prior which captures what the likelihood cant. We impose a prior distribution which weights the recent observations higher when the market is turbulent. The third paper also considers quantile based portfolios. It does so in a general framework, not necessarily as the same framework as MPT where we only use the first two moments of the return distribution.
+
+\printbibliography[keyword={papers_list}]

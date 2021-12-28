@@ -50,7 +50,7 @@ knit_hooks$set(inline = function(x) {
 <<introduction, child='chapters/02-MPT.Rnw'>>=
 @
 %%%%%% ------------------------------------------------------------------------
-\chapter{Statistical models and estimation}\label{ch:estim}
+\chapter{Estimation and statistical models}\label{ch:estim}
 %%%%%% ------------------------------------------------------------------------
 <<StatModels, child='chapters/03-StatModel_and_Estimation.Rnw'>>=
 @
