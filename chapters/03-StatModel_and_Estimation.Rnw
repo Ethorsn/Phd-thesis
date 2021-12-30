@@ -214,9 +214,9 @@ It is quite clear that it is the fastest.
 The conclusion is that inversions are very cumbersome to deal with and take a lot of time regardless if we use the cholesky decomposition or not.
 Its can also be a very unstable operation, especially if the matrix you are trying to invert is close to singular.
 
-So far we have assumed that all we wanted to use is $\bS$ and $\byb$.
+So far we have assumed that all we wanted to use is $\bS$, $\byb$ or simply $\hbw_{GMV}$.
 That is of course a simplification and not always the case.
-As we previously mentioned, both $\bS$ and $\byb$ can be noisy estimators with the former being less noisy than the latter. 
+As we previously mentioned both $\bS$ and $\byb$ can be noisy estimators with the former being less noisy than the latter. 
 Furthermore, we saw that if $p$ is comparable to $n$ but $n>p$ then the expectation of the inverse Wishart distribution is very biased.
 We can cope with that through two strategies. 
 The first is to derive the actual uncertainty and sample distributions of the quantities of interest, which we do in Paper 1 and 2.

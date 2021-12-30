@@ -437,9 +437,9 @@ It is quite clear that it is the fastest.
 The conclusion is that inversions are very cumbersome to deal with and take a lot of time regardless if we use the cholesky decomposition or not.
 Its can also be a very unstable operation, especially if the matrix you are trying to invert is close to singular.
 
-So far we have assumed that all we wanted to use is $\bS$ and $\byb$.
+So far we have assumed that all we wanted to use is $\bS$, $\byb$ or simply $\hbw_{GMV}$.
 That is of course a simplification and not always the case.
-As we previously mentioned, both $\bS$ and $\byb$ can be noisy estimators with the former being less noisy than the latter. 
+As we previously mentioned both $\bS$ and $\byb$ can be noisy estimators with the former being less noisy than the latter. 
 Furthermore, we saw that if $p$ is comparable to $n$ but $n>p$ then the expectation of the inverse Wishart distribution is very biased.
 We can cope with that through two strategies. 
 The first is to derive the actual uncertainty and sample distributions of the quantities of interest, which we do in Paper 1 and 2.
@@ -521,7 +521,14 @@ This theorem is used repeatedly in papers \ref{sec:paper3} through \ref{sec:pape
 When we are able to construct sample estimators on the form of $\bB$ it does not necessarily imply that we can find analytic solutions. \textbf{comment more on it.}
 
 \section{Shrinkage estimators in MPT}
-The estimator $\hV$ is clearly biased, it even diverges when $c$ approaches $1$. This problem is not unique. The least squares estimator is usually very volatile when there are many covariates in your regression model. we can construct an unbiased estimator for the variance of the GMV portfolio by $(1-c)\hV$ which would work great. However, that might not be what we want. We want to create a good estimator for the weights, since these are what we invest in! There are many solutions to this problem but the most common is using a shrinkage estimator. We will introduce bias to our weights but hopefully reduce the variance.
+The estimator $\hV$ is clearly biased, it even diverges when $c$ approaches $1$. 
+This problem is not unique. 
+The least squares estimator is usually very volatile when there are many covariates in your regression model. 
+An easy solution is to use $(1-c)\hV$ as an unbiased estimator for the variance of the GMV portfolio.
+However, that might not be what we want. 
+We want to create a good estimator for the weights, since these are what we invest in! 
+There are many solutions to this problem but the most common is using a shrinkage estimator. 
+We will introduce bias to our weights but hopefully reduce the variance.
 
 Looking at the GMV portfolio, there are two natural extensions. Either, we regularize the sample covariance matrix $\bS$ or we regularize the weights $\hbw_{GMV}$ directly. Lets start with the latter. The first extension is to combine the GMV portfolio weights with some target portfolio $\bb$. We construct the shrunk portfolio weights $\hbw_{SH}$ as
 \begin{equation}
@@ -533,16 +540,54 @@ which introduces the bias $(1-\alpha)(\optn{E}[\hbw_{GMV}]+\bb) - \bw_{GMV}$ but
   & = 
   \alpha^2\optn{E}\left[\left(\hbw_{GMV} - \optn{E}[\hbw_{GMV}]\right)\left(\hbw_{GMV} - \optn{E}[\hbw_{GMV}]\right)^\top\right]
 \end{align}
-\citet{bodnar2018estimation} way forward.... this is similar to the linear shrinkage from \citet{REF}....
+It now stands to determine $\alpha$. 
+Shrinkage intensities are most often determined by cross validation (see e.g. \citet[ch. 5]{james2013introduction}). 
+We try to find the best shrinkage coefficients by dividing data into a test and training set.
+These are then used in conjunction with a Loss function to determine the optimal value for the shrinkage coefficients.
+A natural choice of loss function for the GMV portfolio is the out-of-sample variance.
+Our aim is to determine $\min_\alpha \hbw_{SH}^\top(\alpha) \bSigma \hbw_{SH}(\alpha)$.
+The loss depends on $\bSigma$, which we do not know.
+The perhaps most obvious solution is to use the test set to estimate the $\bSigma$. 
+As we will see, that will have its own issues.
+The second solution, employed by \citet{bodnar2018estimation}, is to first solve the optimization problem analytically.
+Since the estimator is unobtainable, its usually referred to a \textit{oracle} estimator. 
+To construct an estimator we can actually use, or what is called a \textit{bona-fide} estimator, we take the limit of the oracle estimator.
+We then construct a consistent estimator for the limiting object at hand and use that one instead.
 
-The shrinkage intensities are most often determined by cross validation. We try to find the best $\theta$ by dividing data into tests and training sets. These are then used to 
+The two methods can differ quite substantially in their solution. 
+One method is simple to implement while the other \textit{might} be theoretically superior.
+Below is a small motivating example to why deriving bona-fide estimators can prove to be fruitful.
+It is a small comparison between the estimator from \citet{bodnar2018estimation} and determining the shrinkage coefficient using a 5 fold cross-validation procedure.
+In this example we omit the code, but it is available on github\footnote{\url{https://github.com/Ethorsn/Phd-thesis}}.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
 
-a natural choice of loss function  choose the out-of-sample variance as the loss function. If we invest in the GMV portfolio then the obvious choice of loss function is the out-of-sample variance, e.g. $Loss$. Although the loss is the most sensible it depends on a unknown parameter, $\bSigma$. 
+{\centering \includegraphics[width=\maxwidth]{figure/cv_benchmark-1} 
 
-\begin{enumerate}
-	\item Other types of estimators and why they might be better than $\bS$.
-	\item Rotation-invariant estimation - what does it mean (we do not want to target eigenvectors)?
-\end{enumerate}
+}
+
+\caption[Out of sample variance estimates from the 5-fold cross validation]{Out of sample variance estimates from the 5-fold cross validation.}\label{fig:cv_benchmark}
+\end{figure}
+
+\end{knitrout}
+
+In Figure \ref{fig:cv_benchmark} we illustrate the out of sample variance aggregated over folds. 
+Cross validation suggest that the optimal value should be $0.68$. 
+The analytic method from \citet{bodnar2018estimation} suggest that the optimal value is $0.7968$.
+The "correct" value of $\alpha$, as given by the oracle estimator, is equal to $0.8151$. 
+Its limiting value (see Theorem 2.1 \citet{bodnar2018estimation}) is equal to $0.7933$.
+Although none of the methods are spot on, the bona-fide estimator is closer to what the optimal value should be.
+Furthermore, changing the number of folds in the K-fold cross validation can give quite different results in what the optimal value should be.
+This linear shrinkage approach is used in Paper \ref{sec:paper3} through \ref{sec:paper5}.
+
+So far we have limited our approach to shrinking the weights. 
+The next step is to shrink the elements of $\bS$.
+If we do so then we can consider the case where $c>1$.
+We leave this as an open question for the next section where we describe the papers in more detail.
+%\begin{enumerate}
+%	\item Other types of estimators and why they might be better than $\bS$.
+%	\item Rotation-invariant estimation - what does it mean (we do not want to target eigenvectors)?
+%\end{enumerate}
 
 %%%%%% ------------------------------------------------------------------------
 \chapter{Summary of Papers}\label{ch:papersummary}
@@ -550,34 +595,79 @@ a natural choice of loss function  choose the out-of-sample variance as the loss
 
 
 The papers presented here are among a total of ... papers produced. These are selected based their common theme.
-\subsection*{Paper 1 - Sampling ...}\label{sec:paper1}
-The paper investigates a fundemental question in modern portfolio theory. What are the actual implications of using the sample covariance matrix $\bS$ and the sample mean $\bxb$ instead of the true covariance matrix $\bSigma$ and $\bmu$. The paper does so when the returns follow a multivariate normal distribution. In it we derive the distribution for all optimal portfolios on the common form
-$$
-\hbw_{opt} = \hbw_{GMV} + g(\hR, \hV, \hs)\bv
-$$
 
+\subsection*{Paper 1 - Sampling Distributions of Optimal Portfolio Weights and Characteristics in Small and Large Dimensions}\label{sec:paper1}
+The paper investigates a fundamental question in modern portfolio theory. 
+What are the actual implications of using the sample covariance matrix $\bS$ and the sample mean $\bxb$ instead of the true covariance matrix $\bSigma$ and $\bmu$. 
+The paper does so when the returns follow a multivariate normal distribution. 
+In it we derive the distribution for all optimal portfolios on the common form
+\begin{equation}\label{eqn:paper1_eq1}
+  \hbw_{opt} = \hbw_{GMV} + g(\hR, \hV, \hs)\bv.
+\end{equation}
+To do so, we derive the stochastic representation for the joint distribution of all quantities in the equation \eqref{eqn:paper1_eq1}. 
+That enables us to efficiently simulate from the distribution. 
+We can simulate quantiles of the joint distribution of the efficient frontier.
+We conduct a large simulation study to investigate the implications of deviations from our model.
 
 \section*{Paper 2 - Tangency portfolio}\label{sec:paper2}
-In this paper we investigate the another portfolio which contains a risk-free asset. The portfolio is obtained from the quadratic utility function, that is, it originates from the following portfolio allocation 
+In this paper we investigate the portfolio which we briefly mentioned in chapter \ref{ch:MPT}. 
+The portfolio is obtained from the quadratic utility function, that is, it originates from the following portfolio allocation problem
 \begin{align}
   \min_{w_0,\bw} & w_0 r_f + \bw^\top \bmu - \frac{1}{2\gamma} \bw^\top \bSigma \bw \\
   \text{ s.t.} &\; w_0 + \bw^\top \ones_p = 1
 \end{align}
-The paper investigates what the distribution is of the tangency portfolio, or in a more broader context, the capital market line. We use an extension to the multivariate Gaussian Model from Paper 1, the Closed Skew-Normal Matrixvariate Model. This model can include skewness in the asset returns a trait returns usually exhibit (see e.g. \citet{cont2001empirical}). We investigate what implications the model has on the estimated tangency portfolio.
+The paper investigates what the distribution is of the tangency portfolio, or in a more broader context, all portfolio on the capital market line.
+We use an extension to the multivariate normal model from Paper 1, the CSN model presented in chapter \ref{ch:estim}. 
+This model can include skewness in the asset returns, a trait returns usually exhibit (see e.g. \citet{cont2001empirical}). 
+We investigate what implications the model has on the estimated tangency portfolio.
+In short, skewness results in a bias of the portfolio weights. 
+The investor will not hold the correct portfolio on average.
 
-\section*{Paper 3 - DOS}\label{sec:paper3}
-This paper deals with the fact that taking limits changes estimates. If the investor invest in a portfolio and then wait for a weak, month or year their perception of what portfolio they should hold will have changed. This is implicit when taking limits.  A natural question to ask is then how to go from one portfolio to another, e.g. how to rebalance optimally when you have a new set of data. Assuming that the investor is ok with rebalancing the portfolio at fixed time points we develop a rebalancing scheme for the GMV portfolio. This type of "dynamic" shrinkage has a lot of practical implications. If you own one portfolio it most often cost money to go from that to the next. That will take away from the return you make. Decreasing the out-of-sample variance also has the potential of increase return. Furthermore, its not always possible to go from one portfolio to the next on a day. You can influence the market or make to large positional changes, which are not allowed.
+\section*{Paper 3 - Dynamic Shrinkage Estimation of the High-Dimensional Minimum-Variance Portfolio}\label{sec:paper3}
+This paper deals with the fact that taking limits changes estimates. 
+If the investor invest in a portfolio and then wait for a weak, month or year their perception of what portfolio they should hold will have changed. 
+This is implicit when taking limits.
+A natural question to ask is then how to go from one portfolio to another, e.g. how to rebalance optimally when you have a new set of data. 
+Assuming that the investor is ok with rebalancing the portfolio at fixed time points we develop a rebalancing scheme for the GMV portfolio.
+This type of "dynamic" shrinkage has a lot of practical implications.
+If you own one portfolio it most often cost money to go from that to the next.
+That will take away from the return you make.
+Decreasing the out-of-sample variance also has the potential of increase return.
+Furthermore, its not always possible to go from one portfolio to the next on a day.
+You can influence the market or make to large positional changes, which are not allowed.
 
 \section*{Paper 4 - Is the empirical out-of-sample variance an informative risk measure for high-dimensional portfolios}\label{sec:paper4}
-Any empirical application using the GMV portfolio is bound to include the volatility or variance. A natural question to ask is then; is the empirical out-of-sample variance a consistent estimator of the variance? Furthermore, is it a good option to use or are there perhaps better options of performance measures? In this paper we investigate another common metric of evaluation, the relative out-of-sample loss.   
+Any empirical application using the GMV portfolio is bound to include the volatility or variance. 
+A natural question to ask is then; is the empirical out-of-sample variance a consistent estimator of the variance? 
+Furthermore, is it a good option to use or are there perhaps better options of performance measures? 
+In this paper we investigate another common metric of evaluation, the relative out-of-sample loss.   
+We find that...
 
 \section*{Paper 5 - Double shrinkage}\label{sec:paper5}
+In this thesis we mostly use $\bS$ and cope with that the sample covariance matrix is a noisy estimator by linear shrinkage or understanding the "noise" it provides.
+That implies that we have so far only consider $c<1$.
+In this paper we use ... as well as the linear shrinkage from previous papers. 
+That enables us to cover the case where $c>1$ and potentially create a more noise-insensitive estimator of the portfolio weights.
+In this paper we consider the following shrinkage estimator
+$$
+\hbw_{SH} = \psi \frac{\left(\bS + \lambda \bI_p \right)^{-1}\ones_p}{\ones_p^\top\left(\bS + \lambda \bI_p \right)^{-1}\ones_p} + (1-\psi)\bb.
+$$
+Since we are dealing with the GMV portfolio we naturally use the out-of-sample loss as a target to determine $\psi$ and $\lambda$.
+Using an estimate as this leaves all potential to recieving a closed form solution in terms of a oracle estimator.
+What we get is a oracle loss function, which we can then derive a bona-fide estimator for.
+
+The model is seen to perform on par with the non-linear shrinkage of \citet{lw20} in all simulations and beat their method in a empirical analysis.
+Furthermore, it also increases/decreases the results of several other portfolio metrics.
 
 %\section*{Paper 6 - The capital market line, tangency portfolio and the effect of Tikhonov regularization in higher dimensions}\label{sec:paper6}
 
 \section{The rest of the papers \& other stuff}
 
-Paper \ref{sec:paper3} is accompanied by a R package, available on CRAN. You are free\footnote{or rather encouraged!} to install it with \hlkwd{install.packages}\hlstd{(}\hlstr{"DOSPortfolio"}\hlstd{)}. The package provides a simple interface for the methods implemented in the paper. Below is a short example on how to construct the portfolio weights. The package is the first iteration of possibly many more portfolios which can be constructed in a similar fashion. 
+Paper \ref{sec:paper3} is accompanied by a R package, available on CRAN. 
+You are free, or rather encouraged(!), to install it with \hlkwd{install.packages}\hlstd{(}\hlstr{"DOSPortfolio"}\hlstd{)}. 
+The package provides a simple interface for the methods implemented in the paper. 
+Below is a short example on how to construct the portfolio weights. 
+The package is the first iteration of possibly many more portfolios which can be constructed in a similar fashion. 
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -612,8 +702,6 @@ Our idea is to model the investors beliefs explicitly and construct a prior whic
 We impose a prior distribution which weights the recent observations higher when the market is turbulent. 
 The third paper also considers quantile based portfolios. 
 It does so in a general framework, not necessarily as the same framework as MPT where we only use the first two moments of the return distribution.
-
-% \printbibliography[keyword={papers_list}]
 
 %%%%%% ------------------------------------------------------------------------
 \chapter{Future research}\label{ch:future}

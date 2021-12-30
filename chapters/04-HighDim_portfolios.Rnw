@@ -102,10 +102,11 @@ We then construct a consistent estimator for the limiting object at hand and use
 
 The two methods can differ quite substantially in their solution. 
 One method is simple to implement while the other \textit{might} be theoretically superior.
-Below is a small motivating example to why using all data at once might be desirable.
+Below is a small motivating example to why deriving bona-fide estimators can prove to be fruitful.
 It is a small comparison between the estimator from \citet{bodnar2018estimation} and determining the shrinkage coefficient using a 5 fold cross-validation procedure.
-In this example we omit the code, but it is available on github.
-<<cv_benchmark, cache=TRUE, echo=1:30, fig.cap="Out of sample variance estimates from the 5-fold cross validation.", fig.height=4>>=
+In this example we omit the code, but it is available on github\footnote{\url{https://github.com/Ethorsn/Phd-thesis}}.
+<<cv_benchmark, cache=TRUE, fig.cap="Out of sample variance estimates from the 5-fold cross validation.", fig.height=4>>=
+set.seed(123)
 p <- 150
 n <- 250
 K <- 5
@@ -142,7 +143,7 @@ min_vals <- result %>%
 
 ggplot(result, aes(x=alpha, y=loss)) +
   geom_point() +
-  geom_errorbar(aes(ymin=loss-sd_loss, ymax=loss+sd_loss), width=0.005) +
+  #geom_errorbar(aes(ymin=loss-sd_loss, ymax=loss+sd_loss), width=0.005) +
   theme_minimal() +
   theme(text=element_text(size=STANDARD_TEXT_SIZE))
 
@@ -153,15 +154,21 @@ alpha_oracle <- (t(b) %*% Sigma %*% b - t(w_bodnar2018$w_GMVP) %*% Sigma %*% b) 
  t(w_bodnar2018$w_GMVP) %*% Sigma %*% w_bodnar2018$w_GMVP - 2 *t(w_bodnar2018$w_GMVP) %*% Sigma %*% b + t(b) %*% Sigma %*% b 
 )
 @
-From figure \ref{fig:cv_benchmark} we can see that the optimal value is somewhere around $0.5$ according to cross validation. 
-As it turns out, cross validation suggest that the optimal value should be $\Sexpr{min_vals$loss}$. 
+
+In Figure \ref{fig:cv_benchmark} we illustrate the out of sample variance aggregated over folds. 
+Cross validation suggest that the optimal value should be $\Sexpr{min_vals$alpha}$. 
 The analytic method from \citet{bodnar2018estimation} suggest that the optimal value is $\Sexpr{round(w_bodnar2018$alpha,4)}$.
 The "correct" value of $\alpha$, as given by the oracle estimator, is equal to $\Sexpr{round(alpha_oracle, 4)}$. 
 Its limiting value (see Theorem 2.1 \citet{bodnar2018estimation}) is equal to $\Sexpr{round(alpha_true, 4)}$.
-Although none of the methods are spot on, the bona fide estimator is closer to what the optimal value should be.
-Furthermore, changing the number of folds in the code above can give quite different results in what the optimal value should be.
+Although none of the methods are spot on, the bona-fide estimator is closer to what the optimal value should be.
+Furthermore, changing the number of folds in the K-fold cross validation can give quite different results in what the optimal value should be.
+This linear shrinkage approach is used in Paper \ref{sec:paper3} through \ref{sec:paper5}.
 
-\begin{enumerate}
-	\item Other types of estimators and why they might be better than $\bS$.
-	\item Rotation-invariant estimation - what does it mean (we do not want to target eigenvectors)?
-\end{enumerate}
+So far we have limited our approach to shrinking the weights. 
+The next step is to shrink the elements of $\bS$.
+If we do so then we can consider the case where $c>1$.
+We leave this as an open question for the next section where we describe the papers in more detail.
+%\begin{enumerate}
+%	\item Other types of estimators and why they might be better than $\bS$.
+%	\item Rotation-invariant estimation - what does it mean (we do not want to target eigenvectors)?
+%\end{enumerate}
