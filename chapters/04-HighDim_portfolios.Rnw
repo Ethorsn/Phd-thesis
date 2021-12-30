@@ -1,12 +1,14 @@
-In the previous chapter we presented different ways of estimating the covariance matrix. Under certain conditions and/or statistical models, the sample covariance matrix inherited certain properties. 
+In the previous chapter we presented one specific way of estimating the sample covariance matrix.
+We also presented certain properties under certain conditions and/or statistical models.
 %If we hold $p$ constant and let $n$ grow the sample covariance matrix is consistent. 
 If we have a lot of data on the assets that we are trying to invest in then we can most often be certain that we will hold the correct portfolio.
 Our estimated portfolio will be consistent, e.g. it estimates the correct object of interest. 
 Furthermore, since diversification is one, if not the best, risk management tool there is, we want our asset universe to be big.
-If we believe in diversification then $p$ should be big as well. 
+If we believe in diversification then $p$ should be large. 
 It should, in theory, decrease the risk (variance) of the portfolio. 
 That is not always the case.
-By introducing one new asset to our portfolio of size $p$ we need to estimate all covariances for that asset in the sample covariance matrix. They will constitute an additional $p+1$ quantities. 
+By introducing one new asset to our portfolio of size $p$ we need to estimate all covariances for that asset in the sample covariance matrix. 
+They will constitute an additional $p+1$ quantities. 
 The sample covariance matrix suffers from the curse of dimensionality. 
 In terms of estimation uncertainty, this does not scale well.
 From \citet{bodnar2016optimal} Proposition 2.2 we know that $\hV \rightarrow \V/(1-c)$ whenever $p,n \rightarrow \infty$ s.t. $p/n \rightarrow c \in [0,1)$. If $c$ is close to one, then the sample GMV portfolios variance will explode. \textit{Estimation uncertainty dominates the diversification effect}. There are many solutions to the problem at hand (see e.g. \citet{lw17} or \citet{bodnar2021recent} and the references therein). We will focus on some topics in Random Matrix Theory (RMT) and the use of some type of shrinkage estimator. Both subjects are grand. Our aim is to provide a small introduction to them in the following sections.
@@ -83,3 +85,7 @@ The shrinkage intensities are most often determined by cross validation. We try 
 
 a natural choice of loss function  choose the out-of-sample variance as the loss function. If we invest in the GMV portfolio then the obvious choice of loss function is the out-of-sample variance, e.g. $Loss$. Although the loss is the most sensible it depends on a unknown parameter, $\bSigma$. 
 
+\begin{enumerate}
+	\item Other types of estimators and why they might be better than $\bS$.
+	\item Rotation-invariant estimation - what does it mean (we do not want to target eigenvectors)?
+\end{enumerate}

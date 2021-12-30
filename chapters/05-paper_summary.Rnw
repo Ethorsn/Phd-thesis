@@ -1,6 +1,6 @@
 The papers presented here are among a total of ... papers produced. These are selected based their common theme.
-\subsection*{Paper 1 - Sampling ...}\label{sec:paper1}
-The paper investigates a fundemental question in modern portfolio theory. What are the actual implications of using the sample covariance matrix $\bS$ and the sample mean $\bxb$ instead of the true covariance matrix $\bSigma$ and $\bmu$. The paper does so when the returns follow a multivariate normal distribution. In it we derive the distribution for all optimal portfolios on the common form
+\subsection*{Paper 1 - Sampling Distributions of Optimal Portfolio Weights and Characteristics in Small and Large Dimensions}\label{sec:paper1}
+The paper investigates a fundamental question in modern portfolio theory. What are the actual implications of using the sample covariance matrix $\bS$ and the sample mean $\bxb$ instead of the true covariance matrix $\bSigma$ and $\bmu$. The paper does so when the returns follow a multivariate normal distribution. In it we derive the distribution for all optimal portfolios on the common form
 $$
 \hbw_{opt} = \hbw_{GMV} + g(\hR, \hV, \hs)\bv
 $$
@@ -91,6 +91,14 @@ ggplot(ggplot_df) +
         legend.position = "bottom")
 @
 
-Furthermore, the following papers were also coauthored throughout the writing of this thesis \cite{bodnar2020quantile}, \cite{bodnar2021bayesian}  and \cite{bodnar2021quantile}. The first presents an analytic derivation of the MPT framework in the Bayesian setting. It specifically looks at how quantiles of optimal portfolios can be constructed and the effects of estimation uncertainty in these. This is especially important since the regulations in place demands that you report quantile-based risk measures. The second paper provides a continuation on the first. Our idea is to model the investors beliefs explicitly and construct a prior which captures what the likelihood cant. We impose a prior distribution which weights the recent observations higher when the market is turbulent. The third paper also considers quantile based portfolios. It does so in a general framework, not necessarily as the same framework as MPT where we only use the first two moments of the return distribution.
+Furthermore, the following papers were also coauthored throughout the writing of this thesis \cite{bodnar2020quantile}, \cite{bodnar2021bayesian}  and \cite{bodnar2021quantile}.
+The first presents an analytic derivation of the MPT framework in the Bayesian setting. 
+It specifically looks at how quantiles of optimal portfolios can be constructed and the effects of estimation uncertainty in these. 
+This is especially important since the regulations in place demands that you report quantile-based risk measures. 
+The second paper provides a continuation on the first. 
+Our idea is to model the investors beliefs explicitly and construct a prior which captures what the likelihood cant. 
+We impose a prior distribution which weights the recent observations higher when the market is turbulent. 
+The third paper also considers quantile based portfolios. 
+It does so in a general framework, not necessarily as the same framework as MPT where we only use the first two moments of the return distribution.
 
-\printbibliography[keyword={papers_list}]
+% \printbibliography[keyword={papers_list}]

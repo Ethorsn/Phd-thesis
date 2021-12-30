@@ -28,6 +28,7 @@ knitr::opts_chunk$set(
   echo=FALSE, fig.align = "center"
 )
 library(tidyverse)
+library(microbenchmark)
 set.seed(123)
 STANDARD_TEXT_SIZE <- 13
 @
@@ -47,26 +48,35 @@ knit_hooks$set(inline = function(x) {
 %%%%%% ------------------------------------------------------------------------
 \chapter{Modern Portfolio Theory}\label{ch:MPT}
 %%%%%% ------------------------------------------------------------------------
-<<introduction, child='chapters/02-MPT.Rnw'>>=
+
+<<MPT, child='chapters/02-MPT.Rnw'>>=
 @
+
 %%%%%% ------------------------------------------------------------------------
 \chapter{Estimation and statistical models}\label{ch:estim}
 %%%%%% ------------------------------------------------------------------------
+
 <<StatModels, child='chapters/03-StatModel_and_Estimation.Rnw'>>=
 @
+
 %%%%%% ------------------------------------------------------------------------
-\chapter{The higher dimensional setting and portfolios with infinitely many assets}\label{ch:highdim}
+\chapter{Diversification, infinitely many assets and Shrinkage estimators}\label{ch:highdim}
 %%%%%% ------------------------------------------------------------------------
+
 <<HighDim, child='chapters/04-HighDim_portfolios.Rnw'>>=
 @
+
 %%%%%% ------------------------------------------------------------------------
 \chapter{Summary of Papers}\label{ch:papersummary}
 %%%%%% ------------------------------------------------------------------------
+
 <<Summary, child='chapters/05-paper_summary.Rnw'>>=
 @
+
 %%%%%% ------------------------------------------------------------------------
 \chapter{Future research}\label{ch:future}
 %%%%%% ------------------------------------------------------------------------
+
 <<Future, child='chapters/06-future.Rnw'>>=
 @
 
