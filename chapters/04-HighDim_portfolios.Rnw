@@ -67,7 +67,14 @@ This theorem is used repeatedly in papers \ref{sec:paper3} through \ref{sec:pape
 When we are able to construct sample estimators on the form of $\bB$ it does not necessarily imply that we can find analytic solutions. \textbf{comment more on it.}
 
 \section{Shrinkage estimators in MPT}
-The estimator $\hV$ is clearly biased, it even diverges when $c$ approaches $1$. This problem is not unique. The least squares estimator is usually very volatile when there are many covariates in your regression model. we can construct an unbiased estimator for the variance of the GMV portfolio by $(1-c)\hV$ which would work great. However, that might not be what we want. We want to create a good estimator for the weights, since these are what we invest in! There are many solutions to this problem but the most common is using a shrinkage estimator. We will introduce bias to our weights but hopefully reduce the variance.
+The estimator $\hV$ is clearly biased, it even diverges when $c$ approaches $1$. 
+This problem is not unique. 
+The least squares estimator is usually very volatile when there are many covariates in your regression model. 
+An easy solution is to use $(1-c)\hV$ as an unbiased estimator for the variance of the GMV portfolio.
+However, that might not be what we want. 
+We want to create a good estimator for the weights, since these are what we invest in! 
+There are many solutions to this problem but the most common is using a shrinkage estimator. 
+We will introduce bias to our weights but hopefully reduce the variance.
 
 Looking at the GMV portfolio, there are two natural extensions. Either, we regularize the sample covariance matrix $\bS$ or we regularize the weights $\hbw_{GMV}$ directly. Lets start with the latter. The first extension is to combine the GMV portfolio weights with some target portfolio $\bb$. We construct the shrunk portfolio weights $\hbw_{SH}$ as
 \begin{equation}
@@ -79,11 +86,80 @@ which introduces the bias $(1-\alpha)(\optn{E}[\hbw_{GMV}]+\bb) - \bw_{GMV}$ but
   & = 
   \alpha^2\optn{E}\left[\left(\hbw_{GMV} - \optn{E}[\hbw_{GMV}]\right)\left(\hbw_{GMV} - \optn{E}[\hbw_{GMV}]\right)^\top\right]
 \end{align}
-\citet{bodnar2018estimation} way forward.... this is similar to the linear shrinkage from \citet{REF}....
+It now stands to determine $\alpha$. 
+Shrinkage intensities are most often determined by cross validation (see e.g. \citet[ch. 5]{james2013introduction}). 
+We try to find the best shrinkage coefficients by dividing data into a test and training set.
+These are then used in conjunction with a Loss function to determine the optimal value for the shrinkage coefficients.
+A natural choice of loss function for the GMV portfolio is the out-of-sample variance.
+Our aim is to determine $\min_\alpha \hbw_{SH}^\top(\alpha) \bSigma \hbw_{SH}(\alpha)$.
+The loss depends on $\bSigma$, which we do not know.
+The perhaps most obvious solution is to use the test set to estimate the $\bSigma$. 
+As we will see, that will have its own issues.
+The second solution, employed by \citet{bodnar2018estimation}, is to first solve the optimization problem analytically.
+Since the estimator is unobtainable, its usually referred to a \textit{oracle} estimator. 
+To construct an estimator we can actually use, or what is called a \textit{bona-fide} estimator, we take the limit of the oracle estimator.
+We then construct a consistent estimator for the limiting object at hand and use that one instead.
 
-The shrinkage intensities are most often determined by cross validation. We try to find the best $\theta$ by dividing data into tests and training sets. These are then used to 
+The two methods can differ quite substantially in their solution. 
+One method is simple to implement while the other \textit{might} be theoretically superior.
+Below is a small motivating example to why using all data at once might be desirable.
+It is a small comparison between the estimator from \citet{bodnar2018estimation} and determining the shrinkage coefficient using a 5 fold cross-validation procedure.
+In this example we omit the code, but it is available on github.
+<<cv_benchmark, cache=TRUE, echo=1:30, fig.cap="Out of sample variance estimates from the 5-fold cross validation.", fig.height=4>>=
+p <- 150
+n <- 250
+K <- 5
+b <- rep(1,p) / p # use EW portfolio as target 
+# simulate params & dataset
+Sigma <- HDShOP::RandCovMtrx(p)
+mu <- runif(p, -0.1, 0.1)
+Y <- mu %*% t(rep(1,n)) + t(chol(Sigma)) %*% matrix(rt(n*p, df=5), ncol=n)
+# create test splits
+folds <- split(1:n, 1:K)
+grid <- expand_grid("alpha" = seq(0.01, 0.99, by=0.01), "fold" = 1:K)
+# perform 5-fold CV
+result <- pmap(grid, ~{
+    test <- Y[,folds[[.y]]]
+    train <- Y[,-folds[[.y]]]
+    
+    S <- var(t(train))
+    S_inv <- solve(S)
+    
+    w <- .x * S_inv %*% rep(1, p) / sum(S_inv) + (1-.x)*b
+    t(w) %*% var(t(test)) %*% w
+  }) %>% 
+  unlist() %>%
+  tibble("variance"=.) %>% 
+  bind_cols(grid) %>% 
+  group_by(alpha) %>% 
+  summarise(loss = mean(variance),
+            sd_loss = var(variance)) 
+# Use HDshop pkg to compute the weights
+w_bodnar2018 <- HDShOP::MVShrinkPortfolio(Y, gamma=Inf, b=b, beta=0.01)
 
-a natural choice of loss function  choose the out-of-sample variance as the loss function. If we invest in the GMV portfolio then the obvious choice of loss function is the out-of-sample variance, e.g. $Loss$. Although the loss is the most sensible it depends on a unknown parameter, $\bSigma$. 
+min_vals <- result %>% 
+  filter(loss == min(loss))
+
+ggplot(result, aes(x=alpha, y=loss)) +
+  geom_point() +
+  geom_errorbar(aes(ymin=loss-sd_loss, ymax=loss+sd_loss), width=0.005) +
+  theme_minimal() +
+  theme(text=element_text(size=STANDARD_TEXT_SIZE))
+
+R_bn <- as.numeric(t(b) %*% Sigma %*% b) * sum(solve(Sigma)) - 1
+alpha_true <- R_bn*(1-p/n)/(p/n + (1-p/n)*R_bn)
+
+alpha_oracle <- (t(b) %*% Sigma %*% b - t(w_bodnar2018$w_GMVP) %*% Sigma %*% b) / as.numeric(
+ t(w_bodnar2018$w_GMVP) %*% Sigma %*% w_bodnar2018$w_GMVP - 2 *t(w_bodnar2018$w_GMVP) %*% Sigma %*% b + t(b) %*% Sigma %*% b 
+)
+@
+From figure \ref{fig:cv_benchmark} we can see that the optimal value is somewhere around $0.5$ according to cross validation. 
+As it turns out, cross validation suggest that the optimal value should be $\Sexpr{min_vals$loss}$. 
+The analytic method from \citet{bodnar2018estimation} suggest that the optimal value is $\Sexpr{round(w_bodnar2018$alpha,4)}$.
+The "correct" value of $\alpha$, as given by the oracle estimator, is equal to $\Sexpr{round(alpha_oracle, 4)}$. 
+Its limiting value (see Theorem 2.1 \citet{bodnar2018estimation}) is equal to $\Sexpr{round(alpha_true, 4)}$.
+Although none of the methods are spot on, the bona fide estimator is closer to what the optimal value should be.
+Furthermore, changing the number of folds in the code above can give quite different results in what the optimal value should be.
 
 \begin{enumerate}
 	\item Other types of estimators and why they might be better than $\bS$.
