@@ -1,4 +1,4 @@
-\documentclass[]{book}
+\documentclass[oneside]{book}
 
 \input{header.tex}
 \DeclareCiteCommand{\fullcite}
