@@ -1,7 +1,19 @@
 \documentclass[]{book}\usepackage{knitr}
 
 \input{header.tex}
-
+\DeclareCiteCommand{\fullcite}
+  {\usebibmacro{prenote}}
+  {\clearfield{url}%
+   \clearfield{pages}%
+   \clearfield{pagetotal}%
+   \clearfield{edition}%
+   \clearfield{title}%
+   \usedriver
+     {\DeclareNameAlias{sortname}{default}}
+     {\thefield{entrytype}}
+     }
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
 %opening
 \title{Optimal portfolios - estimation and uncertainty assessment in the higher dimensional setting}
 \author{Erik Thorsén}
@@ -20,6 +32,27 @@
 
 \newpage
 \section*{List of papers}
+\nocite{bodnar2020sampling, javed2021tangency, bodnar2021dynamic, bodnar2021empirical}
+This thesis is based on the following papers
+
+\begin{enumerate}[I]
+  \item \textbf{Sampling Distribution of Optimal Portfolios in Small and Large Dimensions}
+    \fullcite{bodnar2020sampling}
+  \item \textbf{Tangency portfolio weights under a skew-normal model in small and large dimensions}
+    \fullcite{javed2021tangency}
+  \item \textbf{Dynamic Shrinkage Estimation of the High-Dimensional Minimum-Variance Portfolio}
+    \fullcite{bodnar2021dynamic}
+  \item \textbf{Is the empirical out-of-sample variance an informative risk measure for the high-dimensional portfolios?}
+    \fullcite{bodnar2021empirical}
+  \item \textbf{Double shrinkage of the Global Minimum-Variance portfolio.}
+    \fullcite{REF}
+\end{enumerate}
+\textbf{Author contribution:} Thors{\'e}n E.
+
+%%% test
+%  
+% \printbibliography[title={Subbibliography}, keyword=included_in_thesis, env=roman-numerals]
+
 
 
 
@@ -555,10 +588,48 @@ To construct an estimator we can actually use, or what is called a \textit{bona-
 We then construct a consistent estimator for the limiting object at hand and use that one instead.
 
 The two methods can differ quite substantially in their solution. 
-One method is simple to implement while the other \textit{might} be theoretically superior.
+One method is simple to implement while the other \textit{should} be theoretically superior.
 Below is a small motivating example to why deriving bona-fide estimators can prove to be fruitful.
 It is a small comparison between the estimator from \citet{bodnar2018estimation} and determining the shrinkage coefficient using a 5 fold cross-validation procedure.
-In this example we omit the code, but it is available on github\footnote{\url{https://github.com/Ethorsn/Phd-thesis}}.
+%In this example we use $n=250, p=150$ and $\bb$ equal to the EW portfolio.
+%In this example we omit the code, but it is available on github\footnote{\url{https://github.com/Ethorsn/Phd-thesis}}.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{set.seed}\hlstd{(}\hlnum{123}\hlstd{)}
+\hlstd{p} \hlkwb{<-} \hlnum{150}
+\hlstd{n} \hlkwb{<-} \hlnum{250}
+\hlstd{K} \hlkwb{<-} \hlnum{5}
+\hlstd{b} \hlkwb{<-} \hlkwd{rep}\hlstd{(}\hlnum{1}\hlstd{,p)} \hlopt{/} \hlstd{p} \hlcom{# use EW portfolio as target }
+\hlcom{# simulate params & dataset}
+\hlstd{Sigma} \hlkwb{<-} \hlstd{HDShOP}\hlopt{::}\hlkwd{RandCovMtrx}\hlstd{(p)}
+\hlstd{mu} \hlkwb{<-} \hlkwd{runif}\hlstd{(p,} \hlopt{-}\hlnum{0.1}\hlstd{,} \hlnum{0.1}\hlstd{)}
+\hlstd{Y} \hlkwb{<-} \hlstd{mu} \hlopt{%*%} \hlkwd{t}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{1}\hlstd{,n))} \hlopt{+} \hlkwd{t}\hlstd{(}\hlkwd{chol}\hlstd{(Sigma))} \hlopt{%*%} \hlkwd{matrix}\hlstd{(}\hlkwd{rt}\hlstd{(n}\hlopt{*}\hlstd{p,} \hlkwc{df}\hlstd{=}\hlnum{5}\hlstd{),} \hlkwc{ncol}\hlstd{=n)}
+\hlcom{# create test splits}
+\hlstd{folds} \hlkwb{<-} \hlkwd{split}\hlstd{(}\hlnum{1}\hlopt{:}\hlstd{n,} \hlnum{1}\hlopt{:}\hlstd{K)}
+\hlstd{grid} \hlkwb{<-} \hlkwd{expand_grid}\hlstd{(}\hlstr{"alpha"} \hlstd{=} \hlkwd{seq}\hlstd{(}\hlnum{0.01}\hlstd{,} \hlnum{0.99}\hlstd{,} \hlkwc{by}\hlstd{=}\hlnum{0.01}\hlstd{),} \hlstr{"fold"} \hlstd{=} \hlnum{1}\hlopt{:}\hlstd{K)}
+\hlcom{# perform 5-fold CV, pmap to map over rows }
+\hlstd{result} \hlkwb{<-} \hlkwd{pmap}\hlstd{(grid,} \hlopt{~}\hlstd{\{}
+    \hlstd{test} \hlkwb{<-} \hlstd{Y[,folds[[.y]]]}
+    \hlstd{train} \hlkwb{<-} \hlstd{Y[,}\hlopt{-}\hlstd{folds[[.y]]]}
+    \hlstd{S} \hlkwb{<-} \hlkwd{var}\hlstd{(}\hlkwd{t}\hlstd{(train))}
+    \hlstd{S_inv} \hlkwb{<-} \hlkwd{solve}\hlstd{(S)}
+    \hlstd{w} \hlkwb{<-} \hlstd{.x} \hlopt{*} \hlstd{S_inv} \hlopt{%*%} \hlkwd{rep}\hlstd{(}\hlnum{1}\hlstd{, p)} \hlopt{/} \hlkwd{sum}\hlstd{(S_inv)} \hlopt{+} \hlstd{(}\hlnum{1}\hlopt{-}\hlstd{.x)}\hlopt{*}\hlstd{b}
+    \hlkwd{t}\hlstd{(w)} \hlopt{%*%} \hlkwd{var}\hlstd{(}\hlkwd{t}\hlstd{(test))} \hlopt{%*%} \hlstd{w}
+  \hlstd{\})} \hlopt{%>%}
+  \hlkwd{unlist}\hlstd{()} \hlopt{%>%}
+  \hlkwd{tibble}\hlstd{(}\hlstr{"variance"}\hlstd{=.)} \hlopt{%>%}
+  \hlkwd{bind_cols}\hlstd{(grid)} \hlopt{%>%}
+  \hlkwd{group_by}\hlstd{(alpha)} \hlopt{%>%}
+  \hlkwd{summarise}\hlstd{(}\hlkwc{loss} \hlstd{=} \hlkwd{mean}\hlstd{(variance),}
+            \hlkwc{sd_loss} \hlstd{=} \hlkwd{var}\hlstd{(variance))}
+\hlstd{min_vals} \hlkwb{<-} \hlkwd{filter}\hlstd{(result, loss} \hlopt{==} \hlkwd{min}\hlstd{(loss))}
+\hlcom{# Use HDshop pkg to compute the weights}
+\hlstd{w_bodnar2018} \hlkwb{<-} \hlstd{HDShOP}\hlopt{::}\hlkwd{MVShrinkPortfolio}\hlstd{(Y,} \hlkwc{gamma}\hlstd{=}\hlnum{Inf}\hlstd{,} \hlkwc{b}\hlstd{=b,} \hlkwc{beta}\hlstd{=}\hlnum{0.01}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
 
@@ -598,44 +669,45 @@ The papers presented here are among a total of ... papers produced. These are se
 
 \subsection*{Paper 1 - Sampling Distributions of Optimal Portfolio Weights and Characteristics in Small and Large Dimensions}\label{sec:paper1}
 The paper investigates a fundamental question in modern portfolio theory. 
-What are the actual implications of using the sample covariance matrix $\bS$ and the sample mean $\bxb$ instead of the true covariance matrix $\bSigma$ and $\bmu$. 
+What are the actual implications of using the sample covariance matrix $\bS$ and the sample mean $\bxb$ instead of the true covariance matrix $\bSigma$ and $\bmu$?
 The paper does so when the returns follow a multivariate normal distribution. 
 In it we derive the distribution for all optimal portfolios on the common form
 \begin{equation}\label{eqn:paper1_eq1}
   \hbw_{opt} = \hbw_{GMV} + g(\hR, \hV, \hs)\bv.
 \end{equation}
 To do so, we derive the stochastic representation for the joint distribution of all quantities in the equation \eqref{eqn:paper1_eq1}. 
-That enables us to efficiently simulate from the distribution. 
-We can simulate quantiles of the joint distribution of the efficient frontier.
+That enables us to efficiently simulate from the distribution, 
+Using this representation we can easily compute quantiles of the joint distribution of the efficient frontier.
 We conduct a large simulation study to investigate the implications of deviations from our model.
 
+\textbf{more comments...}
 \section*{Paper 2 - Tangency portfolio}\label{sec:paper2}
-In this paper we investigate the portfolio which we briefly mentioned in chapter \ref{ch:MPT}. 
-The portfolio is obtained from the quadratic utility function, that is, it originates from the following portfolio allocation problem
+In this paper we investigate a portfolio which we briefly mentioned in chapter \ref{ch:MPT}, the tangency portfolio. 
+The portfolio is obtained from the quadratic utility function. It originates from the following portfolio allocation problem
 \begin{align}
   \min_{w_0,\bw} & w_0 r_f + \bw^\top \bmu - \frac{1}{2\gamma} \bw^\top \bSigma \bw \\
   \text{ s.t.} &\; w_0 + \bw^\top \ones_p = 1
 \end{align}
-The paper investigates what the distribution is of the tangency portfolio, or in a more broader context, all portfolio on the capital market line.
-We use an extension to the multivariate normal model from Paper 1, the CSN model presented in chapter \ref{ch:estim}. 
+The paper extends Paper 1 as it considers investments in a risk free asset and an extension to the multivariate normal model, the CSN model presented in chapter \ref{ch:estim}. 
 This model can include skewness in the asset returns, a trait returns usually exhibit (see e.g. \citet{cont2001empirical}). 
-We investigate what implications the model has on the estimated tangency portfolio.
+Similarly to Paper 1, we derive the distribution of the sample tangency portfolio.
+We actually derive the distribution of all portfolios on the capital market line, though it is most often called the tangency portfolio.
+We investigate what implications the model has on the sample tangency portfolio.
 In short, skewness results in a bias of the portfolio weights. 
 The investor will not hold the correct portfolio on average.
 
 \textbf{more comments...}
 \section*{Paper 3 - Dynamic Shrinkage Estimation of the High-Dimensional Minimum-Variance Portfolio}\label{sec:paper3}
 This paper deals with the fact that taking limits changes estimates. 
-If the investor invest in a portfolio and then wait for a weak, month or year their perception of what portfolio they should hold will have changed. 
+If the investor invest in a portfolio and then waits for a weak, month or year their perception of what portfolio they should hold will have changed. 
 This is implicit when taking limits.
-A natural question to ask is then how to go from one portfolio to another, e.g. how to rebalance optimally when you have a new set of data. 
+A natural question to ask is then how to go from one portfolio to another, e.g. how to rebalance optimally when you receive a new set of data. 
 Assuming that the investor is ok with rebalancing the portfolio at fixed time points we develop a rebalancing scheme for the GMV portfolio.
 This type of "dynamic" shrinkage has a lot of practical implications.
 If you own one portfolio it most often cost money to go from that to the next.
-That will take away from the return you make.
-Decreasing the out-of-sample variance also has the potential of increase return.
+That will take away from the return and profit you make.
 Furthermore, its not always possible to go from one portfolio to the next on a day.
-You can influence the market or make to large positional changes, which are not allowed.
+You can influence the market or make possibly make to large positional changes, which are not allowed.
 
 \textbf{more comments...}
 \section*{Paper 4 - Is the empirical out-of-sample variance an informative risk measure for high-dimensional portfolios}\label{sec:paper4}
@@ -665,14 +737,13 @@ Furthermore, it also increases/decreases the results of several other portfolio 
 \textbf{more comments...}
 %\section*{Paper 6 - The capital market line, tangency portfolio and the effect of Tikhonov regularization in higher dimensions}\label{sec:paper6}
 
-\section{The rest of the papers \& other stuff}
+\section{Other research results}
 
 Paper \ref{sec:paper3} is accompanied by a R package, available on CRAN. 
 You are free, or rather encouraged(!), to install it with \hlkwd{install.packages}\hlstd{(}\hlstr{"DOSPortfolio"}\hlstd{)}. 
 The package provides a simple interface for the methods implemented in the paper. 
 Below is a short example on how to construct the portfolio weights. 
 The package is the first iteration of possibly many more portfolios which can be constructed in a similar fashion. 
-
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
@@ -694,14 +765,14 @@ The package is the first iteration of possibly many more portfolios which can be
 \end{alltt}
 \end{kframe}
 \end{knitrout}
-
 Furthermore, the following papers were also coauthored throughout the writing of this thesis \cite{bodnar2020quantile}, \cite{bodnar2021bayesian}  and \cite{bodnar2021quantile}.
 The first presents an analytic derivation of the MPT framework in the Bayesian setting. 
 It specifically looks at how quantiles of optimal portfolios can be constructed and the effects of estimation uncertainty in these. 
-This is especially important since the regulations in place demands that you report quantile-based risk measures. 
+This is especially important since the regulations in place demands that you report quantile-based risk measures (see \citet{basel4}).
 The second paper provides a continuation on the first. 
 Our idea is to model the investors beliefs explicitly and construct a prior which captures what the likelihood cant. 
-We impose a prior distribution which weights the recent observations higher when the market is turbulent. 
+We impose a prior distribution which adapts to the recent observations when the market is turbulent. 
+The algorithm is seen to work well when markets are turbulent.
 The third paper also considers quantile based portfolios. 
 It does so in a general framework, not necessarily as the same framework as MPT where we only use the first two moments of the return distribution.
 
@@ -712,23 +783,31 @@ It does so in a general framework, not necessarily as the same framework as MPT 
 %%%%%% ------------------------------------------------------------------------
 
 
-There are many possible extensions and future projects to the thesis at hand.
+There are many possible extensions and future projects to the thesis at hand. We talk very much of estimation uncertainty and how to cope with it.
+Bayesian statistics provide a straight forward way to integrate that. 
+However, it demands indepth knowledge of MCMC and also good prior distributions.
+Neither are easy tasks.
+Another approach of incorporating estimation uncertainty is robust optimization.
+Robust optimization, in a MPT setting, tries to incorporate the estimation uncertainty into the portfolio allocation problem itself.
+The literature is large. 
+Are there connections to be made and especially with Empirical Bayes?
 
-\begin{itemize}
-	\item Are shrinkage intensities for the sample covariance matrix optimal for the precision or MPT problem? 
-	\item One of the most interesting issues of the elliptical distribution and its inverse sample dispersion matrix. What are the moments of $(\mathbf{Z} \mathbf{R} \mathbf{Z}^\top)^{-1}$?
-	\item There are different ways of incorporating estimation uncertainty, one solution is robust optimization. Are there connections to be made? Is robust optimization just Emperical Bayes?
-	\item Sequential reweighting extension to Paper 3. When should we reweight?
-	\item Higher dimensions, other estimators, hard shrinkage.
-	\item BEKK models are usually hard to fit and use for MPT. Even when their coefficients have been estimated their forecasts are not always positive definite. The first issue can be solved if one can formulate the models as Recurrent Neural Networks and use deep-learning libraries Torch or Tensorflow to fit the models. These are tailored to solve the specifc problem of fitting very large models! Recent large Natural Languange Processing models have \textit{billions} of parameters. By placing BEKK models in this framework one also has the possibility to develop new models. The development is solely determined by constructing new layers to the networks. It would also be easier to integrate different sources of information in the models.
-	\item Unconditional and conditional covariance estimation. Prediction and constructing viable models is very hard. Are returns predictable? Should we even try?
-\end{itemize}
+In Paper \ref{sec:paper3} we consider the allocations points fixed.
+That assumption can be limiting for some investors. 
+Can we incorporate that decision process into the portfolio allocation problem?
 
-Although not part of this Phd thesis - Flipped classroom and online learning tools.
+BEKK models are usually hard to fit and use for MPT. 
+Even when their coefficients have been estimated their forecasts are not always positive definite. 
+The first issue can be solved if one can formulate the models as Recurrent Neural Networks and use deep-learning libraries Torch or Tensorflow to fit the models. 
+These are tailored to solve the specifc problem of fitting very large models! Recent large Natural Languange Processing models have \textit{billions} of parameters. 
+By placing BEKK models in this framework one also has the possibility to develop new models. 
+The development is solely determined by constructing new layers to the networks. 
+It would also be easier to integrate different sources of information in the models.
 
-
-
-
+Although not part of this thesis the "Flipped classroom" approach has been a big part the teaching procedure in the course MT4007. 
+In this course we use a lot of online learning tools. 
+The course has developed a bit through the years although it has stayed true to its original casting, trying to take teaching to scale. 
+It is very complicated to do well and is not straight forward what actually works, as it usually is with observational studies. 
 
 \printbibliography
 %\bibliography{references}

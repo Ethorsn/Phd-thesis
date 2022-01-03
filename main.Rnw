@@ -1,7 +1,19 @@
 \documentclass[]{book}
 
 \input{header.tex}
-
+\DeclareCiteCommand{\fullcite}
+  {\usebibmacro{prenote}}
+  {\clearfield{url}%
+   \clearfield{pages}%
+   \clearfield{pagetotal}%
+   \clearfield{edition}%
+   \clearfield{title}%
+   \usedriver
+     {\DeclareNameAlias{sortname}{default}}
+     {\thefield{entrytype}}
+     }
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
 %opening
 \title{Optimal portfolios - estimation and uncertainty assessment in the higher dimensional setting}
 \author{Erik Thorsén}
@@ -20,6 +32,27 @@
 
 \newpage
 \section*{List of papers}
+\nocite{bodnar2020sampling, javed2021tangency, bodnar2021dynamic, bodnar2021empirical}
+This thesis is based on the following papers
+
+\begin{enumerate}[I]
+  \item \textbf{Sampling Distribution of Optimal Portfolios in Small and Large Dimensions}
+    \fullcite{bodnar2020sampling}
+  \item \textbf{Tangency portfolio weights under a skew-normal model in small and large dimensions}
+    \fullcite{javed2021tangency}
+  \item \textbf{Dynamic Shrinkage Estimation of the High-Dimensional Minimum-Variance Portfolio}
+    \fullcite{bodnar2021dynamic}
+  \item \textbf{Is the empirical out-of-sample variance an informative risk measure for the high-dimensional portfolios?}
+    \fullcite{bodnar2021empirical}
+  \item \textbf{Double shrinkage of the Global Minimum-Variance portfolio.}
+    \fullcite{REF}
+\end{enumerate}
+\textbf{Author contribution:} Thors{\'e}n E.
+
+%%% test
+%  
+% \printbibliography[title={Subbibliography}, keyword=included_in_thesis, env=roman-numerals]
+
 <<setup, echo=FALSE, results='hide', message=FALSE, warning=FALSE>>=
 library(knitr)
 opts_knit$set(self.contained=FALSE)

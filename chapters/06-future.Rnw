@@ -1,17 +1,25 @@
-There are many possible extensions and future projects to the thesis at hand.
+There are many possible extensions and future projects to the thesis at hand. We talk very much of estimation uncertainty and how to cope with it.
+Bayesian statistics provide a straight forward way to integrate that. 
+However, it demands indepth knowledge of MCMC and also good prior distributions.
+Neither are easy tasks.
+Another approach of incorporating estimation uncertainty is robust optimization.
+Robust optimization, in a MPT setting, tries to incorporate the estimation uncertainty into the portfolio allocation problem itself.
+The literature is large. 
+Are there connections to be made and especially with Empirical Bayes?
 
-\begin{itemize}
-	\item Are shrinkage intensities for the sample covariance matrix optimal for the precision or MPT problem? 
-	\item One of the most interesting issues of the elliptical distribution and its inverse sample dispersion matrix. What are the moments of $(\mathbf{Z} \mathbf{R} \mathbf{Z}^\top)^{-1}$?
-	\item There are different ways of incorporating estimation uncertainty, one solution is robust optimization. Are there connections to be made? Is robust optimization just Emperical Bayes?
-	\item Sequential reweighting extension to Paper 3. When should we reweight?
-	\item Higher dimensions, other estimators, hard shrinkage.
-	\item BEKK models are usually hard to fit and use for MPT. Even when their coefficients have been estimated their forecasts are not always positive definite. The first issue can be solved if one can formulate the models as Recurrent Neural Networks and use deep-learning libraries Torch or Tensorflow to fit the models. These are tailored to solve the specifc problem of fitting very large models! Recent large Natural Languange Processing models have \textit{billions} of parameters. By placing BEKK models in this framework one also has the possibility to develop new models. The development is solely determined by constructing new layers to the networks. It would also be easier to integrate different sources of information in the models.
-	\item Unconditional and conditional covariance estimation. Prediction and constructing viable models is very hard. Are returns predictable? Should we even try?
-\end{itemize}
+In Paper \ref{sec:paper3} we consider the allocations points fixed.
+That assumption can be limiting for some investors. 
+Can we incorporate that decision process into the portfolio allocation problem?
 
-Although not part of this Phd thesis - Flipped classroom and online learning tools.
+BEKK models are usually hard to fit and use for MPT. 
+Even when their coefficients have been estimated their forecasts are not always positive definite. 
+The first issue can be solved if one can formulate the models as Recurrent Neural Networks and use deep-learning libraries Torch or Tensorflow to fit the models. 
+These are tailored to solve the specifc problem of fitting very large models! Recent large Natural Languange Processing models have \textit{billions} of parameters. 
+By placing BEKK models in this framework one also has the possibility to develop new models. 
+The development is solely determined by constructing new layers to the networks. 
+It would also be easier to integrate different sources of information in the models.
 
-
-
-
+Although not part of this thesis the "Flipped classroom" approach has been a big part the teaching procedure in the course MT4007. 
+In this course we use a lot of online learning tools. 
+The course has developed a bit through the years although it has stayed true to its original casting, trying to take teaching to scale. 
+It is very complicated to do well and is not straight forward what actually works, as it usually is with observational studies. 

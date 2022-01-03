@@ -101,11 +101,12 @@ To construct an estimator we can actually use, or what is called a \textit{bona-
 We then construct a consistent estimator for the limiting object at hand and use that one instead.
 
 The two methods can differ quite substantially in their solution. 
-One method is simple to implement while the other \textit{might} be theoretically superior.
+One method is simple to implement while the other \textit{should} be theoretically superior.
 Below is a small motivating example to why deriving bona-fide estimators can prove to be fruitful.
 It is a small comparison between the estimator from \citet{bodnar2018estimation} and determining the shrinkage coefficient using a 5 fold cross-validation procedure.
-In this example we omit the code, but it is available on github\footnote{\url{https://github.com/Ethorsn/Phd-thesis}}.
-<<cv_benchmark, cache=TRUE, fig.cap="Out of sample variance estimates from the 5-fold cross validation.", fig.height=4>>=
+%In this example we use $n=250, p=150$ and $\bb$ equal to the EW portfolio.
+%In this example we omit the code, but it is available on github\footnote{\url{https://github.com/Ethorsn/Phd-thesis}}.
+<<cv_bench, cache=TRUE, echo=TRUE>>=
 set.seed(123)
 p <- 150
 n <- 250
@@ -118,14 +119,12 @@ Y <- mu %*% t(rep(1,n)) + t(chol(Sigma)) %*% matrix(rt(n*p, df=5), ncol=n)
 # create test splits
 folds <- split(1:n, 1:K)
 grid <- expand_grid("alpha" = seq(0.01, 0.99, by=0.01), "fold" = 1:K)
-# perform 5-fold CV
+# perform 5-fold CV, pmap to map over rows 
 result <- pmap(grid, ~{
     test <- Y[,folds[[.y]]]
     train <- Y[,-folds[[.y]]]
-    
     S <- var(t(train))
     S_inv <- solve(S)
-    
     w <- .x * S_inv %*% rep(1, p) / sum(S_inv) + (1-.x)*b
     t(w) %*% var(t(test)) %*% w
   }) %>% 
@@ -134,13 +133,13 @@ result <- pmap(grid, ~{
   bind_cols(grid) %>% 
   group_by(alpha) %>% 
   summarise(loss = mean(variance),
-            sd_loss = var(variance)) 
+            sd_loss = var(variance))
+min_vals <- filter(result, loss == min(loss))
 # Use HDshop pkg to compute the weights
 w_bodnar2018 <- HDShOP::MVShrinkPortfolio(Y, gamma=Inf, b=b, beta=0.01)
+@
 
-min_vals <- result %>% 
-  filter(loss == min(loss))
-
+<<cv_benchmark, fig.cap="Out of sample variance estimates from the 5-fold cross validation.", fig.height=3.5>>=
 ggplot(result, aes(x=alpha, y=loss)) +
   geom_point() +
   #geom_errorbar(aes(ymin=loss-sd_loss, ymax=loss+sd_loss), width=0.005) +
