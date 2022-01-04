@@ -15,7 +15,7 @@
   {\multicitedelim}
   {\usebibmacro{postnote}}
 %opening
-\title{Optimal portfolios - estimation and uncertainty assessment in the higher dimensional setting}
+\title{Optimal portfolios -- estimation and uncertainty assessment in the high-dimensional setting}
 \author{Erik Thorsén}
 
 
@@ -28,13 +28,18 @@
 
 \maketitle
 
+
+
 \section*{Acknowledgements}
+
+First and foremost i would like to thank ...
 
 \newpage
 \section*{List of papers}
 \nocite{bodnar2020sampling, javed2021tangency, bodnar2021dynamic, bodnar2021empirical}
 This thesis is based on the following papers
 
+\subsection*{Papers included in this thesis}
 \begin{enumerate}[I]
   \item \textbf{Sampling Distribution of Optimal Portfolios in Small and Large Dimensions}
     \fullcite{bodnar2020sampling}
@@ -44,30 +49,40 @@ This thesis is based on the following papers
     \fullcite{bodnar2021dynamic}
   \item \textbf{Is the empirical out-of-sample variance an informative risk measure for the high-dimensional portfolios?}
     \fullcite{bodnar2021empirical}
-  \item \textbf{Double shrinkage of the Global Minimum-Variance portfolio.}
+  \item \textbf{Double shrinkage of the high-dimensional Global Minimum-Variance portfolio.}
     \fullcite{REF}
 \end{enumerate}
-\textbf{Author contribution:} Thors{\'e}n E.
+
+\subsection*{Papers \& other research results produced but not in this thesis}
+
+\begin{itemize}
+  \item The \textbf{DOSPortfolio} R-package which is published on CRAN. \href{https://CRAN.R-project.org/package=DOSPortfolio}{It is available here}.  
+  \item \textbf{Bayesian Quantile-Based Portfolio Selection}
+  \fullcite{bodnar2020quantile}
+  \item \textbf{Volatility Sensitive Bayesian Estimation of Portfolio VaR and CVaR}
+  \fullcite{bodnar2021bayesian}
+  \item \textbf{Quantile-based optimal portfolio selection}
+  \fullcite{bodnar2021quantile}
+\end{itemize}
+\textbf{Author contribution:} Thors{\'e}n E. contributed...
 
 %%% test
 %  
 % \printbibliography[title={Subbibliography}, keyword=included_in_thesis, env=roman-numerals]
 
 
-
-
 \tableofcontents
 %%%%%% ------------------------------------------------------------------------
-\chapter[Introduction]{Introduction - making decisions and allocations}\label{ch:intro}
+\chapter[Introduction]{Introduction - making decisions under uncertainty and asset allocations}\label{ch:intro}
 %%%%%% ------------------------------------------------------------------------
 \input{chapters/01-Introduction}
 %%%%%% ------------------------------------------------------------------------
-\chapter{Modern Portfolio Theory}\label{ch:MPT}
+\chapter[Modern portfolio theory]{Modern portfolio theory}\label{ch:MPT}
 %%%%%% ------------------------------------------------------------------------
 
 
 
-Modern Portfolio Theory was introduced by \cite{markowitz1959portfolio}. 
+Modern Portfolio Theory (MPT) was introduced by \cite{markowitz1959portfolio}. 
 In his seminal work he argued that any portfolio which simply maximize its profit will result in a naive solution.
 Very much like the example in Chapter \ref{ch:intro}. 
 The future is unknown and (one of) the best model(s) we have for it is stochastic.
@@ -91,7 +106,6 @@ We assume assets $\bx$ are random with mean $\optn{E}(\bx)=\bmu$ and covariance 
 This problem is a quadratic optimization problem with linear equality and inequality constraints. 
 The objective is to minimize the variance of the portfolio. 
 %A natural question is to ask whether or not that implies diversification? As it turns out, minimizing the portfolio variance will encourage diversification from the fact that $$
-%\textbf{Give example on using convex combinations on variances.} 
 The constraint $\bw^\top \ones = 1$ essentially states that the investor must invest all available money. 
 The weights are scaled according to the amount of cash invested.
 The disposition is very different whenever an inequality is used rather than equality. 
@@ -135,8 +149,8 @@ The moments of this portfolio is equal to
 From equation \eqref{eqn:moments_mean_var_solution} we can see that all values $\mu_0$ are rescaled according to the moments of the GMV portfolio. 
 If the taget return $\mu_0$ is not $\mu_0>R_{GMV}$ then you are better off with the GMV portfolio in terms of return and risk.
 However, if you choose a value $\mu_0>R_{GMV}$ then the portfolio return ''better'' than $R_{GMV}$. From the two expressions in \eqref{eqn:moments_mean_var_solution} we can see that as $\mu_0$ increases the risk grows quadratic in comparison to the mean which is linear. The portfolio adheres to diminishing marginal returns although in terms of risk and return. This relationship was discovered by \textcite{merton1972} which coined the expression ''the efficient frontier''. In Figure \ref{fig:mertons_efficient_frontier} on the left hand side, we show its behavior for two different portfolio sizes. Increasing the portfolio size shifts the location of the parabola, e.g. moves it to the left, which serves as an illustration of the diversification effect. There is no guarantee that an increase in in the portfolio dimension increases the return.
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{figure}
 
 {\centering \includegraphics[width=\maxwidth]{figure/mertons_efficient_frontier-1} 
 
@@ -175,7 +189,6 @@ $$
 which is where the efficient frontier and the capital market line meet. Any tangency portfolio with $\bmu_0\leq \R + \frac{\mu_0-\R}{\V} s$ will be "more efficient" than the efficient frontier if there is a risk free rate. However, its not always the case that we want to optimize the amount of cash held in the riskfree asset. Given that cash is free, we should most likely borrow as much as possible to invest in the market. 
 
 All of MPT use the inverse covariance matrix. In the next section we devote some attention to the assumption we make on the covariance matrix.  
-
 
 \section{Relationship between assets and the (inverse) Covariance matrix}\label{subsec:cov_prec_matrix}
 %%% ----------------------
@@ -240,7 +253,7 @@ To study the inverse we can study the inverse of the eigenvalues.
 %They describes how the system behaves and not the individual elements and their inverse values describe how the precision matrix behaves.
 
 %%%%%% ------------------------------------------------------------------------
-\chapter{Estimation and statistical models}\label{ch:estim}
+\chapter[Estimation \& models]{Estimation and statistical models}\label{ch:estim}
 %%%%%% ------------------------------------------------------------------------
 
 
@@ -410,10 +423,10 @@ Paper 1 and 2 goes into great detail to derive the stochastic representation of 
 One of them is the sample variance of the GMV portfolio.
 By Theorem 1 \citet{bodnar2020sampling} we know that if $\bY \sim N_{p,n}(\bmu \ones_n^\top, \bSigma \otimes \bI_n)$ then $\hV \sim \V\xi /(n-1)$ where $\xi \sim \chi^2_{n-p}$.
 We can omit inversions all together.
-Below is a small benchmark to highlight why these types of representations can be really valuable.
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
+In \ref{benchmark} we present R-code which implements a small benchmark to highlight why these types of representations can be really valuable.
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\captionof{chunk}{R-code for benchmarking different simulation approaches of the variance of the GMV portfolio.}\label{benchmark}\begin{alltt}
 \hlcom{# setup}
 \hlstd{p} \hlkwb{<-} \hlnum{150}
 \hlstd{n} \hlkwb{<-} \hlnum{250}
@@ -422,7 +435,7 @@ Below is a small benchmark to highlight why these types of representations can b
 \hlstd{mu} \hlkwb{<-} \hlkwd{runif}\hlstd{(p,} \hlopt{-}\hlnum{0.1}\hlstd{,} \hlnum{0.1}\hlstd{)}
 \hlstd{Sigma_inv} \hlkwb{<-} \hlkwd{solve}\hlstd{(Sigma)}
 \hlstd{V_GMV} \hlkwb{<-} \hlnum{1}\hlopt{/}\hlkwd{sum}\hlstd{(Sigma_inv)}
-
+\hlcom{# microbechmark}
 \hlstd{result} \hlkwb{<-} \hlkwd{microbenchmark}\hlstd{(}
   \hlcom{# Simulate Y directly, construct S, invert and compute GMV variance}
   \hlkwc{`Scenario 1`} \hlstd{= \{}
@@ -451,8 +464,8 @@ Below is a small benchmark to highlight why these types of representations can b
 \end{kframe}
 \end{knitrout}
 
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{figure}
 
 {\centering \includegraphics[width=\maxwidth]{figure/microbenchmark_output-1} 
 
@@ -481,7 +494,7 @@ By introducing some bias in the estimator we can reduce the variance.
 It is something of utmost importance if we believe in diversification which we will go into detail in the next section.
 
 %%%%%% ------------------------------------------------------------------------
-\chapter{Diversification, infinitely many assets and Shrinkage estimators}\label{ch:highdim}
+\chapter[Diversification \& shrinkage]{Diversification, infinitely many assets and shrinkage estimators}\label{ch:highdim}
 %%%%%% ------------------------------------------------------------------------
 
 
@@ -500,7 +513,7 @@ The sample covariance matrix suffers from the curse of dimensionality.
 In terms of estimation uncertainty, this does not scale well.
 From \citet{bodnar2016optimal} Proposition 2.2 we know that $\hV \rightarrow \V/(1-c)$ whenever $p,n \rightarrow \infty$ s.t. $p/n \rightarrow c \in [0,1)$. If $c$ is close to one, then the sample GMV portfolios variance will explode. \textit{Estimation uncertainty dominates the diversification effect}. There are many solutions to the problem at hand (see e.g. \citet{lw17} or \citet{bodnar2021recent} and the references therein). We will focus on some topics in Random Matrix Theory (RMT) and the use of some type of shrinkage estimator. Both subjects are grand. Our aim is to provide a small introduction to them in the following sections.
 
-\section{A short introduction to RMT and the Stieltjes transform}
+\section{A short introduction to random matrix theory and the Stieltjes transform}
 The subject of Random matrix theory (RMT) has many applications. It was originally developed in the context of quantum physics (see Ch. 1 of \citet{mehta2004random}). The theory and its applications has since then developed quite a lot. Many fields, such as combinatorics, computational biology, wireless communication and finance (see \citet{REF} for an overview) use these results. One of the seminal work in RMT was made by \citet{wigner1993characteristic}. He originally modeled the limiting spectral distribution of an $p \times p$ dimensional standard Gaussian random matrices $\bX$. The term "standard" might be a little misleading for statisticians as the matrix $\bX$ contains independent random variables although not identically distributed. The entries on the diagonal are $N(0,2)$ and the entries on the off-diagonal are $N(0,1)$. However, the more generalized definition only demands that the matrix $\bX$ is Hermitian and its entries on the diagonal or above the diagonal are independent. We define the empirical spectral distribution (ESD) of a matrix $\bA$ as
 $$
 F^{\bA}(x)= \frac{1}{p} \sum_{i=1}^p \mathbbm{1}(\lambda_i \leq x)
@@ -553,7 +566,7 @@ This theorem is used repeatedly in papers \ref{sec:paper3} through \ref{sec:pape
 
 When we are able to construct sample estimators on the form of $\bB$ it does not necessarily imply that we can find analytic solutions. \textbf{comment more on it.}
 
-\section{Shrinkage estimators in MPT}
+\section{Shrinkage estimators in modern portfolio theory}
 The estimator $\hV$ is clearly biased, it even diverges when $c$ approaches $1$. 
 This problem is not unique. 
 The least squares estimator is usually very volatile when there are many covariates in your regression model. 
@@ -589,13 +602,15 @@ We then construct a consistent estimator for the limiting object at hand and use
 
 The two methods can differ quite substantially in their solution. 
 One method is simple to implement while the other \textit{should} be theoretically superior.
-Below is a small motivating example to why deriving bona-fide estimators can prove to be fruitful.
-It is a small comparison between the estimator from \citet{bodnar2018estimation} and determining the shrinkage coefficient using a 5 fold cross-validation procedure.
-%In this example we use $n=250, p=150$ and $\bb$ equal to the EW portfolio.
+In \ref{high-dim-CV} we display R-code for a small motivating example to why deriving bona-fide estimators can prove to be fruitful.
+It is a comparison between the estimator from \citet{bodnar2018estimation} and determining the shrinkage coefficient using a 5 fold cross-validation procedure.
+In this example we use $n=250, p=150$ and $\bb$ equal to the EW portfolio.
+It is a large portfolio, though $c=p/n<1$.
 %In this example we omit the code, but it is available on github\footnote{\url{https://github.com/Ethorsn/Phd-thesis}}.
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\captionof{chunk}{R-code performing a 5-fold cross validation for determining shrinkage coefficients as well as the implementation from the HDShOP package.}\label{high-dim-CV}\begin{alltt}
+\hlcom{# setup}
 \hlkwd{set.seed}\hlstd{(}\hlnum{123}\hlstd{)}
 \hlstd{p} \hlkwb{<-} \hlnum{150}
 \hlstd{n} \hlkwb{<-} \hlnum{250}
@@ -630,8 +645,8 @@ It is a small comparison between the estimator from \citet{bodnar2018estimation}
 \end{kframe}
 \end{knitrout}
 
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{figure}
 
 {\centering \includegraphics[width=\maxwidth]{figure/cv_benchmark-1} 
 
@@ -661,7 +676,7 @@ We leave this as an open question for the next section where we describe the pap
 %\end{enumerate}
 
 %%%%%% ------------------------------------------------------------------------
-\chapter{Summary of Papers}\label{ch:papersummary}
+\chapter{Summary of papers}\label{ch:papersummary}
 %%%%%% ------------------------------------------------------------------------
 
 
@@ -673,30 +688,38 @@ What are the actual implications of using the sample covariance matrix $\bS$ and
 The paper does so when the returns follow a multivariate normal distribution. 
 In it we derive the distribution for all optimal portfolios on the common form
 \begin{equation}\label{eqn:paper1_eq1}
-  \hbw_{opt} = \hbw_{GMV} + g(\hR, \hV, \hs)\bv.
+  \bL\hbw_{opt} = \bL\hbw_{GMV} + g(\hR, \hV, \hs)\bL\bv
 \end{equation}
+for some matrix $\bL$ of size $k \times p$ where $k<p$.
 To do so, we derive the stochastic representation for the joint distribution of all quantities in the equation \eqref{eqn:paper1_eq1}. 
 That enables us to efficiently simulate from the distribution, 
 Using this representation we can easily compute quantiles of the joint distribution of the efficient frontier.
-We conduct a large simulation study to investigate the implications of deviations from our model.
+Furthermore, we also derive the high-dimensional asymptotic distribution of said joint distribution. 
+The high-dimensional asymptotic distribution is then compared to different models.
+One scenario considers simulations from the stochastic representation, trying to deduce the finite-sample properties.
+The other scenarios try to investigate what happens when we deviate from the model.
+As one can expect, the high-dimensional distribution works well under the assumptions though seem to be reasonably robust from deviations of the model.
+The hardest part to determine is what different characteristics of the return distribution have on the sample distribution of the quantities in \eqref{eqn:paper1_eq1} it remains an unanswered question.
 
-\textbf{more comments...}
-\section{Paper 2 - Tangency portfolio}\label{sec:paper2}
-In this paper we investigate a portfolio which we briefly mentioned in chapter \ref{ch:MPT}, the tangency portfolio. 
-The portfolio is obtained from the quadratic utility function. It originates from the following portfolio allocation problem
+\section{Paper 2 -Tangency portfolio weights under a skew-normal model in small and large dimensions}\label{sec:paper2}
+In this paper we investigate a portfolio which we mention in chapter \ref{ch:MPT}, the tangency portfolio. 
+The portfolio is obtained from the quadratic utility function.
+It originates from the following portfolio allocation problem
 \begin{align}
   \min_{w_0,\bw} & w_0 r_f + \bw^\top \bmu - \frac{1}{2\gamma} \bw^\top \bSigma \bw \\
   \text{ s.t.} &\; w_0 + \bw^\top \ones_p = 1
 \end{align}
-The paper extends Paper 1 as it considers investments in a risk free asset and an extension to the multivariate normal model, the CSN model presented in chapter \ref{ch:estim}. 
-This model can include skewness in the asset returns, a trait returns usually exhibit (see e.g. \citet{cont2001empirical}). 
+Although the portfolio is most often called the tangency portfolio it actually quantifies all portfolios on the capital market line.
+Increasing or decreasing the risk aversion coefficient $\gamma>0$ decrease or increase our position in the risky assets.
+This paper extends Paper 1 as it considers investments in a risk-free asset and use an extension of the multivariate normal model, the CSN model presented in chapter \ref{ch:estim}. 
+The model can include skewness in the asset returns, a trait they usually exhibit (see e.g. \citet{cont2001empirical}). 
 Similarly to Paper 1, we derive the distribution of the sample tangency portfolio.
-We actually derive the distribution of all portfolios on the capital market line, though it is most often called the tangency portfolio.
 We investigate what implications the model has on the sample tangency portfolio.
 In short, skewness results in a bias of the portfolio weights. 
 The investor will not hold the correct portfolio on average.
+Furthermore, we also investigate its high-dimensional distribution and show that it the skewness disappears asymptotically. 
+The high-dimensional distribution is the same as the previous research have shown (see .e.g. \citet{karlsson2021statistical})
 
-\textbf{more comments...}
 \section{Paper 3 - Dynamic Shrinkage Estimation of the High-Dimensional Minimum-Variance Portfolio}\label{sec:paper3}
 This paper deals with the fact that taking limits changes estimates. 
 If the investor invest in a portfolio and then waits for a weak, month or year their perception of what portfolio they should hold will have changed. 
@@ -742,11 +765,11 @@ Furthermore, it also increases/decreases the results of several other portfolio 
 Paper \ref{sec:paper3} is accompanied by a R package, available on CRAN. 
 You are free, or rather encouraged(!), to install it with \hlkwd{install.packages}\hlstd{(}\hlstr{"DOSPortfolio"}\hlstd{)}. 
 The package provides a simple interface for the methods implemented in the paper. 
-Below is a short example on how to construct the portfolio weights. 
-The package is the first iteration of possibly many more portfolios which can be constructed in a similar fashion. 
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
+In \ref{DOSportfolio} we display a short example on how to construct the dynamic portfolio weights. 
+The package is the first iteration of possibly many more portfolios which can be constructed in a similar fashion.
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\captionof{chunk}{R-code which showcase the use of the DOSPortfolio package.}\label{DOSportfolio}\begin{alltt}
 \hlkwd{library}\hlstd{(DOSPortfolio)}
 \hlstd{df} \hlkwb{<-} \hlkwd{read_csv}\hlstd{(}\hlstr{"../data/returns.csv"}\hlstd{)}
 \hlstd{p} \hlkwb{<-} \hlnum{350}\hlstd{; n} \hlkwb{<-} \hlnum{400}
@@ -804,10 +827,11 @@ By placing BEKK models in this framework one also has the possibility to develop
 The development is solely determined by constructing new layers to the networks. 
 It would also be easier to integrate different sources of information in the models.
 
-Although not part of this thesis the "Flipped classroom" approach has been a big part the teaching procedure in the course MT4007. 
-In this course we use a lot of online learning tools. 
-The course has developed a bit through the years although it has stayed true to its original casting, trying to take teaching to scale. 
-It is very complicated to do well and is not straight forward what actually works, as it usually is with observational studies. 
+%Although not part of this thesis the "Flipped classroom" approach has been a big part the teaching procedure in the course MT4007. 
+%In this course we use a lot of online learning tools. 
+%The course has developed a bit through the years although it has stayed true to its original casting, trying to take teaching to scale. 
+%It is very complicated to do well and is not straight forward what actually works, as it usually is with observational studies. 
+%
 
 \printbibliography
 %\bibliography{references}

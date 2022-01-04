@@ -19,7 +19,8 @@ By placing BEKK models in this framework one also has the possibility to develop
 The development is solely determined by constructing new layers to the networks. 
 It would also be easier to integrate different sources of information in the models.
 
-Although not part of this thesis the "Flipped classroom" approach has been a big part the teaching procedure in the course MT4007. 
-In this course we use a lot of online learning tools. 
-The course has developed a bit through the years although it has stayed true to its original casting, trying to take teaching to scale. 
-It is very complicated to do well and is not straight forward what actually works, as it usually is with observational studies. 
+%Although not part of this thesis the "Flipped classroom" approach has been a big part the teaching procedure in the course MT4007. 
+%In this course we use a lot of online learning tools. 
+%The course has developed a bit through the years although it has stayed true to its original casting, trying to take teaching to scale. 
+%It is very complicated to do well and is not straight forward what actually works, as it usually is with observational studies. 
+%

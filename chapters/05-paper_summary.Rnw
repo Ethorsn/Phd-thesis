@@ -6,30 +6,38 @@ What are the actual implications of using the sample covariance matrix $\bS$ and
 The paper does so when the returns follow a multivariate normal distribution. 
 In it we derive the distribution for all optimal portfolios on the common form
 \begin{equation}\label{eqn:paper1_eq1}
-  \hbw_{opt} = \hbw_{GMV} + g(\hR, \hV, \hs)\bv.
+  \bL\hbw_{opt} = \bL\hbw_{GMV} + g(\hR, \hV, \hs)\bL\bv
 \end{equation}
+for some matrix $\bL$ of size $k \times p$ where $k<p$.
 To do so, we derive the stochastic representation for the joint distribution of all quantities in the equation \eqref{eqn:paper1_eq1}. 
 That enables us to efficiently simulate from the distribution, 
 Using this representation we can easily compute quantiles of the joint distribution of the efficient frontier.
-We conduct a large simulation study to investigate the implications of deviations from our model.
+Furthermore, we also derive the high-dimensional asymptotic distribution of said joint distribution. 
+The high-dimensional asymptotic distribution is then compared to different models.
+One scenario considers simulations from the stochastic representation, trying to deduce the finite-sample properties.
+The other scenarios try to investigate what happens when we deviate from the model.
+As one can expect, the high-dimensional distribution works well under the assumptions though seem to be reasonably robust from deviations of the model.
+The hardest part to determine is what different characteristics of the return distribution have on the sample distribution of the quantities in \eqref{eqn:paper1_eq1} it remains an unanswered question.
 
-\textbf{more comments...}
-\section{Paper 2 - Tangency portfolio}\label{sec:paper2}
-In this paper we investigate a portfolio which we briefly mentioned in chapter \ref{ch:MPT}, the tangency portfolio. 
-The portfolio is obtained from the quadratic utility function. It originates from the following portfolio allocation problem
+\section{Paper 2 -Tangency portfolio weights under a skew-normal model in small and large dimensions}\label{sec:paper2}
+In this paper we investigate a portfolio which we mention in chapter \ref{ch:MPT}, the tangency portfolio. 
+The portfolio is obtained from the quadratic utility function.
+It originates from the following portfolio allocation problem
 \begin{align}
   \min_{w_0,\bw} & w_0 r_f + \bw^\top \bmu - \frac{1}{2\gamma} \bw^\top \bSigma \bw \\
   \text{ s.t.} &\; w_0 + \bw^\top \ones_p = 1
 \end{align}
-The paper extends Paper 1 as it considers investments in a risk free asset and an extension to the multivariate normal model, the CSN model presented in chapter \ref{ch:estim}. 
-This model can include skewness in the asset returns, a trait returns usually exhibit (see e.g. \citet{cont2001empirical}). 
+Although the portfolio is most often called the tangency portfolio it actually quantifies all portfolios on the capital market line.
+Increasing or decreasing the risk aversion coefficient $\gamma>0$ decrease or increase our position in the risky assets.
+This paper extends Paper 1 as it considers investments in a risk-free asset and use an extension of the multivariate normal model, the CSN model presented in chapter \ref{ch:estim}. 
+The model can include skewness in the asset returns, a trait they usually exhibit (see e.g. \citet{cont2001empirical}). 
 Similarly to Paper 1, we derive the distribution of the sample tangency portfolio.
-We actually derive the distribution of all portfolios on the capital market line, though it is most often called the tangency portfolio.
 We investigate what implications the model has on the sample tangency portfolio.
 In short, skewness results in a bias of the portfolio weights. 
 The investor will not hold the correct portfolio on average.
+Furthermore, we also investigate its high-dimensional distribution and show that it the skewness disappears asymptotically. 
+The high-dimensional distribution is the same as the previous research have shown (see .e.g. \citet{karlsson2021statistical})
 
-\textbf{more comments...}
 \section{Paper 3 - Dynamic Shrinkage Estimation of the High-Dimensional Minimum-Variance Portfolio}\label{sec:paper3}
 This paper deals with the fact that taking limits changes estimates. 
 If the investor invest in a portfolio and then waits for a weak, month or year their perception of what portfolio they should hold will have changed. 
@@ -75,9 +83,9 @@ Furthermore, it also increases/decreases the results of several other portfolio 
 Paper \ref{sec:paper3} is accompanied by a R package, available on CRAN. 
 You are free, or rather encouraged(!), to install it with \Sexpr{'install.packages("DOSPortfolio")'}. 
 The package provides a simple interface for the methods implemented in the paper. 
-Below is a short example on how to construct the portfolio weights. 
-The package is the first iteration of possibly many more portfolios which can be constructed in a similar fashion. 
-<<paper3-summary, echo=TRUE, message=FALSE>>=
+In \ref{DOSportfolio} we display a short example on how to construct the dynamic portfolio weights. 
+The package is the first iteration of possibly many more portfolios which can be constructed in a similar fashion.
+<<paper3-summary, echo=TRUE, message=FALSE, ref="DOSportfolio", codecap="R-code which showcase the use of the DOSPortfolio package." >>=
 library(DOSPortfolio)
 df <- read_csv("../data/returns.csv")
 p <- 350; n <- 400

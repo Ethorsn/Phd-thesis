@@ -15,7 +15,7 @@
   {\multicitedelim}
   {\usebibmacro{postnote}}
 %opening
-\title{Optimal portfolios - estimation and uncertainty assessment in the higher dimensional setting}
+\title{Optimal portfolios -- estimation and uncertainty assessment in the high-dimensional setting}
 \author{Erik Thorsén}
 
 
@@ -27,14 +27,52 @@
 
 
 \maketitle
+<<setup, echo=FALSE, results='hide', message=FALSE, warning=FALSE>>=
+library(knitr)
+# set standard configs for knitr 
+opts_knit$set(self.contained=FALSE)
+knitr::opts_chunk$set(
+  comment = '', fig.width = '0.75\\textwidth', fig.height = 4,
+  echo=FALSE, fig.align = "center",
+  size="small"
+)
+
+thm <- knit_theme$get("bright")
+#thm <- knit_theme$get("whitengrey")
+knit_theme$set(thm)
+
+# code for referenceing code chunks 
+# https://stackoverflow.com/questions/50702942/does-rmarkdown-allow-captions-and-references-for-code-chunks
+oldSource <- knit_hooks$get("source")
+knit_hooks$set(source = function(x, options) {
+  x <- oldSource(x, options)
+  x <- ifelse(!is.null(options$ref), paste0("\\label{", options$ref,"}", x), x)
+  ifelse(!is.null(options$codecap), paste0("\\captionof{chunk}{", options$codecap,"}", x), x)
+})
+
+library(tidyverse)
+library(microbenchmark)
+set.seed(123)
+STANDARD_TEXT_SIZE <- 13
+@
+<<include=FALSE>>=
+#https://stackoverflow.com/questions/16405536/knitr-inline-chunk-options-no-evaluation-or-just-render-highlighted-code
+knit_hooks$set(inline = function(x) { 
+  if (is.numeric(x)) return(knitr:::format_sci(x, 'latex')) 
+  highr::hi_latex(x) 
+}) 
+@
 
 \section*{Acknowledgements}
+
+First and foremost i would like to thank ...
 
 \newpage
 \section*{List of papers}
 \nocite{bodnar2020sampling, javed2021tangency, bodnar2021dynamic, bodnar2021empirical}
 This thesis is based on the following papers
 
+\subsection*{Papers included in this thesis}
 \begin{enumerate}[I]
   \item \textbf{Sampling Distribution of Optimal Portfolios in Small and Large Dimensions}
     \fullcite{bodnar2020sampling}
@@ -44,63 +82,56 @@ This thesis is based on the following papers
     \fullcite{bodnar2021dynamic}
   \item \textbf{Is the empirical out-of-sample variance an informative risk measure for the high-dimensional portfolios?}
     \fullcite{bodnar2021empirical}
-  \item \textbf{Double shrinkage of the Global Minimum-Variance portfolio.}
+  \item \textbf{Double shrinkage of the high-dimensional Global Minimum-Variance portfolio.}
     \fullcite{REF}
 \end{enumerate}
-\textbf{Author contribution:} Thors{\'e}n E.
+
+\subsection*{Papers \& other research results produced but not in this thesis}
+
+\begin{itemize}
+  \item The \textbf{DOSPortfolio} R-package which is published on CRAN. \href{https://CRAN.R-project.org/package=DOSPortfolio}{It is available here}.  
+  \item \textbf{Bayesian Quantile-Based Portfolio Selection}
+  \fullcite{bodnar2020quantile}
+  \item \textbf{Volatility Sensitive Bayesian Estimation of Portfolio VaR and CVaR}
+  \fullcite{bodnar2021bayesian}
+  \item \textbf{Quantile-based optimal portfolio selection}
+  \fullcite{bodnar2021quantile}
+\end{itemize}
+\textbf{Author contribution:} Thors{\'e}n E. contributed...
 
 %%% test
 %  
 % \printbibliography[title={Subbibliography}, keyword=included_in_thesis, env=roman-numerals]
 
-<<setup, echo=FALSE, results='hide', message=FALSE, warning=FALSE>>=
-library(knitr)
-opts_knit$set(self.contained=FALSE)
-knitr::opts_chunk$set(
-  comment = '', fig.width = '0.75\\textwidth', fig.height = 4,
-  echo=FALSE, fig.align = "center"
-)
-library(tidyverse)
-library(microbenchmark)
-set.seed(123)
-STANDARD_TEXT_SIZE <- 13
-@
 
-<<include=FALSE>>=
-#https://stackoverflow.com/questions/16405536/knitr-inline-chunk-options-no-evaluation-or-just-render-highlighted-code
-knit_hooks$set(inline = function(x) { 
-  if (is.numeric(x)) return(knitr:::format_sci(x, 'latex')) 
-  highr::hi_latex(x) 
-}) 
-@
 \tableofcontents
 %%%%%% ------------------------------------------------------------------------
-\chapter[Introduction]{Introduction - making decisions and allocations}\label{ch:intro}
+\chapter[Introduction]{Introduction - making decisions under uncertainty and asset allocations}\label{ch:intro}
 %%%%%% ------------------------------------------------------------------------
 \input{chapters/01-Introduction}
 %%%%%% ------------------------------------------------------------------------
-\chapter{Modern Portfolio Theory}\label{ch:MPT}
+\chapter[Modern portfolio theory]{Modern portfolio theory}\label{ch:MPT}
 %%%%%% ------------------------------------------------------------------------
 
 <<MPT, child='chapters/02-MPT.Rnw'>>=
 @
 
 %%%%%% ------------------------------------------------------------------------
-\chapter{Estimation and statistical models}\label{ch:estim}
+\chapter[Estimation \& models]{Estimation and statistical models}\label{ch:estim}
 %%%%%% ------------------------------------------------------------------------
 
 <<StatModels, child='chapters/03-StatModel_and_Estimation.Rnw'>>=
 @
 
 %%%%%% ------------------------------------------------------------------------
-\chapter{Diversification, infinitely many assets and Shrinkage estimators}\label{ch:highdim}
+\chapter[Diversification \& shrinkage]{Diversification, infinitely many assets and shrinkage estimators}\label{ch:highdim}
 %%%%%% ------------------------------------------------------------------------
 
 <<HighDim, child='chapters/04-HighDim_portfolios.Rnw'>>=
 @
 
 %%%%%% ------------------------------------------------------------------------
-\chapter{Summary of Papers}\label{ch:papersummary}
+\chapter{Summary of papers}\label{ch:papersummary}
 %%%%%% ------------------------------------------------------------------------
 
 <<Summary, child='chapters/05-paper_summary.Rnw'>>=

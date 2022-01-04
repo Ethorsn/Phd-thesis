@@ -13,7 +13,7 @@ The sample covariance matrix suffers from the curse of dimensionality.
 In terms of estimation uncertainty, this does not scale well.
 From \citet{bodnar2016optimal} Proposition 2.2 we know that $\hV \rightarrow \V/(1-c)$ whenever $p,n \rightarrow \infty$ s.t. $p/n \rightarrow c \in [0,1)$. If $c$ is close to one, then the sample GMV portfolios variance will explode. \textit{Estimation uncertainty dominates the diversification effect}. There are many solutions to the problem at hand (see e.g. \citet{lw17} or \citet{bodnar2021recent} and the references therein). We will focus on some topics in Random Matrix Theory (RMT) and the use of some type of shrinkage estimator. Both subjects are grand. Our aim is to provide a small introduction to them in the following sections.
 
-\section{A short introduction to RMT and the Stieltjes transform}
+\section{A short introduction to random matrix theory and the Stieltjes transform}
 The subject of Random matrix theory (RMT) has many applications. It was originally developed in the context of quantum physics (see Ch. 1 of \citet{mehta2004random}). The theory and its applications has since then developed quite a lot. Many fields, such as combinatorics, computational biology, wireless communication and finance (see \citet{REF} for an overview) use these results. One of the seminal work in RMT was made by \citet{wigner1993characteristic}. He originally modeled the limiting spectral distribution of an $p \times p$ dimensional standard Gaussian random matrices $\bX$. The term "standard" might be a little misleading for statisticians as the matrix $\bX$ contains independent random variables although not identically distributed. The entries on the diagonal are $N(0,2)$ and the entries on the off-diagonal are $N(0,1)$. However, the more generalized definition only demands that the matrix $\bX$ is Hermitian and its entries on the diagonal or above the diagonal are independent. We define the empirical spectral distribution (ESD) of a matrix $\bA$ as
 $$
 F^{\bA}(x)= \frac{1}{p} \sum_{i=1}^p \mathbbm{1}(\lambda_i \leq x)
@@ -66,7 +66,7 @@ This theorem is used repeatedly in papers \ref{sec:paper3} through \ref{sec:pape
 
 When we are able to construct sample estimators on the form of $\bB$ it does not necessarily imply that we can find analytic solutions. \textbf{comment more on it.}
 
-\section{Shrinkage estimators in MPT}
+\section{Shrinkage estimators in modern portfolio theory}
 The estimator $\hV$ is clearly biased, it even diverges when $c$ approaches $1$. 
 This problem is not unique. 
 The least squares estimator is usually very volatile when there are many covariates in your regression model. 
@@ -102,11 +102,13 @@ We then construct a consistent estimator for the limiting object at hand and use
 
 The two methods can differ quite substantially in their solution. 
 One method is simple to implement while the other \textit{should} be theoretically superior.
-Below is a small motivating example to why deriving bona-fide estimators can prove to be fruitful.
-It is a small comparison between the estimator from \citet{bodnar2018estimation} and determining the shrinkage coefficient using a 5 fold cross-validation procedure.
-%In this example we use $n=250, p=150$ and $\bb$ equal to the EW portfolio.
+In \ref{high-dim-CV} we display R-code for a small motivating example to why deriving bona-fide estimators can prove to be fruitful.
+It is a comparison between the estimator from \citet{bodnar2018estimation} and determining the shrinkage coefficient using a 5 fold cross-validation procedure.
+In this example we use $n=250, p=150$ and $\bb$ equal to the EW portfolio.
+It is a large portfolio, though $c=p/n<1$.
 %In this example we omit the code, but it is available on github\footnote{\url{https://github.com/Ethorsn/Phd-thesis}}.
-<<cv_bench, cache=TRUE, echo=TRUE>>=
+<<cv_bench, cache=TRUE, echo=TRUE, ref="high-dim-CV", codecap="R-code performing a 5-fold cross validation for determining shrinkage coefficients as well as the implementation from the HDShOP package.">>=
+# setup
 set.seed(123)
 p <- 150
 n <- 250

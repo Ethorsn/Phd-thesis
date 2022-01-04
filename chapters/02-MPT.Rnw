@@ -1,5 +1,5 @@
 
-Modern Portfolio Theory was introduced by \cite{markowitz1959portfolio}. 
+Modern Portfolio Theory (MPT) was introduced by \cite{markowitz1959portfolio}. 
 In his seminal work he argued that any portfolio which simply maximize its profit will result in a naive solution.
 Very much like the example in Chapter \ref{ch:intro}. 
 The future is unknown and (one of) the best model(s) we have for it is stochastic.
@@ -23,7 +23,6 @@ We assume assets $\bx$ are random with mean $\optn{E}(\bx)=\bmu$ and covariance 
 This problem is a quadratic optimization problem with linear equality and inequality constraints. 
 The objective is to minimize the variance of the portfolio. 
 %A natural question is to ask whether or not that implies diversification? As it turns out, minimizing the portfolio variance will encourage diversification from the fact that $$
-%\textbf{Give example on using convex combinations on variances.} 
 The constraint $\bw^\top \ones = 1$ essentially states that the investor must invest all available money. 
 The weights are scaled according to the amount of cash invested.
 The disposition is very different whenever an inequality is used rather than equality. 
@@ -182,7 +181,6 @@ $$
 which is where the efficient frontier and the capital market line meet. Any tangency portfolio with $\bmu_0\leq \R + \frac{\mu_0-\R}{\V} s$ will be "more efficient" than the efficient frontier if there is a risk free rate. However, its not always the case that we want to optimize the amount of cash held in the riskfree asset. Given that cash is free, we should most likely borrow as much as possible to invest in the market. 
 
 All of MPT use the inverse covariance matrix. In the next section we devote some attention to the assumption we make on the covariance matrix.  
-
 
 \section{Relationship between assets and the (inverse) Covariance matrix}\label{subsec:cov_prec_matrix}
 %%% ----------------------

@@ -5,6 +5,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{amsmath,dsfont}
 \usepackage{caption}
+\usepackage{floatrow}
 % \usepackage[maxbibnames=99, backend=biber, giveninits=true, natbib=true, uniquename=init, style=apa]{biblatex}
 % \DeclareLanguageMapping{english}{english-apa}
 
@@ -215,3 +216,11 @@ natbib=true
 }
 
 \renewcommand \thesubsubsection{\roman{subsubsection}.\roman{subsubsection}}
+
+
+\DeclareNewFloatType{chunk}{placement=H, fileext=chk, name=}
+\captionsetup{options=chunk}
+\renewcommand{\thechunk}{Chunk~\thesection.\arabic{chunk}}
+\makeatletter
+\@addtoreset{chunk}{section}
+\makeatother

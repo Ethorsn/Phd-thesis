@@ -164,8 +164,8 @@ Paper 1 and 2 goes into great detail to derive the stochastic representation of 
 One of them is the sample variance of the GMV portfolio.
 By Theorem 1 \citet{bodnar2020sampling} we know that if $\bY \sim N_{p,n}(\bmu \ones_n^\top, \bSigma \otimes \bI_n)$ then $\hV \sim \V\xi /(n-1)$ where $\xi \sim \chi^2_{n-p}$.
 We can omit inversions all together.
-Below is a small benchmark to highlight why these types of representations can be really valuable.
-<<codeBenchmark, echo=TRUE, cache=TRUE>>=
+In \ref{benchmark} we present R-code which implements a small benchmark to highlight why these types of representations can be really valuable.
+<<codeBenchmark, echo=TRUE, cache=TRUE, ref="benchmark", codecap="R-code for benchmarking different simulation approaches of the variance of the GMV portfolio.">>=
 # setup
 p <- 150
 n <- 250
@@ -174,7 +174,7 @@ Sigma_chol <- chol(Sigma)
 mu <- runif(p, -0.1, 0.1)
 Sigma_inv <- solve(Sigma)
 V_GMV <- 1/sum(Sigma_inv)
-
+# microbechmark
 result <- microbenchmark(
   # Simulate Y directly, construct S, invert and compute GMV variance
   `Scenario 1` = {
