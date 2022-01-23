@@ -86,7 +86,7 @@ This thesis is based on the following papers
     \fullcite{REF}
 \end{enumerate}
 
-\subsection*{Papers \& other research results produced but not in this thesis}
+\subsection*{Papers \& other research results which are not in included in this thesis}
 
 \begin{itemize}
   \item The \textbf{DOSPortfolio} R-package which is published on CRAN. \href{https://CRAN.R-project.org/package=DOSPortfolio}{It is available here}.  
@@ -106,7 +106,7 @@ This thesis is based on the following papers
 
 \tableofcontents
 %%%%%% ------------------------------------------------------------------------
-\chapter[Introduction]{Introduction - making decisions under uncertainty and asset allocations}\label{ch:intro}
+\chapter[Introduction]{Introduction -- Decisions, uncertainty and asset allocations}\label{ch:intro}
 %%%%%% ------------------------------------------------------------------------
 \input{chapters/01-Introduction}
 %%%%%% ------------------------------------------------------------------------
@@ -117,7 +117,7 @@ This thesis is based on the following papers
 @
 
 %%%%%% ------------------------------------------------------------------------
-\chapter[Estimation \& models]{Estimation and statistical models}\label{ch:estim}
+\chapter[Estimation \& models]{Statistical models and inference}\label{ch:estim}
 %%%%%% ------------------------------------------------------------------------
 
 <<StatModels, child='chapters/03-StatModel_and_Estimation.Rnw'>>=
