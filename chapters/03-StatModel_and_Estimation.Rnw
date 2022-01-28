@@ -187,8 +187,8 @@ To solve the problem at hand consider two $p\times p$ matrices with the followin
 where $\text{dim}(\bA_{11}) = \text{dim}(\bV_{11})= m \times m$, $m<p$. 
 Let $\bA_{11\cdot 2} := \bA_{11} - \bA_{12} \bA_{22}^{-1} \bA_{21}$ denote the Schur complement of the matrix $\bA$ and define $\bV_{11\cdot 2}$ in the same manner. 
 Let $\otimes$ denote the Kronocker product. 
-The following theorem is used immensely in papers 1 and 2.
-\begin{thm}[Thrm.~3 in \citet{BodnarOkhrin2008}]\label{thrm:invWis}
+The following theorem is used a lot in papers 1 and 2.
+\begin{theorem}[Theorem~3 in \citet{BodnarOkhrin2008}]\label{thrm:invWis}
  Suppose $\bA \sim W^{-1}_k(n, \bV)$, where $\bA$ and $\bV$ are partitioned as in \eqref{eqn:blockmat}. Then
  \begin{enumerate}[(a)]
 	\item $\bA_{11\cdot 2} \sim W^{-1}_m(n-k+m, \bV_{11\cdot 2})$ and is independent of $\bA_{22}$;
@@ -203,16 +203,15 @@ The following theorem is used immensely in papers 1 and 2.
 	\item $\bA_{22}$ is independent of $\bA_{12}\bA^{-1}_{22}$ and $\bA_{11\cdot 2}$;
 	\item $\bA_{11\cdot 2}| \bA_{12}\bA^{-1}_{22}=\bX \sim W_m^{-1}(n,  \bV_{11\cdot 2} + \left(\bX - \bV_{12}\bV_{22}^{-1} \right)\bV_{22} \left(\bX - \bV_{12}\bV_{22}^{-1} \right)^\top )$
  \end{enumerate}
-\end{thm}
-So given a inverse Wishart distribution we can derive the distribution of many, quite difficult, transformations of its sub-matrices.
-\textbf{Give an example from this setup and how to derive the distribution of different quantitites.}
-
-Paper 1 derives the full joint distribution for all the quantities used in \eqref{eqn:meanvar_solution_sample}.
+\end{theorem}
+So given a inverse Wishart distribution we can derive the distribution of many, quite difficult, transformations of its sub-matrices. 
+Papers 1 and 2 use the above theorem together together with the fact that $(\bA \bS^{-1} \bA^\top)^{-1}$ will also follow a Wishart distributions given some restrictions on the matrix $\bA$.
+Paper 1 use these properties to derive the full joint distribution for all the quantities used in \eqref{eqn:meanvar_solution_sample}.
 The result is more general than that as we derive the distribution of all optimal portfolios but since the classical mean-variance portfolio is one of them we get that for free. 
 The joint distribution is characterized through its stochastic representation.
 The stochastic representation is very verbose but it characterizes the distribution in terms of simple random variables.
 These random variables are simple to simulate.
-To understand a system we usually simulate from it and compute the quantity of interest, rinse and then repeat.
+To compute any quantity of interest from the joint distribution we can simply compute it through monte carlo approximation. 
 For some methods simulations are the only way we can compute the quantities of interest.
 It can therefore be very important that simulations are fast.
 This is extremely simple to do when you have the stochastic representation.
@@ -228,7 +227,7 @@ The second step is notoriously demanding.
 The default method to use in R is `solve` which is a wrapper for certain LAPACK\footnote{For the interested reader \url{https://www.netlib.org/lapack/}} functions.
 The inverse itself takes $2p^3$ flops (cpu cycles), which is not cheap (see e.g. \citet[ch 14]{higham2002accuracy}).
 If $p$ is large then simulation of the quantity $\hV$ will be extremely cumbersome.
-Another method is R's $\Sexpr{chol2inv}$ which relies on the Cholesky decomposition. 
+Another method is R's \Sexpr{'chol2inv'} which relies on the Cholesky decomposition. 
 In theory it should be faster but demands that we compute the Cholesky decomposition.
 The last two options that are available is to simulate $\bS$ directly or to derive the stochastic representation of $\hV$ directly.
 Paper 1 and 2 goes into great detail to derive the stochastic representation of different quantities of optimal portfolios. 
@@ -281,7 +280,7 @@ ggplot2::autoplot(result) +
 Scenario 4 uses the stochastic representation. 
 The execution time of scenario 4 is much smaller than the former strategies.
 It is quite clear that it is the fastest. 
-The conclusion is that inversions are very cumbersome to deal with and take a lot of time regardless if we use the cholesky decomposition or not.
+The conclusion is that inversions are very cumbersome to deal with and take a lot of time regardless if we use the Cholesky decomposition or not.
 Its can also be a very unstable operation, especially if the matrix you are trying to invert is close to singular.
 
 So far we have assumed that all we wanted to use is $\bS$, $\byb$ or simply $\hbw_{GMV}$.
@@ -289,7 +288,7 @@ That is of course a simplification and not always the case.
 As we previously mentioned both $\bS$ and $\byb$ can be noisy estimators with the former being less noisy than the latter. 
 Furthermore, we saw that if $p$ is comparable to $n$ but $n>p$ then the expectation of the inverse Wishart distribution is very biased.
 We can cope with that through two strategies. 
-The first is to derive the actual uncertainty and sample distributions of the quantities of interest, which we do in Paper 1 and 2.
+The first is to derive the actual uncertainty and sample distributions of the quantities of interest, which we have described above and do in papers 1 and 2.
 The second is to use other estimators which introduce some bias of our own.
-By introducing some bias in the estimator we can reduce the variance.
+By introducing bias in the estimator we can reduce the variance.
 It is something of utmost importance if we believe in diversification which we will go into detail in the next section.

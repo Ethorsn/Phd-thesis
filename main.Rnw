@@ -117,7 +117,7 @@ This thesis is based on the following papers
 @
 
 %%%%%% ------------------------------------------------------------------------
-\chapter[Estimation \& models]{Statistical models and inference}\label{ch:estim}
+\chapter[Models \& inference]{Statistical models and inference}\label{ch:estim}
 %%%%%% ------------------------------------------------------------------------
 
 <<StatModels, child='chapters/03-StatModel_and_Estimation.Rnw'>>=
