@@ -61,7 +61,7 @@ which is what we refer to the mean-variance (MV) optimization problem.
 The solution to this problem is very often stated in terms of another famous portfolio, namely the Global Minimum Variance (GMV) portfolio and its related quantities (see e.g. \textcite{Bodnar2009CaIotEFiEM, bodnar2013equivalence, bauder2018bayesian}). 
 We will continue in the same manner. 
 Let $\bSigma^{-1}$ denote the inverse matrix of $\bSigma$, e.g. $\bSigma^{-1}\bSigma = \bI$, and
-\begin{equation}
+\begin{equation}\label{eqn:GMV}
 	\bw_{GMV} := \frac{\bSigma^{-1}\ones}{\ones^\top \bSigma^{-1}\ones}, \; R_{GMV} :=\optn{E}(\bw_{GMV}^\top\bx) = \frac{\ones^\top\bSigma^{-1}\bmu}{\ones^\top \bSigma^{-1}\ones}, \;
 	V_{GMV} := \optn{Var}(\bw_{GMV}^\top\bx) =\frac{1}{\ones^\top \bSigma^{-1}\ones}.
 \end{equation}

@@ -56,14 +56,17 @@ URL = {REF}
   publisher={Elsevier}
 }
 
-@incollection{wigner1993characteristic,
-  title={Characteristic vectors of bordered matrices with infinite dimensions i},
+@article{wigner1967random,
+  title={Random matrices in physics},
   author={Wigner, Eugene P},
-  booktitle={The Collected Works of Eugene Paul Wigner},
-  pages={524--540},
-  year={1993},
-  publisher={Springer}
+  journal={SIAM review},
+  volume={9},
+  number={1},
+  pages={1--23},
+  year={1967},
+  publisher={SIAM}
 }
+
 
 @book{mehta2004random,
   title={Random matrices},
@@ -1358,7 +1361,8 @@ year = "1956"
   journal={Computational Management Science},
   pages={1--26},
   year={2021},
-  publisher={Springer}
+  publisher={Springer},
+  keywords={papers_list}
 }
 
 @article{bodnar2020sampling,
@@ -1368,16 +1372,18 @@ year = "1956"
   pages = {2250008},
   year = {2021},
   doi = {10.1142/S2010326322500083},
-  keywords = {included_in_thesis}
+  keywords = {included_in_thesis},
+  sortkey = {1}
 }
 
 @article{javed2021tangency,
   title={Tangency portfolio weights under a skew-normal model in small and large dimensions},
   author={Javed, Farrukh and Mazur, Stepan and Thors{\'e}n, Erik},
-  journal = {Submitted for publication},
+  journal = {Research report in Mathematical statistics, 2021:8},
   pages = {},
   year={2021},
-  keywords = {included_in_thesis}
+  keywords = {included_in_thesis},
+  sortkey = {2}
 }
 
 @article{bodnar2021dynamic,
@@ -1385,7 +1391,8 @@ year = "1956"
   author={Bodnar, Taras and Parolya, Nestor and Thors{\'e}n, Erik},
   journal={arXiv preprint arXiv:2106.02131},
   year={2021},
-  keywords = {included_in_thesis}
+  keywords = {included_in_thesis},
+  sortkey = {3}
 }
 
 @article{bodnar2021empirical,
@@ -1393,7 +1400,17 @@ year = "1956"
   author={Bodnar, Taras and Parolya, Nestor and Thors{\'e}n, Erik},
   journal={arXiv preprint arXiv:2111.12532},
   year={2021},
-  keywords = {included_in_thesis}
+  keywords = {included_in_thesis},
+  sortkey = {4}
+}
+
+@article{bodnar2022double,
+  title={Double shrinkage GMV portfolio},
+  author={Bodnar, Taras and Parolya, Nestor and Thors{\'e}n, Erik},
+  journal={Placeholder},
+  year={2022},
+  keywords = {included_in_thesis},
+  sortkey = {5}
 }
 
 @article{bodnar2020quantile,
@@ -1497,18 +1514,63 @@ year = "1956"
 
 @article{BodnarOkhrin2008,
 	Author = {Bodnar, T. and Okhrin, Y.},
-	Date-Added = {2015-03-04 23:02:56 +0000},
-	Date-Modified = {2015-03-04 23:05:24 +0000},
 	Journal = {Journal of Multivariate Analysis},
 	Pages = {2389- 2405},
 	Title = {{Properties of the singular, inverse and generalized inverse partitioned Wishart distributions}},
 	Volume = {99},
-	Year = {2008}}
+	Year = {2008}
+}
 	
-@book{livan2018introduction,
-  title={Introduction to random matrices: theory and practice},
-  author={Livan, Giacomo and Novaes, Marcel and Vivo, Pierpaolo},
-  volume={26},
-  year={2018},
-  publisher={Springer}
+@article{paul2014random,
+  title={Random matrix theory in statistics: A review},
+  author={Paul, Debashis and Aue, Alexander},
+  journal={Journal of Statistical Planning and Inference},
+  volume={150},
+  pages={1--29},
+  year={2014},
+  publisher={Elsevier}
+}
+
+@Manual{HDShOP,
+    title = {HDShOP: High-Dimensional Shrinkage Optimal Portfolios},
+    author = {Taras Bodnar and Solomiia Dmytriv and Yarema Okhrin and Dmitry Otryakhin and Nestor Parolya},
+    year = {2021},
+    note = {R package version 0.1.1},
+    url = {https://CRAN.R-project.org/package=HDShOP},
+  }
+  
+@Manual{DOSPortfolio,
+  title = {DOSPortfolio: Dynamic Optimal Shrinkage of High-Dimensional Portfolios},
+  author = {Taras Bodnar and Nestor Parolya and Erik Thors\'{e}n},
+  year = {2021},
+  note = {R package version 0.1},
+  url = {https://CRAN.R-project.org/package=DOSPortfolio},
+  keywords = {papers_list}
+}
+
+@article{engle1995multivariate,
+  title={Multivariate simultaneous generalized ARCH},
+  author={Engle, Robert F and Kroner, Kenneth F},
+  journal={Econometric theory},
+  volume={11},
+  number={1},
+  pages={122--150},
+  year={1995},
+  publisher={Cambridge University Press}
+}
+
+@misc{brown2020language,
+      title={Language Models are Few-Shot Learners}, 
+      author={Tom B. Brown and Benjamin Mann and Nick Ryder and Melanie Subbiah and Jared Kaplan and Prafulla Dhariwal and Arvind Neelakantan and Pranav Shyam and Girish Sastry and Amanda Askell and Sandhini Agarwal and Ariel Herbert-Voss and Gretchen Krueger and Tom Henighan and Rewon Child and Aditya Ramesh and Daniel M. Ziegler and Jeffrey Wu and Clemens Winter and Christopher Hesse and Mark Chen and Eric Sigler and Mateusz Litwin and Scott Gray and Benjamin Chess and Jack Clark and Christopher Berner and Sam McCandlish and Alec Radford and Ilya Sutskever and Dario Amodei},
+      year={2020},
+      eprint={2005.14165},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+
+@phdthesis{thorsen2019assessment,
+  title={Assessment of the uncertainty in small and large dimensional portfolio allocation},
+  author={Thors{\'e}n, Erik},
+  year={2019},
+  school={Department of Mathematics, Stockholm University}
 }

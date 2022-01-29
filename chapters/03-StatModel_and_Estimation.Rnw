@@ -158,7 +158,7 @@ Replacing $\bmu$ and $\bSigma$ with $\byb$ and $\bS$ in \eqref{eqn:mean_var_solu
 \end{equation}
 where 
 \begin{equation}\label{eqn:meanvar_characteristics_sample}
-  \hV = \frac{1}{\ones^\top \bS^{-1}\ones},\; \hR = \frac{1}{\ones^\top \bS^{-1}\ones}
+  \hV = \frac{1}{\ones^\top \bS^{-1}\ones},\; \hR = \frac{\ones^\top \bS^{-1} \byb}{\ones^\top \bS^{-1}\ones}
 \end{equation}
 and the shape parameter of the efficient frontier $\hat{s} = \byb^\top \bQ \byb$.
 This is a portfolio we can actually invest in. 
@@ -169,10 +169,10 @@ However, there are many complicated transforms containing both $\byb$ and $\bS^{
 In our example, these two parameters are independent (see Theorem 3.3.6 \citet{GuptaNagar2000}) which makes the analysis simpler.
 The weights for the GMV portfolio which are given by
 $$
-\frac{\bS^{-1}\ones}{\ones\bS^{-1}\ones}
+\hbw_{GMV}=\frac{\bS^{-1}\ones}{\ones\bS^{-1}\ones}
 $$
-contain the sample covariance matrix in the nominator as well as the demoniator.
-Furthermore, the sample covariance matrix is everywhere so its not safe to assume that these are independent.
+and contain the sample covariance matrix in the nominator as well as the demoniator.
+Its not safe to assume that these are independent nor is it trivial when they would be.
 To solve the problem at hand consider two $p\times p$ matrices with the following block structure 
 \begin{equation}\label{eqn:blockmat}
 \bA = \begin{pmatrix}
@@ -205,11 +205,22 @@ The following theorem is used a lot in papers 1 and 2.
  \end{enumerate}
 \end{theorem}
 So given a inverse Wishart distribution we can derive the distribution of many, quite difficult, transformations of its sub-matrices. 
-Papers 1 and 2 use the above theorem together together with the fact that $(\bA \bS^{-1} \bA^\top)^{-1}$ will also follow a Wishart distributions given some restrictions on the matrix $\bA$.
+Let $\bM^\top = (\bL^\top , \ones^\top)$ and note that $(\bM \bS^{-1} \bM^\top)^{-1}$ follows a Wishart distribution by Theorem 3.3.13 \citet{GuptaNagar2000}. 
+We can then invert $(\bM \bS^{-1} \bM^\top)^{-1}$, use the fact that the inverse of a Wishart matrix follows an inverse Wishart distribution and at last use the fact that 
+$$
+\bM \bS^{-1} \bM^\top = 
+\begin{pmatrix}
+\bL^\top \bS^{-1} \bL & \bL^\top \bS^{-1} \ones \\
+\ones^\top \bS^{-1} \bL^\top & \ones^\top \bS^{-1} \ones \\
+\end{pmatrix}.
+$$
+Note that by \eqref{eqn:almostT} we can find the density of the GMV portfolio. 
+Furthermore, we can actually assert that the GMV portfolio weights and the variance of the GMV portfolio are independent!
+Papers 1 and 2 use these theorems a lot.
 Paper 1 use these properties to derive the full joint distribution for all the quantities used in \eqref{eqn:meanvar_solution_sample}.
 The result is more general than that as we derive the distribution of all optimal portfolios but since the classical mean-variance portfolio is one of them we get that for free. 
 The joint distribution is characterized through its stochastic representation.
-The stochastic representation is very verbose but it characterizes the distribution in terms of simple random variables.
+The stochastic representation is a very verbose way of characterizing the distribution in terms of simple random variables.
 These random variables are simple to simulate.
 To compute any quantity of interest from the joint distribution we can simply compute it through monte carlo approximation. 
 For some methods simulations are the only way we can compute the quantities of interest.

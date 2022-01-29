@@ -63,41 +63,25 @@ knit_hooks$set(inline = function(x) {
 }) 
 @
 
-\section*{Acknowledgements}
+\chapter*{Acknowledgements}
 
 First and foremost i would like to thank ...
 
 \newpage
-\section*{List of papers}
-\nocite{bodnar2020sampling, javed2021tangency, bodnar2021dynamic, bodnar2021empirical}
+\chapter*{List of papers}
+\nocite{bodnar2020sampling, javed2021tangency, bodnar2021dynamic, bodnar2021empirical, bodnar2022double}
 This thesis is based on the following papers
 
-\subsection*{Papers included in this thesis}
-\begin{enumerate}[I]
-  \item \textbf{Sampling Distribution of Optimal Portfolios in Small and Large Dimensions}
-    \fullcite{bodnar2020sampling}
-  \item \textbf{Tangency portfolio weights under a skew-normal model in small and large dimensions}
-    \fullcite{javed2021tangency}
-  \item \textbf{Dynamic Shrinkage Estimation of the High-Dimensional Minimum-Variance Portfolio}
-    \fullcite{bodnar2021dynamic}
-  \item \textbf{Is the empirical out-of-sample variance an informative risk measure for the high-dimensional portfolios?}
-    \fullcite{bodnar2021empirical}
-  \item \textbf{Double shrinkage of the high-dimensional Global Minimum-Variance portfolio.}
-    \fullcite{REF}
-\end{enumerate}
+\begingroup
+\let\clearpage\relax
+\printbibliography[keyword=included_in_thesis, title={Papers included in this thesis}, heading=subbibliography]
+\printbibliography[keyword=papers_list, title={Papers \& other research results which are not included in this thesis},
+heading=subbibliography]
+\endgroup
 
-\subsection*{Papers \& other research results which are not in included in this thesis}
-
-\begin{itemize}
-  \item The \textbf{DOSPortfolio} R-package which is published on CRAN. \href{https://CRAN.R-project.org/package=DOSPortfolio}{It is available here}.  
-  \item \textbf{Bayesian Quantile-Based Portfolio Selection}
-  \fullcite{bodnar2020quantile}
-  \item \textbf{Volatility Sensitive Bayesian Estimation of Portfolio VaR and CVaR}
-  \fullcite{bodnar2021bayesian}
-  \item \textbf{Quantile-based optimal portfolio selection}
-  \fullcite{bodnar2021quantile}
-\end{itemize}
 \textbf{Author contribution:} Thors{\'e}n E. contributed...
+
+\textbf{General comment:} An earlier version of Paper 1 was included in the Licenciate thesis of Erik Thors\'en, \citet{thorsen2019assessment}. 
 
 %%% test
 %  
@@ -145,7 +129,6 @@ This thesis is based on the following papers
 @
 
 \printbibliography
-%\bibliography{references}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Insert papers here

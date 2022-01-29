@@ -1,6 +1,7 @@
-There are many possible extensions and future projects to the thesis at hand. We talk very much of estimation uncertainty and how to cope with it.
-Bayesian statistics provide a straight forward way to integrate that. 
-However, it demands indepth knowledge of MCMC and also good prior distributions.
+There are many possible extensions and future projects to the thesis at hand.
+We talk very much of estimation uncertainty and how to cope with it.
+Bayesian statistics provide a straightforward way to integrate that. 
+However, it demands indepth knowledge of MCMC and also how to construct good prior distributions.
 Neither are easy tasks.
 Another approach of incorporating estimation uncertainty is robust optimization.
 Robust optimization, in a MPT setting, tries to incorporate the estimation uncertainty into the portfolio allocation problem itself.
@@ -8,13 +9,26 @@ The literature is large.
 Are there connections to be made and especially with Empirical Bayes?
 
 In Paper \ref{sec:paper3} we consider the allocations points fixed.
-That assumption can be limiting for some investors. 
+That assumption can be limiting for some investors.
 Can we incorporate that decision process into the portfolio allocation problem?
 
-BEKK models are usually hard to fit and use for MPT. 
-Even when their coefficients have been estimated their forecasts are not always positive definite. 
+Many Multivariate GARCH models can be formulated as the following BEKK model (see e.g. \citet{engle1995multivariate})
+\begin{equation}\label{eqn:BEKK}
+  %\bH_t = \bC \bC^\top + \sum_{k=1]^K \bA_k \boldsymbol{\epsilon}_{t-1}\boldsymbol{\epsilon}_{t-1}^\top \bA_k^\top + \sum_{k=1]^K \bG_k \bH_{t-1}\bG_k^\top
+  ,
+\end{equation}
+where $\bH_i$ is a sequence of conditional covariance matrices, $\boldsymbol{\epsilon}_t | \mathcal{F}_{t-1} \sim N_p(\mathbf{0], \bH_t})$ and the matrices $\bC, \bA_i$ and $\bG_i$ are of appropriate dimensions.
+These are usually very hard to fit and use for portfolio allocations. 
+The first issue is due to the number of parameters in the model.
+One parametrization is that $\tilde \bC = \bC\bC^\top$, where $\tilde \bC > 0$, then $\bC$ can be any matrix square root with up to $p(p-1)/2$ parameters to estimate. 
+Furthermore, the constraint that its product should be positive definite is highly nonlinear and can be hard to suffice.
+Using the same argument for each of the matrices we have $(K+1/2)p(p-1)$ parameters to estimate. 
+Building a portfolio of size 10 with $K=1$ implies that we need to estimate $135$ parameters.
+Furthermore, although the constraints should enforce forecasts which are positive definite its not necessarily true that they will numerically be invertible.
+They can provide forecasts which are very close to singular.
 The first issue can be solved if one can formulate the models as Recurrent Neural Networks and use deep-learning libraries Torch or Tensorflow to fit the models. 
-These are tailored to solve the specifc problem of fitting very large models! Recent large Natural Languange Processing models have \textit{billions} of parameters. 
+These are tailored to solve the problem of fitting very large models! 
+Recent large Natural Languange Processing models have \textit{billions} of parameters (see e.g. \citet{brown2020language}). 
 By placing BEKK models in this framework one also has the possibility to develop new models. 
 The development is solely determined by constructing new layers to the networks. 
 It would also be easier to integrate different sources of information in the models.
