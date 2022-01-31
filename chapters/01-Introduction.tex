@@ -2,48 +2,84 @@
 % ca 1page
 Splitting a budget between your possible or existing investments is always a decision that needs to be made.
 How should you spend your cash?
-This thesis is about how to make these decisions.
-It is about how to make them when you have many possible choices and do not know how their payoffs will behave in the future.
-That turns out to be very complicated simply because we have many choices and we do not know their future payoffs and its behaviour.
-As an example, we start with a single investment case. 
-Your imaginary house in Sweden has increased drastically in value\footnote{As Metallica says, "Sad but true" \url{https://www.maklarstatistik.se/omrade/riket/stockholms-lan/\#/villor/48m-prisutveckling}}.
-How will it be valued in the future?
-Will it continue to increase or will there be a decrease/crash in prices?
-If there is an increase or a decrease, how much will it be?
-There are so many unknowns, which is exactly the issue.
-We need to describe how an asset, in this case the house, will behave in the future.
-The future is uncertain and we seldom know exactly what will happen.
-We look back and let history give insight to how the future will behave.
-Depending on how good you are as a historian, modeler or gambler you can usually get something out of history and the data it brings.
-It will never be perfect but lets assume that you are right 51\% of the time.
+This thesis is about how to make allocations when you have many possible choices and do not know how their payoffs will behave in the future.
+That turns out to be very complicated due to the fact that you have so many unknowns.
 
-Lets fast forward in life.
-Given your great guesses you have been lucky enough to now own a house, a country house and a allotment.
-You cant be as good of a guesser on all of those assets.
-Your budget needs to cover all of them.
-How should you spend your cash on these assets?
-You can invest in any of the three different assets and through that investment they might be worth more in the future.
-Once more, you do not know that but can perhaps make an educated guess.
-Given your educated guesses, should you spend all your money on one single asset?
-You were right 51\% on the guesses regarding your house.
-Should you continue to place all your bets on the same outcome? 
-If you are uncertain in your guess then your investment might be fairly risky.
-You just dont know it yet.
-There are two options, spend everything on one asset or spend a little on everything.
-The first option can give you the potential of a large return but also a lot of risk.
-The second option can potentially give you less risk.
-In this thesis we consider the second option and how you can do it when you dont know the future.
-
-In reality making a good informed guess is hard.
-Its very seldom that you are right 51\% of the time.
+A portfolio is a combination of assets.
+An asset might be a house, a stock, the value of a contract or any object with a price that you could potentially sell.
+Lets take the first asset as an example. 
+The portfolio consists of one asset, a house in Stockholm, Sweden.
+It has been a great investment\footnote{As Metallica says, "Sad but true" \url{https://www.maklarstatistik.se/omrade/riket/stockholms-lan/\#/villor/48m-prisutveckling}}.
+However, given that we are close to all-time highs its uncertain how it will be valued in the future.
+Will its price continue to increase or will there be a decrease, how much will that change be?
+There are many unknowns.
+Lets assume that the choice is between keeping the cash or spend it on the house.
+To make a quantitative assesment of the investment we need to specify how likely a increase is and what value it has after the increase.
+For a house that might be feasible.
+There are many houses that have been renovated, sold and look similar to ours.
+If we take the second asset we listed, a stock, that might not be the case.
+There is only one stock with one accompanying time series.
+We can only evaluate the investment based on the companies history and future prospects.
+This makes the analysis harder since there are no ''identical'' copies of our stock that we can look at and extract insight from.
+We can only observe the price as it develops and try to make educated guesses to where it will be tomorrow on within a year.
+Making a good guess is hard.
 Markets are very hard to predict.
-\textbf{Why is this important to finance and what problems can it be used to solve.}
+
+In this thesis we do not predict tomorrows price but try to answer what portfolio of assets you should hold in the long run.
+This thesis builds upon the foundation of \citet{markowitz1959portfolio} Modern Portfolio Theory (MPT).
+In his seminal work he argued that any portfolio which simply maximizes its profit will result in a naive solution.
+Investing all your capital in the asset with the highest return is not sensible if you do not know the future.
+Such an investment will cause you to take an extreme amount of risk. 
+Markowitz argued that any well diversified portfolio should be preferred to any non diversified portfolio. 
+In essence, a diversified portfolio contains many assets that are hopefully not correlated.
+Such a portfolio can be obtained through many different procedures.
+If the future is unknown then one of the best model(s) we have for it is stochastic.
+He proposed the use of the first two moments for the allocation problem.
+If an asset has high return on average, it might make sense to invest a lot in it although not at the cost of large amounts of risk. 
+If an asset is not risky, then it would always make sense to invest in it.
+
+
+To practically use a portfolio from the MPT framework we need to estimate the parameters of the model.
+Since MPT use the first two moments we need to estimate the mean vector and the covariance matrix.
+However, using these instead of the true parameters of the model introduces estimation uncertainty into portfolio allocation problem.
+If you have a small dataset it is unlikely that you will hold the correct portfolio.
+\citet{okhrin2006distributional} derived the exact sampling distribution of the global minimum variance (GMV) portfolio, a very important portfolio in the MPT framework.
+It is the portfolio which provides the smallest possible variance in the MPT context.
+That portfolio has been extensively researched in different contexts.
+\citet{kempf2006estimating} show that an estimate of the GMV portfolio can be obtained through the classical plug-in approach with sample moments or by a regression approach.
+\citet{frahm2010} constructs an estimator which combines the GMV portfolio a target portfolio. 
+They use properties of the Wishart distribution and develop a regularization method for the GMV portfolio, e.g. how this combination between the target and the GMV can be done optimally.
+
+Diversification is one, if not the best, risk management tool there is.
+High-dimensional portfolios can be thought of as a consequence of diversification.
+It should, in theory, decrease the risk of the portfolio. 
+That is not always the case.
+By introducing one new asset to our portfolio we need to estimate more parameters than the number of assets in the portfolio. 
+The covariance matrix suffers from the curse of dimensionality. 
+In terms of estimation uncertainty, this does not scale well.
+\citet{lw17} and \citet{bodnar2018estimation} consider estimating very large, or high-dimensional, GMV portfolios using two different approaches.
+The former assumes that the eigenvectors are known and consider a nonlinear rotational-invariant estimation method for the covariance matrix. 
+The latter develops a regularization method much like \citet{frahm2010} but does so for high-dimensional portfolios.
+\citet{ding2021high} use a factor model to estimate the GMV portfolio and describe the implications of the factor structure in the high-dimensional setting.
+The factor model is common in finance because of its use in arbitrage pricing theory (see e.g. \citet{ross2013arbitrage}).
+\citet{golosnoy2019exponential} and \citet{cai2020high} use data on a very high frequency to estimate a sequence of sample covariance matrices and use these for high-dimensional GMV portfolios. 
+The high-dimensional GMV portfolio appears in other fields as well, such as signal processing where it goes under the name beamformer (see e.g. \citet{LiStoicaWang2004}). 
+
+The GMV portfolio is a good portfolio since it does not depend on the mean vector.
+Estimating the mean is hard (see e.g. \citet{merton1980estimating}, \citet{best1991sensitivity}).
+However, it is only one out of many portfolios in the MPT framework.
+\citet{el2010high} investigated the weights of the MPT framework when linear constraints are introduced to the portfolio allocation problem.
+That can include position restrictions as well as a investors desire for a given return.
+\citet{bodnar2020sampling} investigates the distribution of all portfolios in the MPT framework.
+They do so in both a high-dimensional and finite sample setting.
+\citet{bodnarokhrinparolya2020} considers high-dimensional portfolio but use another portfolio allocation problem.
+The setting is similar to \citet{bodnar2018estimation} where they regularize the quadratic utility portfolio in the high-dimensional setting towards a target portfolio.
 
 This thesis is structured as follows. 
-In Chapter \ref{ch:MPT} we present the framework we will work within, namely \citet{markowitz1959portfolio} Modern Portfolio Theory (MPT). 
+In Chapter \ref{ch:MPT} we present the framework we will work within, namely MPT. 
 Originally MPT use information which are not available. 
 It relies on parameters which we do not know. 
-The subsequent chapter, Chapter \ref{ch:estim} tries to display what happens when we replace these parameters with estimates.
+The subsequent chapter, Chapter \ref{ch:estim} displays what happens when we replace these parameters with estimates.
 It does so under some specific models that we consider in this thesis.
 Chapter \ref{ch:highdim} presents what happens in the MPT framework when we try to diversify as much as possible.
 We work with infinite dimensional portfolios.

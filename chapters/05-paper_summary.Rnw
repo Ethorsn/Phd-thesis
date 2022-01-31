@@ -2,11 +2,11 @@ The papers presented here are among a total of ... papers produced. These are se
 
 \section{Paper 1 - Sampling Distributions of Optimal Portfolio Weights and Characteristics in Small and Large Dimensions}\label{sec:paper1}
 The paper investigates a fundamental question in modern portfolio theory. 
-What are the actual implications of using the sample covariance matrix $\bS$ and the sample mean $\bxb$ instead of the true covariance matrix $\bSigma$ and $\bmu$?
+What are the actual implications of using the sample covariance matrix $\bS$ and the sample mean $\byb$ instead of the true covariance matrix $\bSigma$ and $\bmu$?
 The paper does so when the returns follow a multivariate normal distribution. 
 In it we derive the distribution for all optimal portfolios on the common form
 \begin{equation}\label{eqn:paper1_eq1}
-  \bL\hbw_{opt} = \bL\hbw_{GMV} + g(\hR, \hV, \hs)\bL\bv
+  \bL\hbw_{opt} = \bL\hbw_{GMV} + g(\hR, \hV, \hs)\bL\hat{\bQ}\byb
 \end{equation}
 for some matrix $\bL$ of size $k \times p$ where $k<p$.
 To do so, we derive the stochastic representation for the joint distribution of all quantities in the equation \eqref{eqn:paper1_eq1}. 

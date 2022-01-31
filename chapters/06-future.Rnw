@@ -14,8 +14,7 @@ Can we incorporate that decision process into the portfolio allocation problem?
 
 Many Multivariate GARCH models can be formulated as the following BEKK model (see e.g. \citet{engle1995multivariate})
 \begin{equation}\label{eqn:BEKK}
-  %\bH_t = \bC \bC^\top + \sum_{k=1]^K \bA_k \boldsymbol{\epsilon}_{t-1}\boldsymbol{\epsilon}_{t-1}^\top \bA_k^\top + \sum_{k=1]^K \bG_k \bH_{t-1}\bG_k^\top
-  ,
+  \bH_t = \bC \bC^\top + \sum_{k=1}^K \bA_k \boldsymbol{\epsilon}_{t-1}\boldsymbol{\epsilon}_{t-1}^\top \bA_k^\top + \sum_{k=1}^K \bG_k \bH_{t-1}\bG_k^\top,
 \end{equation}
 where $\bH_i$ is a sequence of conditional covariance matrices, $\boldsymbol{\epsilon}_t | \mathcal{F}_{t-1} \sim N_p(\mathbf{0], \bH_t})$ and the matrices $\bC, \bA_i$ and $\bG_i$ are of appropriate dimensions.
 These are usually very hard to fit and use for portfolio allocations. 
@@ -32,9 +31,3 @@ Recent large Natural Languange Processing models have \textit{billions} of param
 By placing BEKK models in this framework one also has the possibility to develop new models. 
 The development is solely determined by constructing new layers to the networks. 
 It would also be easier to integrate different sources of information in the models.
-
-%Although not part of this thesis the "Flipped classroom" approach has been a big part the teaching procedure in the course MT4007. 
-%In this course we use a lot of online learning tools. 
-%The course has developed a bit through the years although it has stayed true to its original casting, trying to take teaching to scale. 
-%It is very complicated to do well and is not straight forward what actually works, as it usually is with observational studies. 
-%

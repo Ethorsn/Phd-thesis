@@ -15,6 +15,13 @@
   {\multicitedelim}
   {\usebibmacro{postnote}}
 %opening
+%
+
+\makeatletter
+\AtEveryCitekey{\ifkeyword{included_in_thesis}{}{\def\blx@refcontext@sorting{nty}%
+   \csname blx@data@\the \c@refsection @\blx@refcontext@sorting @\abx@field@entrykey\endcsname}}
+\makeatother
+
 \title{Optimal portfolios -- estimation and uncertainty assessment in the high-dimensional setting}
 \author{Erik Thorsén}
 
@@ -62,23 +69,86 @@ knit_hooks$set(inline = function(x) {
   highr::hi_latex(x) 
 }) 
 @
+\chapter*{\centering Abstract}
+Portfolios and diversification go hand in hand.
+We should always aim to invest in many things at once.
+If any one of our investments go sideways then it wont matter because it consist of such a small portion in our portfolio.
+Modern Portfolio Theory (MPT) is a framework for constructing such portfolios.
+However, these rely on unknown parameters which need to be estimated. 
+These are the two first moments of the return distribution.
+By replacing the unknown parameters by some estimate we introduce estimation uncertainty.
+The uncertainty can be extremely large and dominate the investment strategy.
+If the investor diversify a lot there is a possibility that the variance of the strategy will grow towards infinity. 
+
+This thesis contains five papers which provide results on how to deal with estimation uncertainty in high-dimensional, and in some cases finite sample, optimal portfolios. These results give us tools to better understand the investment process, why we see the results we see and what we can do to improve them.
+
+Paper 1 explores all of the optimal portfolios that can be placed in the framework of MPT. 
+In this paper we derive the sampling distribution for all optimal portfolios and their characteristics.
+We do so, assuming that the returns follow a multivariate normal distribution and present their joint distribution in terms of a stochastic representation. 
+Furthermore, we derive the high-dimensional asymptotic joint distribution for the quantities of interest.
+The high-dimensional distribution can be thought of as an infinitely diversified optimal portfolio together with an infinite amount of data to estimate the parameters.
+That distribution is then compared to its finite sample one in a simulation study.
+The high-dimensional distribution can be seen to provide a good approximation to the finite sample one, if the model assumptions hold.
+A robustness study show that deviations from normality affect some characteristics more than others.
+
+Paper 2 continues on the idea of paper 1.
+It considers another portfolio with 
+
+Paper 3 
+
+Paper 4
+
+Paper 5
+
+
+\chapter*{\centering Svensk sammanfattning}
+
+% svensk sammanfattning
 
 \chapter*{Acknowledgements}
 
-First and foremost i would like to thank ...
+Early in my graduate studies I asked a professor what it took to do a PhD and he answered "grit".
+If you did not have it before, a PhD is a 5-year crash course in grit.
+You spend five years intensively digging deeper into a subject, coming up with ideas that most often have been solved, does not seem to be solvable at first glance or you cant solve it at all.
+It is a very humbling experience and there are many people that i would like to thank.
 
+The first person to thank is my supervisor Taras Bodnar. 
+I am immensely grateful for your guidance, knowledge and discussions over the year. 
+Thank you for giving me the opportunity of doing this.
+I could not have asked for a better supervisor.
+I also want to thank my co-supervisor Joanna Tyrcha for your support.
+
+I also want to give special thanks to some of my co-authors that have been this an exciting and great learning experience.
+Nestor Parolya, whom I have gotten the please to work extensively with over the last few years. 
+You are a co-author of almost all the papers in this thesis and it has been a joy.
+I have learned a lot from our discussions.
+Thank you, Stepan Mazur and Farrukh Javed for the fun discussions and great collaborations we started!
+% Holger Dette, Mathias Lindholm, Vilhelm Niklasson
+Furthermore, thank you Vilhelm Niklasson, Mathias Lindholm and Holger Dette for the (most often) very long though very rewarding (!) discussions. 
+
+Thank you Ola Hössjer for letting me be a part in developing and teaching the course Statistical Data Processing.
+I have learned so much from the experience.
+
+I also want to thank all my colleagues at the Department of Mathematics.
+It has been a incredibly fun place to work and i think that the environment is very positive.
+There are a number of individuals that have made my experience even better.
+Thank you Vilhelm, Gustav, Stanislas for being wonderful people to share an office with.
+I also want to thank Felix, Måns, Sebastian and Hampus whom ive gotten to spend a lot of time with during covid. 
+It made everything so much easier.
+
+Last but not least, i can not express enough love and gratitude towards my old (and new!) family. 
+Mom, Dad and beloved sister thank you for all the support.
+Johanna, thank you for putting up with me and I am looking forward to many more years with you and our son. 
 \newpage
-\chapter*{List of papers}
+\chapter*{List of included papers}
 \nocite{bodnar2020sampling, javed2021tangency, bodnar2021dynamic, bodnar2021empirical, bodnar2022double}
 This thesis is based on the following papers
 
-\begingroup
-\let\clearpage\relax
 \printbibliography[keyword=included_in_thesis, title={Papers included in this thesis}, heading=subbibliography]
 \printbibliography[keyword=papers_list, title={Papers \& other research results which are not included in this thesis},
 heading=subbibliography]
-\endgroup
 
+% starting new sorting based of ynt
 \textbf{Author contribution:} Thors{\'e}n E. contributed...
 
 \textbf{General comment:} An earlier version of Paper 1 was included in the Licenciate thesis of Erik Thors\'en, \citet{thorsen2019assessment}. 
@@ -129,7 +199,6 @@ heading=subbibliography]
 @
 
 \printbibliography
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Insert papers here
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
