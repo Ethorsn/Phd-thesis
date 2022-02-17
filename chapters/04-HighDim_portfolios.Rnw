@@ -1,32 +1,32 @@
-In the previous chapter we presented one specific way of estimating the sample covariance matrix.
-If we have a lot of data on the assets that we are trying to invest in then we can most often be certain that we will hold the correct portfolio.
-Our estimated portfolio will be consistent, e.g. it estimates the correct object of interest. 
-As we previously mentioned, since diversification is one of the best risk management tool there is, we want our asset universe to be big.
-However, from \citet{bodnar2016optimal} Proposition 2.2 we know that $\hV \rightarrow \V/(1-c)$ whenever $p,n \rightarrow \infty$ s.t. $p/n \rightarrow c \in [0,1)$. 
-If $c$ is close to one, then the sample GMV portfolios variance will explode. 
+In the previous chapter one specific way of estimating the sample covariance matrix was presented.
+If there is a lot of data on the assets that is in the portfolio, then the estimated weights will most likely be close to the correct portfolio.
+The estimated portfolio will be consistent, e.g., it estimates the correct object of interest. 
+As previously mentioned, diversification is one of the best risk management tool there is and therefore, the asset universe is supposed to be big.
+However, \citet{bodnar2016optimal} Proposition 2.2 states that $\hV \rightarrow \V/(1-c)$ whenever $p,n \rightarrow \infty$ s.t. $p/n \rightarrow c \in [0,1)$. 
+If $c$ is close to one, then the sample GMV portfolio variance will explode. 
 \textit{Estimation uncertainty dominates the diversification effect}. 
-There are many solutions to the problem at hand (see e.g. \citet{lw17} or \citet{bodnar2021recent} and the references therein). 
-We will focus on some topics in RMT and the use of some types of shrinkage estimators. 
+There are many solutions to the problem at hand (see, e.g., \citet{lw17} and the references therein). 
+The solution used in this thesis is Random Matrix Theory (RMT) and the use of some types of shrinkage estimators. 
 Both subjects are grand. 
-Our aim is to provide a small introduction to them in the following sections.
+A small introduction to them is presented in the following sections.
 
 \section{A short introduction to random matrix theory and the Stieltjes transform}
-The subject of random matrix theory (RMT) has many applications. 
-It was originally developed in the context of quantum physics (see Ch. 1 of \citet{mehta2004random}). 
+The subject of RMT has many applications. 
+It was originally developed in the context of quantum physics (see \citet[Chapter 1 of]{mehta2004random}). 
 The theory and its applications have since then developed quite a lot. 
-Many fields, such as combinatorics, computational biology, wireless communication and finance (see e.g. \citet{livan2018introduction}) use these results. 
+Many fields, such as combinatorics, computational biology, wireless communication and finance (see, e.g., \citet{livan2018introduction}) use these results. 
 One of the seminal work in RMT was made by \citet{wigner1967random}. 
-He originally modeled the limiting spectral distribution of an $p \times p$ dimensional standard Gaussian random matrices $\bX$.
+Wigner originally modeled the limiting spectral distribution of a $p \times p$ dimensional random matrices $\bX$ with standard normal entries.
 The term "standard" might be a little misleading for statisticians as the matrix $\bX$ contains independent random variables although not identically distributed.
 The entries on the diagonal are $N(0,2)$ and the entries on the off-diagonal are $N(0,1)$.
-However, the more generalized definition only demands that the matrix $\bX$ is Hermitian and its entries on the diagonal or above the diagonal are independent. 
-We define the empirical spectral distribution (ESD) of a matrix $\bA$ as
+
+The empirical spectral distribution (ESD) of a matrix $\bA$ is defined as
 $$
 F^{\bA}(x)= \frac{1}{p} \sum_{i=1}^p \mathbbm{1}(\lambda_i \leq x)
 $$ 
-where $\lambda_i$ are the eigenvalues from the eigenvalue decomposition, see section \ref{subsec:cov_prec_matrix}. 
-The limit, in this case, is taken as $p \rightarrow \infty$ which implies that $\bA$ will have infinitely many columns as well as rows!
-The limiting spectral distribution of $\bX$ can be shown to converge to (see Chapter 2 of \citet{bai2010spectral})
+where $\lambda_i$ are the eigenvalues from the eigenvalue decomposition, see section \ref{sec:cov_prec_matrix}. 
+The limit, in this case, is taken as $p \rightarrow \infty$ which implies that $\bA$ will have infinitely many columns as well as rows.
+The limiting spectral distribution of $\bX$ can be shown to converge to (see, Chapter 2 of \citet{bai2010spectral})
 $$
 F'(x) = \begin{cases}
 \frac{1}{2\pi} \sqrt{4-x^2} & \text{ if } |x|\leq 2 \\
@@ -34,50 +34,53 @@ F'(x) = \begin{cases}
 \end{cases}
 $$
 There are many interesting facts about the empirical spectral distribution and its limiting distribution. 
-One of the most interesting is the support of the limiting distribution. 
-The normal distribution has unbounded support but the eigenvalues of $\bX$ converges to a distribution with bounded support (see \citet{livan2018introduction} for a good introduction on why this is). 
+One of the most interesting is the support of the limiting distribution.
+The normal distribution has unbounded support but the eigenvalues of $\bX$ converges to a distribution with bounded support (see, \citet{livan2018introduction} for a good explanation to the reason why). 
 \citet{marchenko1967distribution} extended the result of \citet{wigner1967random} to the sample covariance matrix. 
 Assume that $\bX$ is a $p \times n$ matrix that contains i.i.d random variables with zero mean and variance equal to $1$.
-The limit is now taken over the two quantities $p$ and $n$ at the same time, such that $p/n$ stays constant.
-We usually call this ratio the concentration ratio $c$.
-In this introduction we assume that $c<1$. 
-The limiting spectral distribution of $\bS=\frac{1}{n} \bX \bX^\top$ was then shown to be
+The limit is now taken over the two quantities $p$ and $n$ at the same time, such that $p/n$ tends to a constant.
+The ratio is usually called the concentration ratio $c$.
+In this introduction it is assumed that $c<1$. 
+The density of the limiting spectral distribution of $\bS=\frac{1}{n} \bX \bX^\top$ was then shown to be
 $$
 F'(x) = \begin{cases}
 \frac{1}{2\pi x c} \sqrt{(b-x)(x-a)} & \text{ if } a \leq x \leq b\\
-0 & \text{ otherwise.}
+0 & \text{ otherwise}
 \end{cases}
 $$
-where $a=(1-\sqrt{c})^2$ and $b=(1+\sqrt{c})^2$. The distribution has, once again, bounded support! 
+where $a=(1-\sqrt{c})^2$ and $b=(1+\sqrt{c})^2$. 
+The distribution has, once again, bounded support! 
 The eigenvalues seem to attract each other. 
-Although the sample covariance matrix appears very often in the context of MPT, its not usually the object of interest. 
-We are interested in its inverse, as we discussed in chapter \ref{ch:MPT}. 
-However, the Stieltjes transform can help us with that. 
+Although the sample covariance matrix appears very often in the context of MPT, it is not the object of interest. 
+MPT cares about its inverse, as discussed in Chapter \ref{ch:MPT}, which the Stieltjes transform can help with. 
 The Stieltjes transform of a function $F: \mathbbm{R} \rightarrow \mathbbm{R}$ is defined as 
 \begin{equation}\label{eqn:stieltjes}
 m^F(z) = \int \frac{1}{x-z}dF(x)
 \end{equation}
 where $z \in \{z \in \mathbbm{C}: \mathbbm{Im}(z)>0 \}$. 
-The Stieltjes has many useful properties. 
-If we know the Stieltjes transform, then we can also derive the spectral distribution $F$ by its inversion formula. 
-We also have pointwise convergence (see appendix B.2 of \citet{bai2010spectral}). 
-Using the results from RMT in MPT we take a sample covariance matrix $\bS$ with ESD $F_n(x)$ and note that
+The Stieltjes transform has many useful properties. 
+If the Stieltjes transform is known, then the spectral distribution $F$ can be derived by the inversion formula. 
+There is also pointwise convergence of it (see, appendix B.2 of \citet{bai2010spectral}). 
+To apply the results from RMT to MPT, take a sample covariance matrix $\bS$ with ESD $F_n(x)$ and eigenvalue-matrix $\bLambda$ as defined in Chapter \ref{ch:MPT}, and note that
 \begin{equation}
 \frac{1}{p}\tr \left( \bS^{-1} \right) = \lim_{z\rightarrow 0^+} \frac{1}{p} \tr \left( (\bLambda -z\bI)^{-1} \right) = \lim_{z\rightarrow 0^+} \int_0^\infty \frac{1}{x - z} dF_n(x) = \lim_{z\rightarrow 0^+} m^{F_n}(z).
 \end{equation}
-If we are interested in the limiting properties of traces of inverse sample covariance matrices, we can investigate the properties of the Stieltjes transform. 
-However, to make matters slightly worse, we are most often (at least in this thesis) interested in quadratic or bilinear forms where the inverse sample covariance matrix is present. 
+To investigate the limiting properties of traces of inverse sample covariance matrices then all that is needed is the Stieltjes transform and its properties. 
+However, to make matters slightly worse, the objects of interest in this thesis are quadratic or bilinear forms where the inverse sample covariance matrix is present. 
 Examples are $\ones^\top \bS^{-1} \ones$ or $\ones^\top \bS^{-1} \bb$ for some vector $\bb$. 
-Altough $\tr(\bS^{-1})$ and $\ones^\top \bS^{-1} \ones$ may look similar, their limiting objects can behave quite differently. 
+Although $\tr(\bS^{-1})$ and $\ones^\top \bS^{-1} \ones$ may look similar, their limiting objects can behave quite differently. 
 This is due to the fact that the former does not depend on the eigenvectors while latter does. 
-\citet{rubio2011spectral} showed the following theorem which allows us to handle limiting objects on this specific form
-\begin{theorem}[Theorem 1 of \citet{rubio2011spectral}]
+\citet{rubio2011spectral} showed the following theorem which can be used to derive limiting objects on this specific form.
+\begin{theorem}[Theorem 1 of \citet{rubio2011spectral}]\label{thm:rubio}
+
+
 \begin{enumerate}[(a)]
   \item $\bX$ is an $p \times n$ random matrix such that the entier of $\sqrt{n}\bX$ are i.i.d complex random variables with mean 0, variance 1 and finite $8+\epsilon$ moment, for some $\epsilon > 0$.
   \item $\bA$ and $\mathbf{R}$ are $p \times n$ hermitian nonnegative definite matrices, with the spectral norm (denoted by $||\cdot||$) of $\mathbf{R}$ being bounded uniformly in $p$, and $\mathbf{T}$ is an $n \times n$ diagonal matrix with real nonegative entries  uniformly bounded in $n$.
   \item $\bB=\bA + \bR^{1/2} \bX \bT \bX^H \bR^{1/2}$, where $\bR^{1/2}$ is the nonnegative definite square root of $\bR$.
   \item $\bTheta$ is an arbitrary nonrandom $p \times p$ matrix, whose trace norm (i.e., $\tr((\bTheta^H \bTheta)^{1/2}):=||\bTheta||_{tr}$) is bounded uniformly in $p$.
 \end{enumerate}
+
 Then, with probability 1, for each $z\in \mathbbm{C}-\mathbbm{R}^+$, as $n=n(p) \rightarrow \infty$ such that $0<\lim\inf c_p<\lim \sup c_p < \infty$, with $c_p = p/n$
 \begin{equation}
   \tr\left(\bTheta\left( \left(\bB - z\bI\right)^{-1} - \left( \bA + x_p(e_p)\bR - z\bI \right)^{-1} \right) \right) \rightarrow 0
@@ -91,75 +94,73 @@ and $e_p=e_p(z)$ is the Stieltjes transform of a certain positive measure on $\m
   e_p = \frac{1}{p}\tr \left( \bR \left(\bA +  x_p(e_p) \bR - z\bI_p \right)^{-1} \right).
 \end{equation}
 \end{theorem}
-This theorem is used repeatedly in papers \ref{sec:paper3} through \ref{sec:paper5}. 
-It is that powerful and flexible. 
-However, we often assume finite $4+\epsilon$ moment, while the theorem above assumes $8+\epsilon$. 
-We can circumvent that by the supplement material of \citet{BodnarGuptaParolya2016}.
+This theorem is used repeatedly in papers \hyperref[sec:paper3]{3}, \hyperref[sec:paper4]{4} and \hyperref[sec:paper5]{5}.
+However, in this thesis it is assumed that $\bX$ has finite $4+\epsilon$ moment, while the theorem above assumes $8+\epsilon$. 
+That can be circumvented through the supplement material of \citet{BodnarGuptaParolya2016}.
 
-If we are able to construct a modified sample covariance matrix on the form of $\bB$ then our aim is to find $x_p(e_p)$, the transformation of the Stieltjes transform. $e_p(z)$.
-Sometimes we can find analytic solutions for the function $x_p(e_p)$. 
-We are able to do so in papers \ref{sec:paper3} and \ref{sec:paper4} but not in paper \ref{sec:paper5}. 
-There we need numerical methods to solve the system of equations at hand.
+Through Theorem \ref{thm:rubio} any limiting trace of the modified sample covariance matrix $\bB$ can be derived by first finding $x_p(e_p)$, the transformation of the Stieltjes transform $e_p(z)$.
+In simple cases, an analytic solutions for the functions $x_p(e_p)$ or $e_p(z)$ can be found. 
+This happens in papers \hyperref[sec:paper3]{3} and \hyperref[sec:paper4]{4} though not in paper \hyperref[sec:paper5]{5}. 
+In paper \hyperref[sec:paper5]{5} the solution is found using numerical methods to construct optimal portfolios.
 
 \section{Shrinkage estimators in modern portfolio theory}
-The estimator $\hV$ is clearly biased, it even diverges when $c$ approaches $1$. 
-This problem is not unique. 
-The least squares estimator is usually very volatile when there are many covariates in your regression model. 
+The estimator $\hV$ is clearly biased, it even diverges when $c$ approaches $1$.
+This problem is not unique.
+The least squares estimator is usually very volatile when there are many covariates in the regression model. 
 An easy solution is to use $(1-c)\hV$ as an unbiased estimator for the variance of the GMV portfolio.
-However, that might not be what we want. 
-We want to create a good estimator for the weights, since these are what we invest in! 
-There are many solutions to this problem but the most common is using a shrinkage estimator. 
-We will introduce bias to our weights but hopefully reduce the variance.
+However, that might not be what an investor wants.
+He/she invests in portfolio weights, so naturally the aim should be to construct a good estimator for these.
+There are many solutions to this problem but the most common is to use a shrinkage estimator.
+By introducing a shrinkage estimator, some bias is introduced to the weights but hopefully it also reduces the variance.
 
-Looking at the GMV portfolio, there are two natural extensions. 
-Either, we regularize the sample covariance matrix $\bS$ or we regularize the weights $\hbw_{GMV}$ directly. 
-Let us start with the latter. 
-The first extension is to combine the GMV portfolio weights with some target portfolio $\bb$. 
-We construct the shrunk portfolio weights $\hbw_{SH}$ as
-\begin{equation}
+Papers \hyperref[sec:paper3]{3} through \hyperref[sec:paper4]{5} work with the GMV portfolio and there are two natural extensions to it. 
+The weights $\hbw_{GMV}$ or the sample covariance matrix $\bS$ can be shrunk towards a target. 
+Papers \hyperref[sec:paper3]{3} and \hyperref[sec:paper4]{4} work with the former.
+Combining the GMV portfolio weights with some target portfolio $\bb$ through a linear combination results in
+\begin{equation*}\label{eqn:linshrink}
   \hbw_{SH} = \alpha\hbw_{GMV} + (1-\alpha)\bb
-\end{equation}
-which introduces the bias $(1-\alpha)(\optn{E}[\hbw_{GMV}]+\bb) - \bw_{GMV}$ but decreases the variance to
-\begin{align}
-  \optn{E}\left[\left(\alpha\hbw_{GMV} - \alpha \optn{E}[\hbw_{GMV}]\right)\left(\alpha\hbw_{GMV} - \alpha \optn{E}[\hbw_{GMV}]\right)^\top\right] 
-  & = 
+\end{equation*}
+which introduces the bias $\alpha(\optn{E}[\hbw_{GMV}] - \bw_{GMV})$ but decreases the variance to
+\begin{align*}
   \alpha^2\optn{E}\left[\left(\hbw_{GMV} - \optn{E}[\hbw_{GMV}]\right)\left(\hbw_{GMV} - \optn{E}[\hbw_{GMV}]\right)^\top\right]
-\end{align}
+\end{align*}
 It now stands to determine $\alpha$. 
-Shrinkage intensities are most often determined by cross-validation (see e.g. \citet[ch. 5]{james2013introduction}). 
-We try to find the best shrinkage coefficients by dividing data into a test and a training set.
+Shrinkage intensities are most often determined by cross-validation (CV) (see, e.g., \citet[ch. 5]{james2013introduction}). 
+The aim is to find the best shrinkage coefficients by dividing data into a validation and a training set.
 These are then used in conjunction with a loss function to determine the optimal value for the shrinkage coefficients.
 A natural choice of loss function for the GMV portfolio is the out-of-sample variance.
-Our aim is to determine $\min_\alpha \hbw_{SH}^\top(\alpha) \bSigma \hbw_{SH}(\alpha)$.
-The loss depends on $\bSigma$, which we do not know.
-The perhaps most obvious solution is to use the test set to estimate the $\bSigma$. 
-As we will see, that will have its own issues.
+The aim is to determine $\min_\alpha \hbw_{SH}^\top(\alpha) \bSigma \hbw_{SH}(\alpha)$.
+The out-of-sample loss depends on $\bSigma$, which is not known.
+The perhaps most obvious solution is to use the validation set to estimate the $\bSigma$, which has its own issues.
 The second solution, employed by \citet{bodnar2018estimation}, is to first solve the optimization problem analytically.
 The estimator is unobtainable, since it depends on $\bSigma$ so it is usually referred to as an \textit{oracle} estimator. 
-To construct an estimator we can actually use, a \textit{bona-fide} estimator, we take the limit of the oracle estimator and then construct a consistent estimator for the limiting object at hand.
-
+To construct an estimator which can actually be used, the authors construct a \textit{bona-fide} estimator.
+A bona-fide estimator only depends on esitmated quantities, so it is known.
+The aim is then to construct the bona-fide estimator such that it converges to the same limit as the oracle. 
+It is a consistent estimator for the limiting object at hand.
 The two methods can differ quite substantially in their solution. 
-One method is simple to implement while the other \textit{should} be theoretically superior.
-In \ref{high-dim-CV} we display R-code for a small motivating example to why deriving bona-fide estimators can prove to be fruitful.
-It is a comparison between the estimator from \citet{bodnar2018estimation} and determining the shrinkage coefficient using a 5 fold cross-validation procedure.
-In this example we use $n=250, p=150$ and $\bb$ equal to the EW portfolio.
+The CV method is simple to implement while the other \textit{should} be theoretically superior.
+In \ref{high-dim-CV} there is some R-code for a small motivating example to why deriving bona-fide estimators can prove to be fruitful.
+It is a comparison between the estimator from \citet{bodnar2018estimation} and determining the shrinkage coefficient using a 5 fold CV procedure.
+In this example $n=250, p=150$ and $\bb$ is equal to the Equally Weighted (EW) portfolio.
 It is a large portfolio, though $c=p/n<1$.
-%In this example we omit the code, but it is available on github\footnote{\url{https://github.com/Ethorsn/Phd-thesis}}.
-<<cv_bench, cache=TRUE, echo=TRUE, ref="high-dim-CV", codecap="R-code performing a 5-fold cross validation for determining shrinkage coefficients as well as the implementation from the HDShOP package.">>=
+<<cv_bench, cache=TRUE, echo=TRUE, ref="high-dim-CV", codecap="R-code performing a 5-fold cross-validation for determining shrinkage coefficients as well as the analytic methods from the HDShOP package.">>=
 # setup
 set.seed(123)
 p <- 150
 n <- 250
 K <- 5
-b <- rep(1,p) / p # use EW portfolio as target 
+# use EW portfolio as target
+b <- rep(1,p) / p  
 # simulate params & dataset
 Sigma <- HDShOP::RandCovMtrx(p)
 mu <- runif(p, -0.1, 0.1)
+# simulate from statistical model
 Y <- mu %*% t(rep(1,n)) + t(chol(Sigma)) %*% matrix(rt(n*p, df=5), ncol=n)
 # create test splits
 folds <- split(1:n, 1:K)
 grid <- expand_grid("alpha" = seq(0.01, 0.99, by=0.01), "fold" = 1:K)
-# perform 5-fold CV, pmap to map over rows 
+# perform 5-fold CV
 result <- pmap(grid, ~{
     test <- Y[,folds[[.y]]]
     train <- Y[,-folds[[.y]]]
@@ -179,12 +180,13 @@ min_vals <- filter(result, loss == min(loss))
 w_bodnar2018 <- HDShOP::MVShrinkPortfolio(Y, gamma=Inf, b=b, beta=0.01)
 @
 
-<<cv_benchmark, fig.cap="Out of sample variance estimates from the 5-fold cross validation.", fig.height=3.5>>=
+<<cv_benchmark, fig.cap="Out-of-sample variance estimates from the 5-fold cross-validation.", fig.height=3.5>>=
 ggplot(result, aes(x=alpha, y=loss)) +
   geom_point() +
   #geom_errorbar(aes(ymin=loss-sd_loss, ymax=loss+sd_loss), width=0.005) +
   theme_minimal() +
-  theme(text=element_text(size=STANDARD_TEXT_SIZE))
+  theme(text=element_text(size=STANDARD_TEXT_SIZE)) +
+  labs(x=expression(alpha))
 
 R_bn <- as.numeric(t(b) %*% Sigma %*% b) * sum(solve(Sigma)) - 1
 alpha_true <- R_bn*(1-p/n)/(p/n + (1-p/n)*R_bn)
@@ -194,19 +196,20 @@ alpha_oracle <- (t(b) %*% Sigma %*% b - t(w_bodnar2018$w_GMVP) %*% Sigma %*% b) 
 )
 @
 
-In Figure \ref{fig:cv_benchmark} we illustrate the out of sample variance aggregated over folds. 
-Cross validation suggest that the optimal value should be $\Sexpr{min_vals$alpha}$. 
+In Figure \ref{fig:cv_benchmark} the out-of-sample variance, aggregated over folds, is displayed. 
+Cross-validation suggest that the optimal value should be $\Sexpr{min_vals$alpha}$. 
 The analytic method from \citet{bodnar2018estimation} suggests that the optimal value is $\Sexpr{round(w_bodnar2018$alpha,4)}$.
 The "correct" value of $\alpha$, as given by the oracle estimator, is equal to $\Sexpr{round(alpha_oracle, 4)}$. 
 Its limiting value (see Theorem 2.1 \citet{bodnar2018estimation}) is equal to $\Sexpr{round(alpha_true, 4)}$.
 Although none of the methods are spot on, the bona-fide estimator is closer to what the optimal value should be.
-Furthermore, changing the number of folds in the K-fold cross validation can give quite different results in what the optimal value should be.
-This linear shrinkage approach is used in Paper \ref{sec:paper3} through \ref{sec:paper5}.
+Furthermore, changing the number of folds in the K-fold CV can give quite different results in the optimal value.
+If there is a possibility to derive a bona-fide estimator, then it seems that it is better than using a CV approach.
+This approach is used in paper \hyperref[sec:paper3]{3}, \hyperref[sec:paper4]{4} and \hyperref[sec:paper5]{5} as well as the linear shrinkage from \eqref{eqn:linshrink}.
 
-So far we have limited our approach to shrinking the weights. 
-The next step is to shrink the elements of $\bS$.
-If we do so then we can consider the case where $c>1$.
-We leave this as an open question for the next section where we describe the papers in more detail.
+Shrinking the weights can provide a good estimator in higher dimensions. 
+As previously stated, another approach is to shrink the elements of $\bS$.
+If the sample covariance matrix is shrunk, then the concentration ratio $c$ can be greater than one.
+This is the topic of the last paper of this thesis which is left for the next section where the papers are described in more detail.
 %\begin{enumerate}
 %	\item Other types of estimators and why they might be better than $\bS$.
 %	\item Rotation-invariant estimation - what does it mean (we do not want to target eigenvectors)?

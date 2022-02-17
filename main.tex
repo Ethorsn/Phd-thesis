@@ -1,32 +1,15 @@
-\documentclass[oneside]{book}\usepackage{knitr}
+\documentclass[12pt, oneside]{book}\usepackage{knitr}
 
 \input{header.tex}
-\DeclareCiteCommand{\fullcite}
-  {\usebibmacro{prenote}}
-  {\clearfield{url}%
-   \clearfield{pages}%
-   \clearfield{pagetotal}%
-   \clearfield{edition}%
-   \clearfield{title}%
-   \usedriver
-     {\DeclareNameAlias{sortname}{default}}
-     {\thefield{entrytype}}
-     }
-  {\multicitedelim}
-  {\usebibmacro{postnote}}
-%opening
-%
 
 \makeatletter
-\AtEveryCitekey{\ifkeyword{included_in_thesis}{}{\def\blx@refcontext@sorting{nty}%
-   \csname blx@data@\the \c@refsection @\blx@refcontext@sorting @\abx@field@entrykey\endcsname}}
-\makeatother
 
 \title{Optimal portfolios -- estimation and uncertainty assessment in the high-dimensional setting}
 \author{Erik Thorsén}
 
 
 \addbibresource{references.bib}
+\addbibresource{references-thesis.bib}
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
 
@@ -37,90 +20,138 @@
 
 
 \chapter*{\centering Abstract}
-Portfolios and diversification are central to most investment theory.
-Diversification drives the whole 
-When inference is introduced, the models are most often 
-The issue at hand is that we seldom know the parameters of interest.
+{\small
+Financial portfolios and diversification go hand in hand.
+Diversification is one of, if not the, best risk mitigation strategy there is.
+If any investment that is part of the portfolio performs poorly, then it will not impact the performance of the portfolio because there are many other investments that may behave differently.
+Modern Portfolio Theory (MPT) is a framework for constructing diversified portfolios.
+However, MPT relies on unknown parameters which need to be estimated. 
+These parameters are the two first moments of the return distribution.
+By replacing them with some estimates, estimation uncertainty is introduced to the allocation problem.
+If the uncertainty is not well understood or taken into account, it has the potential to dominate any characteristic of the investment strategy.
+There is no way to determine if the strategy works or not.
 
-\chapter*{\centering Svensk sammanfattning}
-En portfölj är ett begrepp med  ligger till grund för många olika finansiella beslut.
+This thesis contains five papers which provide results on how to deal with estimation uncertainty in high-dimensional and, in some cases, finite sample portfolios from the MPT framework.
+These results provide tools to better understand the investment process and the empirical results that can be observed.
 
-% svensk sammanfattning
+Paper 1 explores all of the portfolios that can be placed in the framework of MPT. 
+The paper provide the sampling distribution for all optimal portfolios and their characteristics.
+Their joint distribution is charactericed in terms of a stochastic representation.
+This is done by assuming that the returns follow a multivariate normal distribution.
+Furthermore, the high-dimensional asymptotic joint distribution for the quantities of interest is derived.
+The high-dimensional distribution can be thought of as an infinitely diversified portfolio together with an infinite amount of data to estimate the parameters.
+The high-dimensional distribution can be seen to provide a good approximation to the finite sample one in a simulation study.
+
+Paper 2 continues on the idea of paper 1.
+It considers the quadratic utility allocation problem from paper 1 but with an additional risk-free asset in the portfolio.
+This portfolio in known as the Tangency Portfolio (TP).
+The distribution of the sample TP weights is derived but under a more general model in comparison to paper 1. 
+The asset returns are assumed to follow a closed skew-normal distribution.
+Results show that skewness implies that the sample TP weights is on average biased in finite sample.
+Although there is a bias in finite sample, the sample TP weights are consistent in high dimensions.
+
+Paper 3 takes on a practical aspect of investing, how to transition from one portfolio to another.
+A reallocation scheme is developed, which minimizes the out-of-sample variance of the Global Minimum Variance (GMV) portfolio, given a holding portfolio. 
+The holding portfolio can be deterministic or a random GMV portfolio from the previous period.
+Results show that this reallocation scheme can achieve great results in terms of estimating a relative loss in an extensive simulation study.
+The relative loss is a simple extension of the portfolio variance.
+Furthermore, the empirical application shows that the reallocation scheme can provide the smallest out-of-sample variance in comparison to a number of benchmarks.
+It also provides the smallest change in portfolio weights between reallocation points.
+The theoretical results from this paper is implemented in the DOSPortfolio R package.
+
+Paper 4 derives properties of two different performance measures for three different high-dimensional GMV portfolio estimators. 
+The performance measures are the out-of-sample variance and the out-of-sample loss.
+The former is always used as an evaluation metric for an empirical application of the GMV portfolio.
+The results show that the out-of-sample loss does not need the same stringent assumptions as the out-of-sample variance in the high-dimensional setting.
+It can therefore cover many more models.
+Using the out-of-sample loss, an ordering of the three different portfolios is provided.
+This ordering is verified in a simulations study and an empirical application.
+
+Paper 5 extends the results of one of the high-dimensional GMV portfolios used in paper 3 and 4. 
+It introduces Thikonov regularization to the portfolio weights which results in a Ridge type estimator for the sample covariance matrix combined with the linear shrinkage from paper 3 and 4.
+The portfolio solution covers the case where there are more assets in comparison to the number of datapoints.
+The portfolio performance is investigated in a large simulation study and its performance is studied in an empirical application.
+A simulation study shows that the method is comparable to a number of benchmarks. 
+Furthermore, an empirical application show that it can provide the lowest out-of-sample variance and provide good characteristics for the portfolio weights.
+
+\chapter*{List of included papers}
+\nocite{bodnar2020sampling_thesis, javed2021tangency_thesis, bodnar2021dynamic_thesis, bodnar2021empirical_thesis, bodnar2022double_thesis, bodnar2021quantile_thesis, bodnar2020quantile_thesis, bodnar2021bayesian_thesis, DOSPortfolio_thesis}
+This thesis is based on the following papers
+
+\printbibliography[keyword={included_in_thesis}, title={Papers included in this thesis}, heading=subbibliography]
+\printbibliography[keyword={papers_list}, title={Papers \& other research results which are not included in this thesis},
+heading=subbibliography]
+
+\textbf{Author contribution:} 
+E. Thors\'en has actively contributed to developing the content of all papers.
+In the first paper, E. Thors\'en contributed with the derivation of the theoretical results and with writing the majority of the paper in collaboration with all other authors. The original idea was presented by T. Bodnar.
+In the second paper, E. Thors\'en contributed with the theoretical derivations and writing the majority of the paper in collaboration of S. Mazur and F. Javed. The original idea was presented by S. Mazur and F. Javed.
+The original idea of the third paper was born from discussions with T. Bodnar and N. Parolya. 
+In this paper, E. Thors\'en contributed with the theoretical derivations and the writing of the paper.
+The original idea of the fourth paper stemmed from discussions from the third paper together with T. Bodnar and N. Parolya.
+In this paper, E. Thors\'en contributed with the theoretical derivations and the writing of the paper.
+The fifth paper also sprung from the third and fourth paper. 
+In this paper, E. Thors\'en contributed to the theoretical derivations, the writing of the paper and the idea behind it.
+E. Thorsén carried out all computer implementations in all articles.
+In all other aspects the authors contributed equally.
+
+\textbf{General comment:} An earlier version of \citet{bodnar2020sampling} was included in the Licenciate thesis of Erik Thors\'en, \citet{thorsen2019assessment}. 
 
 \chapter*{Acknowledgements}
 
-Early in my graduate studies I asked a professor what it took to do a PhD and he answered "grit".
-If you did not have it before, a PhD is a 5-year crash course in grit.
-You spend five years intensively digging deeper into a subject, coming up with ideas that most often have been solved, does not seem to be solvable at first glance or you cant solve it at all.
-It is a very humbling experience and there are many people that i would like to thank.
+Early in my graduate studies I asked a professor what it takes to complete a PhD and he answered "grit".
+The purpose of a PhD is to spend a number of years intensively digging deeper into a subject, coming up with ideas that most often have been solved, does not seem to be solvable or cannot be solved at all.
+It is a very humbling experience and there are many people that I would like to thank for making it a fun one as well!
 
-The first person to thank is my supervisor Taras Bodnar. 
-I am immensely grateful for your guidance, knowledge and discussions over the year. 
+The first person to thank is my supervisor Taras Bodnar.
+I am immensely grateful for your guidance, knowledge and discussions over the years.
 Thank you for giving me the opportunity of doing this.
 I could not have asked for a better supervisor.
 I also want to thank my co-supervisor Joanna Tyrcha for your support.
 
-I also want to give special thanks to some of my co-authors that have been this an exciting and great learning experience.
-Nestor Parolya, whom I have gotten the please to work extensively with over the last few years. 
+I also want to give special thanks to my co-authors that also made this an exciting and great learning experience.
+Nestor Parolya, whom I have gotten the pleasure to work extensively with over the last few years. 
 You are a co-author of almost all the papers in this thesis and it has been a joy.
 I have learned a lot from our discussions.
-Thank you, Stepan Mazur and Farrukh Javed for the fun discussions and great collaborations we started!
-% Holger Dette, Mathias Lindholm, Vilhelm Niklasson
-Furthermore, thank you Vilhelm Niklasson, Mathias Lindholm and Holger Dette for the (most often) very long though very rewarding (!) discussions. 
+Thank you, Stepan Mazur and Farrukh Javed for the fun discussions and great collaborations!
+Furthermore, thank you Vilhelm Niklasson, Mathias Lindholm and Holger Dette for the (very) long and rewarding discussions! 
 
 Thank you Ola Hössjer for letting me be a part in developing and teaching the course Statistical Data Processing.
-I have learned so much from the experience.
+I have learned so much from the experience and grown as a person from it!
 
 I also want to thank all my colleagues at the Department of Mathematics.
-It has been a incredibly fun place to work and i think that the environment is very positive.
+It has been a incredibly fun place to work and I think that the environment has been, and will continue to be, great.
 There are a number of individuals that have made my experience even better.
-Thank you Vilhelm, Gustav, Stanislas for being wonderful people to share an office with.
-I also want to thank Felix, Måns, Sebastian and Hampus whom ive gotten to spend a lot of time with during covid. 
+Thank you Vilhelm, Gustav and Stanislas for being wonderful people to share an office with.
+I hope to continue our brewing adventures Vilhelm and the wonderful banter Gustav!
+I also want to thank Felix, Måns, Sebastian and Hampus whom i have gotten to spend a lot of time with during covid. 
 It made everything so much easier.
 
-Last but not least, i can not express enough love and gratitude towards my old (and new!) family. Johanna, thank you for putting up with me and I am looking forward to many more years with you and our son. 
-
-
-
-
-Last but not least, i want to thank 
+Last but not least, I cannot express enough love and gratitude towards my old (and new!) family. 
+Mom, dad and my beloved sister, I cannot thank you enough for all your support.
+Johanna, you make me a much happier person and I look forward to many more years with you and our son. 
 \newpage
-\chapter*{List of included papers}
-\nocite{bodnar2020sampling, javed2021tangency, bodnar2021dynamic, bodnar2021empirical, bodnar2022double}
-This thesis is based on the following papers
-
-\printbibliography[keyword=included_in_thesis, title={Papers included in this thesis}, heading=subbibliography]
-\printbibliography[keyword=papers_list, title={Papers \& other research results which are not included in this thesis},
-heading=subbibliography]
-
-% starting new sorting based of ynt
-\textbf{Author contribution:} Thors{\'e}n E. contributed...
-
-\textbf{General comment:} An earlier version of Paper 1 was included in the Licenciate thesis of Erik Thors\'en, \citet{thorsen2019assessment}. 
-
-%%% test
-%  
-% \printbibliography[title={Subbibliography}, keyword=included_in_thesis, env=roman-numerals]
-
 
 \tableofcontents
+
+\part{Introduction}
 %%%%%% ------------------------------------------------------------------------
-\chapter[Introduction]{Introduction -- Decisions, uncertainty and asset allocations}\label{ch:intro}
+\chapter{Decisions, uncertainty and asset allocations}\label{ch:intro}
 %%%%%% ------------------------------------------------------------------------
 \input{chapters/01-Introduction}
 %%%%%% ------------------------------------------------------------------------
-\chapter[Modern portfolio theory]{Modern portfolio theory}\label{ch:MPT}
+\chapter{Modern portfolio theory}\label{ch:MPT}
 %%%%%% ------------------------------------------------------------------------
 
 
-We assume that the $p$-dimensional vector of asset returns $\by$ is random with mean vector $\optn{E}(\by)=\bmu$ and covariance matrix $\optn{Var}(\by)=\bSigma$. 
+Let the asset return $\by$ be a $p$-dimensional random vector with mean vector $\optn{E}(\by)=\bmu$ and covariance matrix $\optn{Var}(\by)=\bSigma$. 
 The matrix $\bSigma$ is of dimensions $(p \times p)$. 
-Although there are usually little restriction on $\bmu$ there are usually very specific restrictions on the covariance matrix $\bSigma$. 
-Since the covariance matrix is a subject of its own we dedicate the next section to it and disregard these restrictions for now.
-We will merely say that it is well behaved. 
-The restrictions on the mean will be commented on below. 
-Using the two moments for the asset returns the portfolio distribution $y = \bw^\top \by$ has mean $\optn{E}(y)=\bw^\top \bmu$ and variance $\optn{Var}(y)=\bw^\top \bSigma \bw$. 
-Let $\mu_0$ be the target return that the investor would like to achieve from his/hers portfolio and $\ones$ column vector of ones with appropriate dimensions. 
+Although there are usually little restriction on $\bmu$ there are very specific restrictions on the covariance matrix $\bSigma$. 
+Since the covariance matrix is a subject of its own there will be a whole section dedicated to it.
+Its restrictions are disregarded for now.
+Using the two moments for the asset returns, the portfolio return is defined as $y = \bw^\top \by$.
+It has mean $\optn{E}(y)=\bw^\top \bmu$ and variance $\optn{Var}(y)=\bw^\top \bSigma \bw$. 
+Let $\mu_0$ be the target return that the investor would like to achieve from his/her portfolio and $\ones$ column vector of ones with appropriate dimension. 
 \citet{markowitz1959portfolio} considered the following optimization problem
 \begin{equation}\label{eqn:markowitz_optim}
 \begin{aligned}
@@ -129,25 +160,24 @@ Let $\mu_0$ be the target return that the investor would like to achieve from hi
 & \text{subject to}
 & & \bw^\top \ones = 1, \\
 & && \bw^\top \bmu \geq \mu_0 \\
-&&& w_i \geq 0, i=1,2,..,p
+&&& w_i \geq 0, i=1,2,..,p.
 \end{aligned}
 \end{equation}
-This problem is a quadratic optimization problem with linear equality and inequality constraints. 
 The objective is to minimize the variance of the portfolio. 
 The constraint $\bw^\top \ones = 1$ states that the investor must invest all available money. 
 The weights are scaled according to the amount of cash invested.
 The disposition is very different whenever an inequality is used rather than equality. 
 As \citet{hult2012risk} states, if $\bw^\top \ones \leq 1$, then the investor could be throwing money away since there is a lot of opportunity left in the market when investing.
-The second constraint describes the investor expectations on the portfolio. 
+The second constraint describes the investors expectation on the portfolio. 
 As $\mu_0$ grows, the return of the portfolio will grow. 
-However, increasing $\mu_0$ will change the amount of variance the portfolio can achieve. 
-Depending on the value $\mu_0$ we would be accepting more risk, there is a risk-return trade-off. 
+However, increasing $\mu_0$ will change the amount of variance the portfolio can achieve, there is a risk-return trade-off. 
 The last constraint is rather simple though it can have quite large implications. 
-It states that the weights can not be negative which means that we can only invest money we have. 
+It states that the investor can only invest with money he/she has. 
 A negative value of $w_i$ in the $i$th asset is called a short position.
-You borrow the asset from someone who owns it and then sell it, hoping that it will be cheaper in the future.
+The asset is borrowed from someone who owns it and then sold, hoping that it will be cheaper in the future.
 For certain types of investors this constraint can be limiting and for others it is a must.
-In this thesis, we exclude it altogether. That is, this thesis considers
+In this thesis, it is excluded altogether. 
+That is, this thesis considers
 \begin{equation}\label{eqn:mean_variance}
 \begin{aligned}
 & \underset{\bw}{\text{minimize}} 
@@ -157,37 +187,33 @@ In this thesis, we exclude it altogether. That is, this thesis considers
 & && \bw^\top \bmu \geq \mu_0 \\
 \end{aligned}
 \end{equation}
-which is what we refer to the mean-variance (MV) optimization problem. 
-The solution to this problem is very often stated in terms of another famous portfolio, namely the Global Minimum Variance (GMV) portfolio and its related quantities (see e.g. \textcite{Bodnar2009CaIotEFiEM, bodnar2013equivalence, bauder2018bayesian}). 
-We will continue in the same manner. 
-Let $\bSigma^{-1}$ denote the inverse matrix of $\bSigma$, e.g. $\bSigma^{-1}\bSigma = \bI$, and
+which is referred to the Mean-Variance (MV) optimization problem. 
+The solution to this problem is very often stated in terms of another famous portfolio, namely the Global Minimum Variance (GMV) portfolio and its related quantities (see, e.g., \citet{Bodnar2009CaIotEFiEM}). 
+Let $\bSigma^{-1}$ denote the inverse matrix of $\bSigma$, e.g., $\bSigma^{-1}\bSigma = \bI$, and
 \begin{equation}\label{eqn:GMV}
-	\bw_{GMV} := \frac{\bSigma^{-1}\ones}{\ones^\top \bSigma^{-1}\ones}, \; R_{GMV} :=\optn{E}(\bw_{GMV}^\top\bx) = \frac{\ones^\top\bSigma^{-1}\bmu}{\ones^\top \bSigma^{-1}\ones}, \;
-	V_{GMV} := \optn{Var}(\bw_{GMV}^\top\bx) =\frac{1}{\ones^\top \bSigma^{-1}\ones}.
+	\bw_{GMV} := \frac{\bSigma^{-1}\ones}{\ones^\top \bSigma^{-1}\ones}, \; R_{GMV} :=\optn{E}(\bw_{GMV}^\top\by) = \frac{\ones^\top\bSigma^{-1}\bmu}{\ones^\top \bSigma^{-1}\ones}, \;
+	V_{GMV} := \optn{Var}(\bw_{GMV}^\top\by) =\frac{1}{\ones^\top \bSigma^{-1}\ones}.
 \end{equation}
-The GMV portfolio can be obtained by letting $\mu_0=R_{GMV}$ or by removing the constraint $\bw^\top \bmu \geq \mu_0$. 
-The solution to the MV problem in \eqref{eqn:mean_variance} is equal to
+The GMV portfolio can be obtained by letting $\mu_0=R_{GMV}$ or by removing the constraint $\bw^\top \bmu \geq \mu_0$ from \eqref{eqn:mean_variance}. 
+The solution to \eqref{eqn:mean_variance} is equal to
 \begin{equation}\label{eqn:mean_var_solution}
 	\bw_{MV} = \frac{\bSigma^{-1}\ones}{\ones^\top \bSigma^{-1}\ones} + \frac{\mu_0 - R_{GMV}}{V_{GMV}} \bQ \bmu,\; \bQ = \bSigma^{-1} - \frac{\bSigma^{-1} \ones \ones^\top \bSigma^{-1}}{\ones^\top \bSigma^{-1} \ones}.
 \end{equation}
 The solution is a combination of two different portfolios, the GMV portfolio and the self-financing portfolio $\bQ \bmu$. 
-The ratio $(\mu_0 - R_{GMV})/V_{GMV}$ acts as a weight to how much we should allocate in the self-financing portfolio. 
-Since $\bQ \bmu$ is self-financing, increasing $\mu_0$ does not cost anything, it will simply take larger short positions to finance the long positions.
-%If we set $\mu_0$ equal to $\bmu^\top \bSigma^{-1} \ones / \ones^\top \bSigma^{-1} \ones$ then the portfolio is equal to the GMV portfolio. 
-%Excluding the constraint $\bw^\top \bmu \geq \mu_0$ all together results in the same solution. 
+The ratio $(\mu_0 - R_{GMV})/V_{GMV}$ acts as a weight to how much is allocated in the self-financing portfolio. 
+Since $\bQ \bmu$ is self-financing, increasing $\mu_0$ does not cost anything, it will simply increase the position in the self-financing portfolio.
 
 The moments of the MV portfolio are equal to
 \begin{equation}\label{eqn:moments_mean_var_solution}
-\optn{E}(\bw_{MV}^\top\bx) = R_{GMV} + \frac{\mu_0 - R_{GMV}}{V_{GMV}} \bmu^\top \bQ \bmu, \;
-\optn{Var}(\bw_{MV}^\top\bx) =V_{GMV} + \left(\frac{\mu_0 - R_{GMV}}{V_{GMV}}\right)^2 \bmu^\top \bQ \bmu.
+\optn{E}(\bw_{MV}^\top\by) = R_{GMV} + \frac{\mu_0 - R_{GMV}}{V_{GMV}} \bmu^\top \bQ \bmu, \;
+\optn{Var}(\bw_{MV}^\top\by) =V_{GMV} + \left(\frac{\mu_0 - R_{GMV}}{V_{GMV}}\right)^2 \bmu^\top \bQ \bmu.
 \end{equation}
-From equation \eqref{eqn:moments_mean_var_solution} we can see that all values $\mu_0$ are rescaled according to the moments of the GMV portfolio. 
-If the taget return $\mu_0$ is is smaller than $R_{GMV}$, then you are better off with the GMV portfolio in terms of return and risk.
-However, if you choose a value $\mu_0>R_{GMV}$, then the portfolio return is larger than $R_{GMV}$.
-From the two expressions in \eqref{eqn:moments_mean_var_solution} we can see that as $\mu_0$ increases the risk grows quadratic in comparison to the mean which is linear. 
-This relationship was discovered by \textcite{merton1972} which coined the expression ''the efficient frontier''. 
-In Figure \ref{fig:mertons_efficient_frontier} on the left hand side, we show its behavior for two different portfolio sizes. 
-Increasing the portfolio size shifts the location of the parabola, e.g. moves it to the left, which serves as an illustration of the diversification effect. 
+From equation \eqref{eqn:moments_mean_var_solution} it can be observed that all values $\mu_0$ are rescaled according to the moments of the GMV portfolio. 
+The two expressions in \eqref{eqn:moments_mean_var_solution} constitute a famous relationship. 
+As $\mu_0$ increases, the risk grows quadratic in comparison to the mean which is linear. 
+This relationship was discovered by \citet{merton1972} which coined the expression ''the efficient frontier''. 
+In Figure \ref{fig:mertons_efficient_frontier} we display the efficient frontier and the capital market line, which is yet to be described, for two different portfolio sizes. 
+As seen in the left figure, increasing the portfolio size shifts the location of the parabola, e.g., moves it to the left, which serves as an illustration of the diversification effect. 
 There is no guarantee that an increase in the portfolio dimension increases the return.
 \begin{knitrout}\small
 \definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{figure}
@@ -196,98 +222,102 @@ There is no guarantee that an increase in the portfolio dimension increases the 
 
 }
 
-\caption[Efficient frontiers with and without a risk-free asset]{Efficient frontiers with and without a risk-free asset. The left plot illustrates two different efficient frontiers for different portfolio sizes. The right plot we illustrate the efficient frontier and the capital market line which appears when a riskless asset is available. The stocks are randomly selected from the S\&P500. The individual means and standard deviations are displayed as points.}\label{fig:mertons_efficient_frontier}
+\caption[Efficient frontiers without and with a risk-free asset]{Efficient frontiers without and with a risk-free asset. The left plot illustrates two different efficient frontiers for different portfolio sizes. The right plot illustrates the efficient frontier and the capital market line which appears when a risk-free asset is available. The stocks are randomly selected from the S\&P500. The individual means and standard deviations are displayed as points.}\label{fig:mertons_efficient_frontier}
 \end{figure}
 
 \end{knitrout}
 Any point on any of the two lines in the left hand-side plot of Figure \ref{fig:mertons_efficient_frontier} corresponds to a certain efficient and optimal portfolio with a specific value of $\mu_0$. 
-The points in the two plots depicts the expected returns and the standard deviations of a single-stock portfolio. 
-You can obtain these by investing in everything you got in a specific stock. 
-However, diversification will always decrease the risk we take which can be seen in the illustration. 
+The points in the two plots depict the expected returns and the standard deviations of a single-stock portfolio. 
+Diversification will always decrease the risk of the portfolio which can be seen in the illustration. 
 No single-stock portfolio can outperform any of the portfolios on the efficient frontier. 
-That can not happen. 
-The efficient frontier is the best we can do with the stocks at hand, given the objective.
+That cannot happen. 
 
-The right hand-side plot of Figure \ref{fig:mertons_efficient_frontier}, displays an extension to the mean-variance problem.
-It displays what happens when we include a risk-free asset in the portfolio allocation problem. 
-To introduce this option into our allocation problem we add the risk-free rate as part of the portfolio $w_0 r_f + \bw^\top \bx$ and optimize over $w_0$ as well. 
-We assume that the risk-free rate is deterministic and therefore \eqref{eqn:mean_variance} becomes 
+The right hand-side plot of Figure \ref{fig:mertons_efficient_frontier}, displays an efficient frontier and the capital market line.
+It is the solution to an extension to the mean-variance problem.
+It displays what happens when a risk-free asset is included in the portfolio allocation problem. 
+The risk-free asset is added to the portfolio as any other asset, with the exception that it is deterministic.
+With the option to invest in a risk-free asset, the return of the portfolio is $w_0 r_f + \bw^\top \by$. 
+The MV problem from \eqref{eqn:mean_variance} is then equal to
 \begin{equation}\label{eqn:mean_variance_riskfree}
 \begin{aligned}
 & \underset{\bw}{\text{minimize}} 
 & & \bw^\top \bSigma \bw \\
 & \text{subject to}
 & & w_0 + \bw^\top \ones = 1 \\
-& && w_0 r_f + \bw^\top \bmu = \tilde\mu_0 \\
+& && w_0 r_f + \bw^\top \bmu = \tilde\mu_0. \\
 \end{aligned}
 \end{equation}
-However, since $w_0 + \bw^\top \ones=1$ we substitute $w_0=1-\bw^\top \ones$ and solve the unconstrained optimization problem instead. 
+However, since $w_0 + \bw^\top \ones=1$ the amount invested in the risk-free asset can be substituted by $w_0=1-\bw^\top \ones$.
+The problem in \eqref{eqn:mean_variance_riskfree} reduces to an unconstrained optimization problem. 
 Its solution is given by 
 \begin{equation}\label{eqn:w_mean_variance_riskfree}
   \bw_{TP} = \frac{(\tilde\mu_0-r_f)}{(\bmu-r_f \ones)^\top \bSigma^{-1} (\bmu-r_f \ones)} \bSigma^{-1} (\bmu-r_f \ones).
 \end{equation}
 The collection of portfolios given by \eqref{eqn:mean_variance_riskfree} defines the whole capital market line which is shown in Figure \ref{fig:mertons_efficient_frontier}. 
 The portfolio has many interesting properties. 
-If there is a risk-free asset, then we can increase the return and decrease the risk of our position in the market. 
+If there is a risk-free asset, then there is a possibility to increase the return and decrease the risk of the portfolio. 
 This is most easily explained by the efficient frontier, displayed in Figure \ref{fig:mertons_efficient_frontier}. 
-For a given level of risk we can sometimes get the same or large return! 
+For a given level of risk a portfolio can always get the same, and sometimes larger, return! 
+
 The same solution can be obtained from the optimization problem with the quadratic utility, defined as 
-$$\min_{\bw} \bw^\top \bmu - \frac{\gamma}{2} \bw^\top \bSigma \bw$$ 
+$$\min_{\bw} \bw^\top (\bmu- r_f\ones) - \frac{\gamma}{2} \bw^\top \bSigma \bw$$ 
 for some $\gamma > 0$.
 The solution is given by 
 $$\frac{1}{\gamma}\bSigma^{-1} (\bmu-r_f \ones)$$
 which coincide with \eqref{eqn:w_mean_variance_riskfree} if 
 $$\frac{1}{\gamma} = \frac{(\tilde\mu_0-r_f)}{(\bmu-r_f \ones)^\top \bSigma^{-1} (\bmu-r_f \ones)}.$$ 
 The difference is that \eqref{eqn:w_mean_variance_riskfree} depends on a number of parameters while $\gamma$ is a fixed constant.
-This is quite common in MPT, there are many portfolio allocation problems which result in the same solution, see e.g. \citet{bodnar2013equivalence}.
+This is quite common in MPT and there are many portfolio allocation problems which result in the same solution, see, e.g., \citet{bodnar2013equivalence}.
 
 Ever since the end of 2014, there has been a lack of a risk-free asset in Sweden.\footnote{See \href{https://www.riksbank.se/sv/statistik/sok-rantor--valutakurser/reporanta-in--och-utlaningsranta/}{this visualization from Riksbanken}} 
-The risk-free rate has been equal to or less than zero. 
-Assuming that is true for our hypothetical investor, \eqref{eqn:w_mean_variance_riskfree} reduces to $\bw_{TP} = \tilde\mu_0 \bSigma^{-1} \bmu / \bmu^\top \bSigma^{-1} \bmu$. 
-The term $\bSigma^{-1} \bmu$ is also present in \eqref{eqn:mean_var_solution}, although hidden with the introduction of the matrix $\bQ$. 
-With a little work, one can rewrite \eqref{eqn:mean_var_solution} as
+The risk-free rate has been less than or equal to zero. 
+Assuming that it is true for a hypothetical investor, \eqref{eqn:w_mean_variance_riskfree} reduces to $\bw_{TP} = \tilde\mu_0 \bSigma^{-1} \bmu / \bmu^\top \bSigma^{-1} \bmu$. 
+The term $\bSigma^{-1} \bmu$ is also present in \eqref{eqn:mean_var_solution}, although hidden in the matrix $\bQ$. 
+With a little work, \eqref{eqn:mean_var_solution} can be rewritten as
 $$
 \left(1 - \frac{\mu_0-\R}{\V^2} \R \right) \bw_{GMV} + \frac{\mu_0-\R}{\V} \bSigma^{-1} \bmu.
 $$
 There are two insights to be drawn from this equation. 
 The first is that the weights on the efficient frontier is a combination of two portfolios, in this case the GMV and the tangency portfolio. 
-This result is usually known as the Mutual fund theorem, see \textcite{tobin1958liquidity}.
-To study all the portfolios on the efficient frontier we only need to study these two portfolios. 
-The second is that the true tangency portfolio is given by \eqref{eqn:w_mean_variance_riskfree} with 
+This result is usually known as the Mutual fund theorem, see \citet{tobin1958liquidity}.
+All portfolios on the efficient frontier can be studied through these two portfolios. 
+The second is that the tangent portfolio, where the efficient frontier and the capital market line meet, is given by \eqref{eqn:w_mean_variance_riskfree} with 
 $$
-\tilde\mu_0 = \R + \frac{\mu_0-\R}{\V} s  
+\tilde\mu_0 = \R + \frac{\mu_0-\R}{\V} s.
 $$
-which is where the efficient frontier and the capital market line meet. 
-Any tangency portfolio with $\mu_0\leq \R + \frac{\mu_0-\R}{\V} s$ will be "more efficient" than the efficient frontier if there is a risk free rate. 
-However, its not always the case that we want to optimize the amount of cash held in the risk-free asset. 
-Given that cash is free, we should most likely borrow as much as possible to invest in the market which might be a risk in itself.
+Any portfolio with $\tilde\mu_0\leq \R + \frac{\mu_0-\R}{\V} s$ will be "more efficient" than the efficient frontier if there is a risk-free rate. 
+However, its not obvious that the amount of cash allocated in a risk-free asset can be optimized. 
+Given that cash is free any investor should most likely borrow as much as possible to invest in the market.
+That might be a risk in itself which is not covered by the model.
 
-All of MPT use the inverse covariance matrix. In the next section we devote some attention to the assumption we make on the covariance matrix.  
+All of MPT use the inverse covariance matrix. 
+The next section is devoted to the assumption and restrictions made on the covariance matrix.  
 
-\section{Relationship between assets and the (inverse) covariance matrix}\label{subsec:cov_prec_matrix}
+\section{Relationship between assets and the (inverse) covariance matrix}\label{sec:cov_prec_matrix}
 %%% ----------------------
 The covariance matrix $\bSigma$ and the precision matrix $\bSigma^{-1}$ are fundamental to mean-variance portfolio theory. 
-In this section we discuss the restrictions we place on the covariance matrix and what the precision matrix actually represent. 
+This section goes into some depth on the assumptions and restrictions that are placed on the covariance matrix.
+%It also tries to and what the precision matrix actually represents. 
 
 For a vector $\by$ with finite second moment, the covariance matrix is defined as $\bSigma=\optn{E}((\by - \bmu)(\by - \bmu)^\top)$. 
 It contains the variances of each individual element of $\by$ on the diagonal as well as the covariances between every pair of elements on the off-diagonal. 
 That is, each diagonal element corresponds to the univariate case with variance equal to $\optn{E}((y_i - \mu_i)^2)$. 
 In the univariate case, a distribution is usually called degenerate or singular if the variance is equal to zero. 
-In the multivariate case. the covariance matrix can be singular on a number of occasions. 
+In the multivariate case, the covariance matrix can be singular on a number of occasions. 
 It is not limited to the diagonal elements.
-This is due to the fact that we involve covariances on the off-diagonal and we are therefore forced to work with a broader definition.  
-Since we work with real matrices in this thesis, we limit the definition accordingly. 
-From \textcite[ch 14.2]{harville1997matrix} we say that a real symmetric $p\times p$ matrix $\bA$ is called 
+This is due to the fact that covariances are involved on the off-diagonal.
+From \citet[ch 14.2]{harville1997matrix} a real symmetric $p\times p$ matrix $\bA$ is called 
 \begin{itemize}
 	\item positive definite if $\bz^\top \bA \bz > 0$
 	\item positive semi-definite if $\bz^\top \bA \bz \geq 0$
 \end{itemize}
 for all nonzero vectors $\bz \in \mathbbm{R}^p$.
-We will use $\bA > 0$ or $\bA \geq 0$ to indicate positive or semi-positive definiteness of the matrix $\bA$. 
-In the multivariate case we need to assert that a quadratic form is (strictly) positive to assert if the distribution is degenerate or not. 
-The definition of positive- or semi-positive definiteness can be quite cumbersome to work with. 
-We need to assert that the conditions holds for all vectors $\bz$. 
-One necessary condition for a matrix to be positive definite can be derived using the eigenvalues of a matrix and its eigenvalue decomposition, as described in \textcite[ch. 21]{harville1997matrix},
+Let $\bA > 0$ or $\bA \geq 0$ denote a positive or semi-positive definite matrix $\bA$. 
+The concept of a singular or degenerate distribution is replaced by a quadratic form.
+It involves the covariance matrix of a multi- or matrixvariate distribution.
+The definition of positive or semi-positive definiteness can be quite cumbersome to work with. 
+The conditions need to hold for all vectors $\bz$. 
+A necessary condition for a matrix to be positive definite can be derived using the eigenvalues of a matrix and its eigenvalue decomposition, as described in \citet[ch. 21]{harville1997matrix}.
 \begin{definition}\label{def:eigenvalue} 
 	Let $\bA$ be a $p\times p$ matrix. The characteristic roots (with multiplicity) are given by the solutions to
 	\begin{equation*}
@@ -296,113 +326,108 @@ One necessary condition for a matrix to be positive definite can be derived usin
 	where $|\cdot|$ is the determinant of a matrix.
 \end{definition} 
 Let $\lambda_i$, $i=1,2,...,p$, denote the \textit{ordered} eigenvalues of the matrix $\bA$ such that $\lambda_1\geq \lambda_2 \geq ... \geq \lambda_p$.
-Given an eigenvalue, the eigenvectors $\bu_i$ are defined by $\bA \bu_i = \lambda_i \bu_i$, $i=1,2,...,p$. 
+Given an eigenvalue $\lambda_i$, the eigenvectors $\bu_i$ are defined by $\bA \bu_i = \lambda_i \bu_i$, $i=1,2,...,p$. 
 Let $\boldsymbol{\Lambda} = \operatorname{diag}(\lambda_1, \lambda_2,...,\lambda_p)$ and $\bU= (\bu_1^\top, \bu_2^\top, ..., \bu_p^\top)^\top$. 
-It might happen that eigenvalues are equal, such as when $\bSigma = \sigma \bI$.
-Using the relation between eigenvalues and their eigenvectors we can derive the eigenvalue (or spectral) decomposition of a symmetric matrix 
+The relation between the matrix $\bA$ and its eigenvalues and eigenvectors can also be written as 
 \begin{equation}\label{eqn:eigenvalue_decomp}
-	\bA = \bU \boldsymbol{\Lambda} \bU^{-1}.
+	\bA = \bU \boldsymbol{\Lambda} \bU^{-1}
 \end{equation}
-Since $\bA$ is symmetric it also holds that $\bU^{-1} = \bU^\top$.
+which is called the eigen or spectral decomposition.
 A necessary condition for a matrix to be positive definite can be directly obtained from the eigenvalue decomposition. 
-Let $\bz\in \mathbbm{R}^p$ and $\by := \bU^{\top} \bz \in \mathbbm{R}^p$, then $\bz^\top \bA \bz = \bz^\top \bU \boldsymbol{\Lambda} \bU ^{\top} \bz = \by^\top \boldsymbol{\Lambda} \by = \sum_i^p \lambda_i y_i^2$ which is a second degree polynomial. 
+Let $\bz\in \mathbbm{R}^p$ and $\ba := \bU^{\top} \bz \in \mathbbm{R}^p$, then $\bz^\top \bA \bz = \bz^\top \bU \boldsymbol{\Lambda} \bU ^{\top} \bz = \ba^\top \boldsymbol{\Lambda} \ba = \sum_i^p \lambda_i a_i^2$ which is a second degree polynomial. 
 If the eigenvalues are all positive, then necessarily the matrix is positive definite. 
-If there are some eigenvalues which are zero then the matrix is semi-positive definite. 
+If there are some eigenvalues which are zero, then the matrix is semi-positive definite. 
 
-In all papers of this thesis we assume that the true covariance matrix is positive definite. 
-The assumption has a deep economical interpretation.
-If one (or more) eigenvalue(s) are zero then there is a possibility to construct a portfolio which does not contain any risk with a potentially positive return. 
-Its an arbitrage opportunity unless the elements of $\bmu$ are all zero.
+All papers of this thesis assume that the true covariance matrix is positive definite. 
+The assumption has a very important economical interpretation.
+If one (or more) eigenvalue(s) are zero, then there is a possibility to construct a portfolio which does not contain any risk.
+It is an arbitrage opportunity unless the elements of $\bmu$ are all zero.
 Assume $\lambda_p=0$, let $\bu_p$ be its eigenvector and set $\bw = \bu_p / \sum_i^p u_{ip}$. 
 The variance of that portfolio is zero since all eigenvectors are orthonormal and its mean is $\bw^\top \bmu$.
-If the true covariance matrix is not positive definite there might exist arbitrage opportunities, e.g. the possibility of making profit without taking any risk.
-
-%The eigenvalue decomposition is very useful.
-%%It provides a simple way to construct inverses, which is very important for MPT as seen in \eqref{eqn:mean_var_solution}.
-%We claim that $\bB = \bU \boldsymbol{\Lambda}^{-1} \bU^{-1}$ is a valid inverse which is easy to verify since $\bB \bA = \bU \boldsymbol{\Lambda}^{-1} \bU^{-1} \bU \boldsymbol{\Lambda} \bU^{-1} = \bI$. 
-%To study the inverse of the covariance matrix we can study the eigenvectors and the inverse of its eigenvalues.
-%Secondly, it contains a lot of information that might not be available at first glance. 
-%If $\bA$ is a covariance matrix then it contains variances and covariances, describing relations between random variables. 
-%The eigenvectors are rotations that try to capture as much variation as possible along its axis.
-%The eigenvalues is the variation along the eigenvectors axis. 
-%They describes how the system behaves and not the individual elements and their inverse values describe how the precision matrix behaves.
+If the true covariance matrix is not positive definite there might exist arbitrage opportunities, e.g., the possibility of making profit without taking any risk.
 
 %%%%%% ------------------------------------------------------------------------
-\chapter[Models \& inference]{Statistical models and inference}\label{ch:estim}
+\chapter{Statistical models and inference}\label{ch:estim}
 %%%%%% ------------------------------------------------------------------------
 
 
-To \textit{pratically} use the portfolios described by \eqref{eqn:mean_var_solution} we have to specify the two parameters $\bmu$ and $\bSigma$. 
-This is not really feasible if we have many assets. 
-We might have an opinion of what they should be, however we do not know them precisely.  
-Furthermore, even if one has an informed opinion of the parameters $\bmu$ and $\bSigma$, the potential loss of using those exact parameters might be paramount. 
-We usually want to rely on data to estimate the parameters of interest.
-In this thesis we never use the asset prices themselves but a transformation of the relative differences, that is, their simple and log-returns. 
+To \textit{pratically} use the portfolios described by \eqref{eqn:mean_var_solution} the two parameters $\bmu$ and $\bSigma$ have to be specified. 
+This is not really feasible if the portfolio contains many assets. 
+There might be an opinion of what they should be, however these cannot be known precisely. 
+Furthermore, even if there is an informed opinion of the parameters $\bmu$ and $\bSigma$, the potential loss of using those exact parameters might be paramount. 
+Therefore, the parameters are usually estimated through data.
 Let $p_{i,t}$ be the asset price of the $i$th asset at time $t$. 
+The methods of this thesis rarely use the asset prices themselves but a transformation of the relative differences, that is, their simple and log-returns. 
 The simple return is defined as $r_{i,t} := (p_{i,t}-p_{i,t-1})/p_{i,t-1}$ and the log-return is then defined as $y_{i,t} := \log(r_{i,t} + 1)$ and $\by_t=(y_{1,t},y_{2,t},..., y_{p,t})$.
 The return of a portfolio with $p$ assets is modeled as $\bw^\top \by_t$ where $\bw=(w_1, ..., w_p)$ are the portfolio weights.
-Notice that this is an approximation. 
-In reality we would want to work with $\sum_{i=1}^p w_i r_{i,t}$ (or even $\sum_{i=1}^p w_i p_{i,t}$) since it is additive in the number of assets.
+This is an approximation. 
+In reality the portfolio return should be $\sum_{i=1}^p w_i r_{i,t}$ (or even $\sum_{i=1}^p w_i p_{i,t}$). 
+That is additive in the number of assets.
 However, logarithmic returns are additive in time which can be desirable. 
 Compounding returns is simple addition and the approximation can make the statistical analysis more tractable. 
 The difference between the two approaches is very small if the (log) returns are small, which is often true for financial assets, see \citet[p. 5]{tsay2005analysis}. 
 
-Assuming that we have a model for the log-returns there are many ways of estimating $\bmu$ and $\bSigma$.
-The most simple and versatile method is the method of moments (MM) (see e.g. \citet[ch. 9]{wasserman2004all}). 
+There are many ways to estimate $\bmu$ and $\bSigma$.
+The most simple and versatile method is the Method of Moments (MM) (see e.g., \citet[ch. 9]{wasserman2004all}). 
 Let $\bY = (\by_1, \by_2, ..., \by_n)$ be a sample of log-returns.
-Using the sample, we replace $\bmu$ with the sample mean and $\bSigma$ with the sample covariance matrix, i.e.
+Using the sample, $\bmu$ and $\bSigma$ is replaced with the sample mean and the sample covariance matrix, i.e.,
 $$
 \byb = \frac{1}{n} \sum_i^n \by_i, \; \bS = \frac{1}{n}\bY \left(\bI_n - \frac{1}{n} \ones_n \ones_n^\top \right) \bY^\top.
 $$
 This is always a feasible approach assuming that the first two moments actually exist. 
 However, it introduces some issues.
-If our sample size $n$ is small, then our estimates are naturally imprecise. 
+If the sample size $n$ is small, then the estimates are naturally imprecise.
 Furthermore, MPT relies on $\bS^{-1}$ and not $\bS$.
-It demands that $n>p$. 
-Its natural to ask: does an imprecise estimate of the covariance matrix provide an equally imprecise estimate of the inverse?
-In some simple cases the answer is no, sometimes its worse. 
+That puts further restrictions on the sample size and the size of the portfolio, it demands that $n>p$.
+It is natural to ask: does an imprecise estimate of the covariance matrix provide an equally imprecise estimate of the inverse?
+In some simple cases the answer is no, sometimes it is worse. 
 It is therefore very important to understand the implications of not using the true parameters but their sample counterparts.
-There are many approaches to this but we take the bottom-up approach. 
-If we assume that the asset returns $\bY$ follow some distribution then we can perhaps derive statistical properties for $\byb$ and $\bS$.
-In turn, we need to derive the properties of $\bS^{-1}$ and in the end all the transforms given by \eqref{eqn:mean_var_solution}.
-In the coming sections we state the models used in this thesis and some important properties thereof.
-We thereafter discuss the implications for MPT.
+There are many approaches to this but the most natural is the bottom-up approach. 
+If the asset returns $\bY$ follow some distribution, then there is most likely some statistical properties for $\byb$ and $\bS$.
+In turn, $\bS^{-1}$ can also have some statistical properties and in the end all the transforms given by \eqref{eqn:mean_var_solution}.
+The models and their properties that are used in this thesis, are stated in the coming sections.
+Thereafter the implications of using estimates for MPT are discussed in brief.
 
 \section{Matrixvariate distributions}
 One of the most fundamental models for asset returns is the multivariate normal distribution. 
-Since most of the distributions we work with are matrix variate, we will state the matrixvariate normal distribution. 
-It is slightly more general but it can capture much more dynamics.
+Since most of the distributions in this thesis are matrix variate, the matrixvariate normal distribution is presented. 
+It is slightly more general but it can capture much more structure in the data.
 % Multivariate normal distribution
 \begin{definition}[Definition 2.2.1 \citet{GuptaNagar2000}]\label{def:matrixnormal}
 	The random matrix $\bY$ $(p \times n)$ is said to have a matrix variate normal distribution with mean matrix $\bM$ and covariance matrix $\bSigma \otimes \bGamma$ where $\bSigma > 0$ is of dimension $(p \times p)$ and $\bGamma >0$ is of dimension $(n \times n)$, if $\optn{vec}(\bY^\top) \sim N_{np}(\optn{vec}(\bM^\top), \bSigma \otimes \bGamma)$.
 \end{definition}
 The multivariate normal distribution is a simple special case of it with $\bGamma = \bI$ and $n=1$.
-This model is used very often and the applications are many. 
-However, \citet{cont2001empirical} describes a number of stylized facts of log-returns. 
-These stylized facts describes the characteristics asset returns on different frequencies.  
-It is argued that the multivariate normal distribution has to thin tails in comparison to what is usually observed in asset returns on higher frequencies.
-He argues that daily returns are usually not symmetric and often show volatility clustering.  
-However, he also argues that returns on a lower frequency such as monthly or quarterly can be close to normal.
+A property of the matrixvariate normal distribution is that it is closed under linear transformations.
+That plays an important role for determining the distribution of the estimator $\byb$ but also to determine the portfolio return distribution.
+Both are linear transformations.
+This model is used very often and the applications are many.
+However, \citet{cont2001empirical} described a number of stylized facts of log-returns. 
+These stylized facts describe the characteristics of asset returns on different frequencies.  
+It is argued that the multivariate normal distribution has too thin tails in comparison to what is usually observed in asset returns on higher frequencies.
+Cont argued that daily returns are usually not symmetric and often show volatility clustering.
+However, Cont also argued that returns on a lower frequency such as monthly or quarterly can be close to normal.
 The shape of the unconditional return distribution is not the same over different frequencies. 
-A motivation for the multivariate normal model can be thought of as an investor which invests or rebalance their portfolio infrequently.
-That does not mean that they cannot observe the results of the market on a higher frequency than they invest!
+A motivation for the multivariate normal model can be thought of as an investor which invests in the portfolio infrequently.
+That does not mean that he/she cannot observe the results of the market on a higher frequency!
 
-In the univariate case we have that the sample variance follows a chi-square distribution. 
+In the univariate case the sample variance follows a chi-square distribution. 
 If the returns follow a multivariate normal distribution and are independent, then $\bS$ follows what is known as a Wishart distribution. 
 It is essentially a generalization of the chi-square distribution. 
-We state its probability density function (p.d.f.) below.
+The probability density function (p.d.f.) of a Wishart disitrbution is given below.
 % Wishart
 \begin{definition}[Definition 3.2.1 \citet{GuptaNagar2000}]\label{def:wishart}
-	A $p\times p$ random symmetric positive definite matrix $\bS$ is said to have a Wishart distribution with parameters $p, n$ ($n\geq p$) and $\bSigma > 0$, $(p \times p)$ written as $\bS \sim W_p(n, \bSigma)$ if its p.d.f. is given by
+	A $p\times p$ random symmetric positive definite matrix $\bS$ is said to have a Wishart distribution with parameter $n$ ($n\geq p$) and $\bSigma > 0$, $(p \times p)$ written as $\bS \sim W_p(n, \bSigma)$ if its p.d.f. is given by
 	\begin{equation}\label{eqn:wishart_density}
   	\frac{|\bS|^{(n-p-1)/2} |\bSigma|^{- n/2} }{2^{pn/2} \Gamma_p (n/2) } \exp\left\{-\frac{1}{2} \operatorname{tr}(\bSigma^{-1}\bS)  \right\}
 	\end{equation}
 	where $ \Gamma_p (\cdot) $ is the multivariate gamma function.
 \end{definition}
-In comparison to the normal distribution the Wishart distribution is used very frequently as a model for covariance matrices although in a slightly different context.
+In comparison to the normal distribution the Wishart distribution is used very frequently as a model for covariance matrices, although in a slightly different context.
 The model is very often used for realized covariance matrices, see \citet{barndorff2004econometric}, \citet{golosnoy2019exponential} or \citet{alfelt2021modeling}.
-A realized covariance matrix is an estimates of the volatility process from returns on a much higher frequency than we work with in this thesis.
-From Theorem 3.3.6 we know that if $\bY \sim N_{p,n}(\bmu \ones_n^\top, \bSigma \otimes \bI_n)$, then $n\bS \sim W(n-1, \bSigma)$, so working from the bottom up we can get a model for the parameters of the model.
+A realized covariance matrix is an estimate of the volatility process from returns on a much higher frequency than what is used in this thesis.
+
+If $\bY \sim N_{p,n}(\bmu \ones_n^\top, \bSigma \otimes \bI_n)$, then $n\bS \sim W(n-1, \bSigma)$ by \citet[Theorem 3.3.6]{GuptaNagar2000}.
+Working from the bottom-up there is now a model for the estimated parameters of the original model.
 As previously stated, MPT works with inverse covariance matrices and not with the covariance matrix itself. 
 Thankfully, the Wishart distribution has an inverse counterpart.
 % Inverse Wishart
@@ -413,69 +438,67 @@ Thankfully, the Wishart distribution has an inverse counterpart.
 	\end{equation}
 \end{definition}
 To once more connect to the univariate setting, the inverted sample variance follows an inverted chi-square distribution which is a special case of the inverted gamma distribution.
-It is only natural that the inverted Wishart matrix is a matrix variate generalization of the inverted gamma distribution (p. 111 \citet{GuptaNagar2000}). 
+It is only natural that the inverted Wishart matrix is a matrix variate generalization of the inverted gamma distribution (\citet[page 111]{GuptaNagar2000}). 
 It demands quite specific constraints on the parameters of the model, namely $m > 2p$.
-To come back to out question we posed in the beginning of this section, does the inverse change uncertainty? 
-We can at least get a hint that \textit{something} changes with the properties of $\bS$ when taking inverses.
+This is a hint to an answer that was posed in the beginning of this section, does the inverse change uncertainty? 
+The constraint $m>2p$ provides a hint that \textit{something} changes with the properties of $\bS$ when taking inverses.
 The constraints of the model are more strict.
-From Theorems 3.3.7 and 3.4.1, and Theorem 3.4.3 of \citet{GuptaNagar2000} we have that
+From Theorems 3.3.7 and 3.4.1, and Theorem 3.4.3 of \citet{GuptaNagar2000} the first moments of the two are
 $$
 \optn{E}\left[\bS\right] = \frac{n-1}{n} \bSigma, \; 
 \optn{E}\left[\bS^{-1}\right] = \frac{n}{n-p-2}\bSigma^{-1}.
 $$
-If $n$ is sufficiently large, than the sample covariance matrix is (close to) unbiased.
+If $n$ is sufficiently large, then the sample covariance matrix is (close to) unbiased.
 That is not necessarily the case for its inverse.
-If we believe in diversification then we should own many assets, e.g., $p$ should be large. 
+If an investor believes in diversification, then he/she should own many assets, e.g., $p$ should be large.
 That in turn could make the estimator very biased!
-The answer is yes, inverses can potentially make matters worse.
-Furthermore, the noise in the sample mean can be extremely large in comparison to the noise in the sample covariance matrix.
-The weights from \eqref{eqn:mean_var_solution} will be much more noisy whenever $\mu_0 \neq \R$ since these will depend on the sample mean vector (see e.g. \citet{merton1980estimating}, \citet{chopra1993effect}).
-It is perhaps one of the most common motivations for using the GMV portfolio.
+Inverses can potentially make matters worse.
 
-It has been well established that for higher frequency returns the normal assumption is limiting. 
-The next, and perhaps most common feature, to include is skewness of the asset returns and to assess its effect on portfolios. 
+%Furthermore, the noise in the sample mean can be extremely large in comparison to the noise in the sample covariance matrix.
+%The weights from \eqref{eqn:mean_var_solution} will be much more noisy whenever $\mu_0 \neq \R$ since these will depend on the sample mean vector (see e.g., \citet{merton1980estimating}, \citet{chopra1993effect}).
+%It is perhaps one of the most common motivations for using the GMV portfolio.
+It has been well established that returns on higher frequency the normal distribution can be a poor model. 
+The next feature, and perhaps most common, to include is skewness of the asset returns and to assess its effect on portfolios. 
 A $p$ dimensional Closed Skew Normal (CSN) random vector $\bz$ has density
 \begin{equation}
   f_\bz(\ba; \bmu, \bSigma, \bD, \bv, \Delta) = C \phi_p(\ba; \bmu, \bSigma) \Phi_q(\bD(\ba-\bmu); \bv, \Delta)
 \end{equation}
-where $C$ is a normalization constant and $\bmu, \bSigma, \bD, \bv$ and $\Delta$ are parameters of appropriate dimensions. Its matrix variate counterpart is simply defined through the vec operator. We have that
+where $C$ is a normalization constant and $\bmu, \bSigma, \bD, \bv$ and $\Delta$ are parameters of appropriate dimensions. 
+Its matrixvariate counterpart is simply defined through the vec operator. 
 % Closed skew normal distribution
 \begin{definition}[Definition 3.1 \citet{dominguez2007matrix}]
   A random matrix $\bY$ $(p \times n)$ is said to have a matrix variate closed skew-normal distribution with parameters $\bM$ $(p \times n)$, $\bA$ $(np \times np)$, $\bB$ $(nq \times mp)$, $\bL$ $(q \times m)$ and $\bQ$ $(mq \times mq)$, with $\bA > 0$ and $\bQ>0$ if
   \begin{equation}
-    \optn{vec}(\bY^\top) \sim CSN_{pm, qn}\left(\optn{vec}(\bM^\top), \bA, \bB, \optn{vec}(\bL^\top), \bQ\right)
+    \optn{vec}(\bY^\top) \sim CSN_{pm, qn}\left(\optn{vec}(\bM^\top), \bA, \bB, \optn{vec}(\bL^\top), \bQ\right).
   \end{equation}
 \end{definition} 
 The closed skew-normal distribution is heavily parametrized. 
-For each column in the matrix $\bY$  we have a mean vector $\bm$ and an additional four vectors $\ba$, $\bb$, $\bl$ and $\bq$ describing skewness and volatility of the asset returns.
-The matrixvariate distribution can capture a lot of dynamics.
+For each column in the matrix $\bY$ there is a mean vector $\bm$ and an additional four vectors $\ba$, $\bb$, $\bl$ and $\bq$ describing skewness and volatility of the asset returns.
+The matrixvariate distribution can capture a lot of structure.
 However, it also puts a heavy restriction on some of the parameters, as they need to be positive definite.
 The parameter $\bA$ might be interpreted as a covariance matrix although that is a simplification.
 It is something more.
 It can capture variance along \textit{both} axis of the matrix $\bY$, such as volatility for a specific asset but also unconditional volatility over time.
-There is also some type of dependence between $\bA$ and how skewness is observed, by the fact that moments include \textit{almost all of the parameters} (see e.g. Proposition 3.2 \citet{dominguez2007matrix}).
-From the stochastic representation in Proposition 2.1 \citet{dominguez2007matrix} one can, after some thought and derivations
-\footnote{The proposition is a little bit misleading as there seems to be an absolute value missing and the parameter $\bv$ appears as random but is also part of the parametrization. To arrive at the correct representation, the reader can go through the steps that begins at the end of page 7 in the same reference (page 1606).}
-realize that the skewness is introduced as shocks to the mean.
-The mean is stochastic.
-The overzealous parametrisation and difficulty in estimating the parameters made us choose a special case of it for paper 2 of this thesis.
-We work with a special case of the distribution where $q=m=1$.
+There is also some type of dependence between $\bA$ and how skewness is observed, by the fact that moments include \textit{almost all of the parameters} (see, e.g., Proposition 3.2 \citet{dominguez2007matrix}).
+Due to the stochastic representation in Proposition 2.1 \citet{dominguez2007matrix}, the introduction of skewness can be thought of as random shocks to the mean.
+\footnote{The proposition is a little bit misleading as there seems to be an absolute value missing and the parameter $\bv$ appears as random but is also part of the parametrization. To arrive at the correct representation, the reader can go through the steps that begins at the end of page 1606 in the same reference.}
+The overzealous parametrisation make estimating the parameters rather difficult and that is why paper \hyperref[sec:paper2]{2} use the assumption that $q=m=1$.
 
-% 
-The last model we consider in this thesis is the most general.
+The last model in this thesis is the most general.
 It is also the model that has the least amount of interesting properties in itself.
 It is the following location and scale model
 \begin{equation}\label{eqn:location_scale_model}
-\bY \eqdist \bmu \ones^\top_n + \bSigma^{1/2} \bZ.
+\bY \eqdist \bmu \ones^\top_n + \bSigma^{1/2} \bZ
 \end{equation}
 where $\eqdist$ stands for equality in distribution and $\bZ = \{z_{ij}\}$, $i=1,2,...,p$, $j=1,2,...,n$.
-Although the model can capture many types of return distributions, such as skew heavy tailed sometimes even heteroscedasticity, there is very little to say about it.
-In this thesis we very often assume moment conditions on the "residuals" $z_{ij}$ such as finite fourth moment or potentially $4+\epsilon$ finite moment, for some $\epsilon>0$.
-The difference between finite fourth moment and $4+\epsilon$ is most often the claims of convergence we can show.
-With the slightly more stringent assumption we can make claims about almost sure convergence and with finite fourth we can usually make claims about convergence in probability (see the supplement material of \citet{BodnarGuptaParolya2016}).
+It is very common to assume moment conditions on $z_{ij}$, such as finite fourth moment or potentially $4+\epsilon$ finite moment, for some $\epsilon>0$.
+Although the model can capture many types of return distributions, such as skew, heavy tailed and sometimes even heteroscedasticity, there is very little to say about it.
+
+Although estimates of the model parameters are interesting in themselves, this thesis is about portfolios.
+In the next section, the implications of estimation uncertainty on optimal portfolios is displayed.
 
 \section{Inference and sampling distributions of optimal portfolios and their characteristics}
-Replacing $\bmu$ and $\bSigma$ with $\byb$ and $\bS$ in \eqref{eqn:mean_var_solution} we get its empirical counterpart
+The empirical counterpart of \eqref{eqn:mean_var_solution} is obtained by replacing $\bmu$ and $\bSigma$ with $\byb$ and $\bS$. It is equal to
 \begin{equation}\label{eqn:meanvar_solution_sample}
 	\hbw_{MV} = \frac{\bS^{-1}\ones}{\ones^\top \bS^{-1}\ones} + \frac{\mu_0 - \hR}{\hV} \hat{\bQ} \byb,\; \hat{\bQ} = \bS^{-1} - \frac{\bS^{-1} \ones \ones^\top \bS^{-1}}{\ones^\top \bS^{-1} \ones}
 \end{equation}
@@ -484,17 +507,18 @@ where
   \hV = \frac{1}{\ones^\top \bS^{-1}\ones},\; \hR = \frac{\ones^\top \bS^{-1} \byb}{\ones^\top \bS^{-1}\ones}
 \end{equation}
 and the shape parameter of the efficient frontier $\hat{s} = \byb^\top \bQ \byb$.
-This is a portfolio we can actually invest in. 
+This is a portfolio that can actually be invested in. 
 
-From the previous section we know the distributions of $\byb$ and $\bS$ if $\bY$ follows distribution stated in Definition \ref{def:matrixnormal}. 
-In this scenario the two parameters are independent (see Theorem 3.3.6 \citet{GuptaNagar2000}) which makes the analysis simpler.
-However, there are many complicated transforms containing both $\byb$ and $\bS^{-1}$.
-One example is the weights for the GMV portfolio
-$$
-\hbw_{GMV}=\frac{\bS^{-1}\ones}{\ones\bS^{-1}\ones}.
-$$
-It contains the sample covariance matrix in the nominator as well as the demoniator.
-Its not safe to assume that these are independent nor is it trivial to state when they would be.
+From the previous section, the distributions of $\byb$ and $\bS$ are known if $\bY$ follows the matrixvariate normal distribution stated in Definition \ref{def:matrixnormal}. 
+In that scenario, the two estimators are even independent (see Theorem 3.3.6 \citet{GuptaNagar2000}) which makes the analysis simpler.
+However, in MPT there are many complicated transforms containing both $\byb$ and $\bS^{-1}$.
+One example is the return for the GMV portfolio
+\begin{equation}\label{eqn:return_gmv_sample}
+\hR=\frac{\byb^\top\bS^{-1}\ones}{\ones^\top\bS^{-1}\ones}.
+\end{equation}
+Since $\byb$ and $\bS$ are independent then the conditional distribution of \eqref{eqn:return_gmv_sample} on $\byb$ is the same as the unconditional distribution.
+However, \eqref{eqn:return_gmv_sample} still contains the sample covariance matrix in the nominator as well as the denominator.
+It is not safe to assume that these are independent nor is it trivial to state when they would be.
 To solve the problem at hand consider two $p\times p$ matrices with the following block structure 
 \begin{equation}\label{eqn:blockmat}
 \bA = \begin{pmatrix}
@@ -509,7 +533,7 @@ To solve the problem at hand consider two $p\times p$ matrices with the followin
 where $\text{dim}(\bA_{11}) = \text{dim}(\bV_{11})= m \times m$, $m<p$. 
 Let $\bA_{11\cdot 2} := \bA_{11} - \bA_{12} \bA_{22}^{-1} \bA_{21}$ denote the Schur complement of the matrix $\bA$ and define $\bV_{11\cdot 2}$ in the same manner. 
 Let $\otimes$ denote the Kronocker product. 
-The following theorem is used a lot in papers 1 and 2.
+The following theorem is used a lot in papers \hyperref[sec:paper2]{1} and \hyperref[sec:paper2]{2}.
 \begin{theorem}[Theorem~3 in \citet{BodnarOkhrin2008}]\label{thrm:invWis}
  Suppose $\bA \sim W^{-1}_k(n, \bV)$, where $\bA$ and $\bV$ are partitioned as in \eqref{eqn:blockmat}. Then
  \begin{enumerate}[(a)]
@@ -526,52 +550,62 @@ The following theorem is used a lot in papers 1 and 2.
 	\item $\bA_{11\cdot 2}| \bA_{12}\bA^{-1}_{22}=\bX \sim W_m^{-1}(n,  \bV_{11\cdot 2} + \left(\bX - \bV_{12}\bV_{22}^{-1} \right)\bV_{22} \left(\bX - \bV_{12}\bV_{22}^{-1} \right)^\top )$
  \end{enumerate}
 \end{theorem}
-So given a inverse Wishart distribution we can derive the distribution of many, quite difficult, transformations of its sub-matrices. 
-Let $\bM^\top = (\bL^\top , \ones^\top)$ and note that $(\bM \bS^{-1} \bM^\top)^{-1}$ follows a Wishart distribution by Theorem 3.3.13 \citet{GuptaNagar2000}. 
-We can then invert $(\bM \bS^{-1} \bM^\top)^{-1}$, use the fact that the inverse of a Wishart matrix follows an inverse Wishart distribution and at last use the fact that 
+So given an inverse Wishart distribution the distribution of many, quite difficult, transformations of its sub-matrices can be derived. 
+Let $\bH^\top = (\bL^\top, \tilde\by, \ones)^\top$ and note that $(\bH \bS^{-1} \bH^\top)^{-1}$ follows a Wishart distribution by Theorem 3.3.13 \citet{GuptaNagar2000}. 
+The inverse of $(\bH \bS^{-1} \bH^\top)^{-1}$ follows an inverse Wishart distribution.
+Observe that
 $$
-\bM \bS^{-1} \bM^\top = 
+\bH \bS^{-1} \bH^\top = 
 \begin{pmatrix}
-\bL^\top \bS^{-1} \bL & \bL^\top \bS^{-1} \ones \\
-\ones^\top \bS^{-1} \bL^\top & \ones^\top \bS^{-1} \ones \\
+  \bL \bS^{-1} \bL^\top & \bL \bS^{-1} \ones & \bL \bS^{-1}\tilde\by\\
+  \tilde\by^\top \bS^{-1} \bL^\top & \tilde\by^\top \bS^{-1}\tilde\by & \tilde\by^\top \bS^{-1} \ones \\
+   \ones^\top \bS^{-1} \bL^\top& \ones^\top \bS^{-1}\tilde\by & \ones^\top \bS^{-1} \ones  \\
 \end{pmatrix}.
 $$
-Its then easy to see that
+In this case the product between $\bA_{12}$ and $\bA_{22}^{-1}$ together with the above results in
 $$
-\bA_{12}\bA^{-1}_{22}= frac{\bL^\top \bS^{-1} \ones}{\ones^\top \bS^{-1} \ones}
+\bA_{12}\bA^{-1}_{22}= 
+\begin{pmatrix}
+  \frac{\bL^\top \bS^{-1} \tilde \by}{\ones^\top \bS^{-1} \ones} &
+  \frac{\tilde\by^\top \bS^{-1} \ones}{\ones^\top \bS^{-1} \ones}
+\end{pmatrix}^\top
 $$
-By \eqref{eqn:almostT} we can find the density of the GMV portfolio. 
-Furthermore, we can actually assert that the GMV portfolio weights and the variance of the GMV portfolio are independent!
-Paper 1 use these properties to derive the full joint distribution for all the quantities used in \eqref{eqn:meanvar_solution_sample}.
-The result is more general than that as we derive the distribution of all optimal portfolios but since the classical mean-variance portfolio is one of them we get that for free. 
+which is the joint distribution of the return of the GMV portfolio, $\hR$, and some scaled version of linear combinations of the tangency portfolio with $\gamma = \hV^{-1}$ and $r_f=0$.
+By \eqref{eqn:almostT} the joint distribution of these follows a matrixvariate t-distribution (see \citet[Definition 4.2.1]{GuptaNagar2000}) and the return of the GMV portfolio is independent to its variance. 
+Similar to the matrixvariate normal distribution, the matrixvariate t-distribution is also closed under linear transformations (see \citet[Theorem 4.3.5]{GuptaNagar2000}).
+This implies that $\hR$ follows a t-distribution, conditionally on the mean.
+The parameters of the distribution are presented in Lemma 7.1 in paper \hyperref[sec:paper1]{1}. 
+Paper \hyperref[sec:paper1]{1} uses these properties to derive the full joint distribution for all the quantities used in \eqref{eqn:meanvar_solution_sample}.
+The result is more general than that.
+It provides the joint distribution of all optimal portfolios. 
 The joint distribution is characterized through its stochastic representation.
 The stochastic representation is a very verbose way of characterizing the distribution in terms of simple random variables.
 These random variables are simple to simulate.
-To compute any quantity of interest from the joint distribution we can simply compute it through monte carlo approximation. 
-For some methods simulations are the only way we can compute the quantities of interest.
+Any quantity of interest from the joint distribution can simply be computed through Monte Carlo approximation. 
+For some methods, simulations are the only way to compute the quantities of interest.
 It can therefore be very important that simulations are fast.
-This is extremely simple to do when you have the stochastic representation.
+This is extremely simple to do with the stochastic representation.
 
 \section{Simulations, inverses and why stochastic representations are valuable}
-Assume that the investor cares about simulations, is interested in the GMV portfolio and for the train of thought that $\bY \sim N_{p,n}(\bmu \ones_n^\top, \bSigma \otimes \bI_n)$. 
-To simulate from the sampling distribution of the variance of the GMV portfolio we need to 
+Assume that the investor cares about simulations, is interested in the GMV portfolio and that the returns follow a matrixvariate normal distribution, i.e. $\bY \sim N_{p,n}(\bmu \ones_n^\top, \bSigma \otimes \bI_n)$. 
+To simulate from the sampling distribution of the variance of the GMV portfolio, there are a number of steps that needs to be performed
 \begin{enumerate}
   \item Simulate $\bY$ and construct $\bS$
   \item Invert $\bS$
   \item Compute $\hV$
 \end{enumerate}
 The second step is notoriously demanding.
-The default method to use in R is \hlstd{solve} which is a wrapper for certain LAPACK\footnote{For the interested reader \url{https://www.netlib.org/lapack/}} functions.
-The inverse itself takes $2p^3$ flops (cpu cycles), which is not cheap (see e.g. \citet[ch 14]{higham2002accuracy}).
-If $p$ is large then simulation of the quantity $\hV$ will be extremely cumbersome.
+The default method to use in R is 'solve' which is a wrapper for certain LAPACK\footnote{For the interested reader \url{https://www.netlib.org/lapack/}} functions.
+The inverse itself takes $2p^3$ flops (cpu cycles), which is not cheap (see, e.g., \citet[ch 14]{higham2002accuracy}).
+If $p$ is large, then simulation of the quantity $\hV$ will be extremely cumbersome.
 Another method is R's \hlstd{chol2inv} which relies on the Cholesky decomposition. 
-In theory it should be faster but demands that we compute the Cholesky decomposition.
-The last two options that are available is to simulate $\bS$ directly or to derive the stochastic representation of $\hV$ directly.
-Paper 1 and 2 goes into great detail to derive the stochastic representation of different quantities of optimal portfolios. 
+In theory, it should be faster but demands that the Cholesky decomposition is computed.
+The last two options that are available is to simulate $\bS$ directly or to derive the stochastic representation of $\hV$.
+Paper \hyperref[sec:paper1]{1} and \hyperref[sec:paper2]{2} go into great detail to derive the stochastic representation of different quantities of optimal portfolios. 
 One of them is the sample variance of the GMV portfolio.
-By Theorem 1 in \citet{bodnar2020sampling} we know that if $\bY \sim N_{p,n}(\bmu \ones_n^\top, \bSigma \otimes \bI_n)$, then $\hV \sim \V\xi /(n-1)$ where $\xi \sim \chi^2_{n-p}$.
-We can omit inversions all together.
-In \ref{benchmark} we present R-code which implements a small benchmark to highlight why these types of representations can be really valuable.
+If $\bY \sim N_{p,n}(\bmu \ones_n^\top, \bSigma \otimes \bI_n)$, then by Theorem 1 in \citet{bodnar2020sampling} $\hV \sim \V\xi /(n-1)$ where $\xi \sim \chi^2_{n-p}$.
+The inversion can be omitted all together.
+In \ref{benchmark} there is some R-code which implements a small benchmark to highlight why these types of representations can be really valuable.
 \begin{knitrout}\small
 \definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
 \captionof{chunk}{R-code for benchmarking different simulation approaches of the variance of the GMV portfolio.}\label{benchmark}\begin{alltt}
@@ -624,56 +658,58 @@ In \ref{benchmark} we present R-code which implements a small benchmark to highl
 
 \end{knitrout}
 
-Scenario 4 uses the stochastic representation. 
-The execution time of scenario 4 is much smaller than the former strategies.
+In Figure \ref{fig:microbenchmark_output} a violinplot of the benchmark is displayed.
+Scenario 4 uses the stochastic representation and the time its benchmark is much smaller any of the former strategies.
 It is quite clear that it is the fastest. 
-The conclusion is that inversions are very cumbersome to deal with and take a lot of time regardless if we use the Cholesky decomposition or not.
-Its can also be a very unstable operation, especially if the matrix you are trying to invert is close to singular.
+The conclusion is that inversions are very cumbersome to deal with and take a lot of time regardless if the Cholesky decomposition is used or not.
+It can also be a very unstable operation, especially if the matrix is close to singular.
 
-So far we have assumed that all we wanted to use is $\bS$, $\byb$ or simply $\hbw_{GMV}$.
+A large portion of this thesis work with $\bS$, $\byb$.
 That is of course a simplification and not always the case.
-As we previously mentioned both $\bS$ and $\byb$ can be noisy estimators with the former being less noisy than the latter (see, e.g., \citet{frankfurter1971portfolio}, \citet{merton1980estimating}, \citet{best1991sensitivity}). 
-Furthermore, we saw that if $p$ is comparable to $n$ but $n>p$ then the expectation of the inverse Wishart distribution is very biased.
-We can cope with that through two strategies. 
-The first is to derive the actual uncertainty and sample distributions of the quantities of interest, which we have described above and do in papers 1 and 2.
-The second is to use other estimators which introduce some bias of our own.
-By introducing bias in the estimator we can reduce the variance.
-It is something of utmost importance if we believe in diversification which we will go into detail in the next section.
+The estimators $\bS$ and $\byb$ contains a lot of uncertainty where the former contains less than the latter (see, e.g., \citet{frankfurter1971portfolio}, \citet{merton1980estimating}, \citet{best1991sensitivity}). 
+Furthermore, there are a number of other issues at hand.
+If $p$ is comparable to $n$ but $n>p$, then the expectation of the inverse Wishart distribution is very biased.
+It is very hard to compute $\bS^{-1}$ from $\bS$ numerically if the matrix is close to singular.
+There are two startegies to solve the problem.
+The first is to derive the actual uncertainty and sample distributions of the quantities of interest, which is done in papers \hyperref[sec:paper1]{1} and \hyperref[sec:paper2]{2}.
+The second is to use other estimators which introduce some bias.
+By introducing bias in the estimator it can reduce the variance of it.
+As will be seen in the next section, it is something of utmost importance if an investor believes in diversification.
 
 %%%%%% ------------------------------------------------------------------------
-\chapter[Diversification \& shrinkage]{Diversification, infinitely many assets and shrinkage estimators}\label{ch:highdim}
+\chapter{Diversification, infinitely many assets and shrinkage estimators}\label{ch:highdim}
 %%%%%% ------------------------------------------------------------------------
 
 
-In the previous chapter we presented one specific way of estimating the sample covariance matrix.
-If we have a lot of data on the assets that we are trying to invest in then we can most often be certain that we will hold the correct portfolio.
-Our estimated portfolio will be consistent, e.g. it estimates the correct object of interest. 
-As we previously mentioned, since diversification is one of the best risk management tool there is, we want our asset universe to be big.
-However, from \citet{bodnar2016optimal} Proposition 2.2 we know that $\hV \rightarrow \V/(1-c)$ whenever $p,n \rightarrow \infty$ s.t. $p/n \rightarrow c \in [0,1)$. 
-If $c$ is close to one, then the sample GMV portfolios variance will explode. 
+In the previous chapter one specific way of estimating the sample covariance matrix was presented.
+If there is a lot of data on the assets that is in the portfolio, then the estimated weights will most likely be close to the correct portfolio.
+The estimated portfolio will be consistent, e.g., it estimates the correct object of interest. 
+As previously mentioned, diversification is one of the best risk management tool there is and therefore, the asset universe is supposed to be big.
+However, \citet{bodnar2016optimal} Proposition 2.2 states that $\hV \rightarrow \V/(1-c)$ whenever $p,n \rightarrow \infty$ s.t. $p/n \rightarrow c \in [0,1)$. 
+If $c$ is close to one, then the sample GMV portfolio variance will explode. 
 \textit{Estimation uncertainty dominates the diversification effect}. 
-There are many solutions to the problem at hand (see e.g. \citet{lw17} or \citet{bodnar2021recent} and the references therein). 
-We will focus on some topics in RMT and the use of some types of shrinkage estimators. 
+There are many solutions to the problem at hand (see, e.g., \citet{lw17} and the references therein). 
+The solution used in this thesis is Random Matrix Theory (RMT) and the use of some types of shrinkage estimators. 
 Both subjects are grand. 
-Our aim is to provide a small introduction to them in the following sections.
+A small introduction to them is presented in the following sections.
 
 \section{A short introduction to random matrix theory and the Stieltjes transform}
-The subject of random matrix theory (RMT) has many applications. 
-It was originally developed in the context of quantum physics (see Ch. 1 of \citet{mehta2004random}). 
+The subject of RMT has many applications. 
+It was originally developed in the context of quantum physics (see \citet[Chapter 1 of]{mehta2004random}). 
 The theory and its applications have since then developed quite a lot. 
-Many fields, such as combinatorics, computational biology, wireless communication and finance (see e.g. \citet{livan2018introduction}) use these results. 
+Many fields, such as combinatorics, computational biology, wireless communication and finance (see, e.g., \citet{livan2018introduction}) use these results. 
 One of the seminal work in RMT was made by \citet{wigner1967random}. 
-He originally modeled the limiting spectral distribution of an $p \times p$ dimensional standard Gaussian random matrices $\bX$.
+Wigner originally modeled the limiting spectral distribution of a $p \times p$ dimensional random matrices $\bX$ with standard normal entries.
 The term "standard" might be a little misleading for statisticians as the matrix $\bX$ contains independent random variables although not identically distributed.
 The entries on the diagonal are $N(0,2)$ and the entries on the off-diagonal are $N(0,1)$.
-However, the more generalized definition only demands that the matrix $\bX$ is Hermitian and its entries on the diagonal or above the diagonal are independent. 
-We define the empirical spectral distribution (ESD) of a matrix $\bA$ as
+
+The empirical spectral distribution (ESD) of a matrix $\bA$ is defined as
 $$
 F^{\bA}(x)= \frac{1}{p} \sum_{i=1}^p \mathbbm{1}(\lambda_i \leq x)
 $$ 
-where $\lambda_i$ are the eigenvalues from the eigenvalue decomposition, see section \ref{subsec:cov_prec_matrix}. 
-The limit, in this case, is taken as $p \rightarrow \infty$ which implies that $\bA$ will have infinitely many columns as well as rows!
-The limiting spectral distribution of $\bX$ can be shown to converge to (see Chapter 2 of \citet{bai2010spectral})
+where $\lambda_i$ are the eigenvalues from the eigenvalue decomposition, see section \ref{sec:cov_prec_matrix}. 
+The limit, in this case, is taken as $p \rightarrow \infty$ which implies that $\bA$ will have infinitely many columns as well as rows.
+The limiting spectral distribution of $\bX$ can be shown to converge to (see, Chapter 2 of \citet{bai2010spectral})
 $$
 F'(x) = \begin{cases}
 \frac{1}{2\pi} \sqrt{4-x^2} & \text{ if } |x|\leq 2 \\
@@ -681,50 +717,53 @@ F'(x) = \begin{cases}
 \end{cases}
 $$
 There are many interesting facts about the empirical spectral distribution and its limiting distribution. 
-One of the most interesting is the support of the limiting distribution. 
-The normal distribution has unbounded support but the eigenvalues of $\bX$ converges to a distribution with bounded support (see \citet{livan2018introduction} for a good introduction on why this is). 
+One of the most interesting is the support of the limiting distribution.
+The normal distribution has unbounded support but the eigenvalues of $\bX$ converges to a distribution with bounded support (see, \citet{livan2018introduction} for a good explanation to the reason why). 
 \citet{marchenko1967distribution} extended the result of \citet{wigner1967random} to the sample covariance matrix. 
 Assume that $\bX$ is a $p \times n$ matrix that contains i.i.d random variables with zero mean and variance equal to $1$.
-The limit is now taken over the two quantities $p$ and $n$ at the same time, such that $p/n$ stays constant.
-We usually call this ratio the concentration ratio $c$.
-In this introduction we assume that $c<1$. 
-The limiting spectral distribution of $\bS=\frac{1}{n} \bX \bX^\top$ was then shown to be
+The limit is now taken over the two quantities $p$ and $n$ at the same time, such that $p/n$ tends to a constant.
+The ratio is usually called the concentration ratio $c$.
+In this introduction it is assumed that $c<1$. 
+The density of the limiting spectral distribution of $\bS=\frac{1}{n} \bX \bX^\top$ was then shown to be
 $$
 F'(x) = \begin{cases}
 \frac{1}{2\pi x c} \sqrt{(b-x)(x-a)} & \text{ if } a \leq x \leq b\\
-0 & \text{ otherwise.}
+0 & \text{ otherwise}
 \end{cases}
 $$
-where $a=(1-\sqrt{c})^2$ and $b=(1+\sqrt{c})^2$. The distribution has, once again, bounded support! 
+where $a=(1-\sqrt{c})^2$ and $b=(1+\sqrt{c})^2$. 
+The distribution has, once again, bounded support! 
 The eigenvalues seem to attract each other. 
-Although the sample covariance matrix appears very often in the context of MPT, its not usually the object of interest. 
-We are interested in its inverse, as we discussed in chapter \ref{ch:MPT}. 
-However, the Stieltjes transform can help us with that. 
+Although the sample covariance matrix appears very often in the context of MPT, it is not the object of interest. 
+MPT cares about its inverse, as discussed in Chapter \ref{ch:MPT}, which the Stieltjes transform can help with. 
 The Stieltjes transform of a function $F: \mathbbm{R} \rightarrow \mathbbm{R}$ is defined as 
 \begin{equation}\label{eqn:stieltjes}
 m^F(z) = \int \frac{1}{x-z}dF(x)
 \end{equation}
 where $z \in \{z \in \mathbbm{C}: \mathbbm{Im}(z)>0 \}$. 
-The Stieltjes has many useful properties. 
-If we know the Stieltjes transform, then we can also derive the spectral distribution $F$ by its inversion formula. 
-We also have pointwise convergence (see appendix B.2 of \citet{bai2010spectral}). 
-Using the results from RMT in MPT we take a sample covariance matrix $\bS$ with ESD $F_n(x)$ and note that
+The Stieltjes transform has many useful properties. 
+If the Stieltjes transform is known, then the spectral distribution $F$ can be derived by the inversion formula. 
+There is also pointwise convergence of it (see, appendix B.2 of \citet{bai2010spectral}). 
+To apply the results from RMT to MPT, take a sample covariance matrix $\bS$ with ESD $F_n(x)$ and eigenvalue-matrix $\bLambda$ as defined in Chapter \ref{ch:MPT}, and note that
 \begin{equation}
 \frac{1}{p}\tr \left( \bS^{-1} \right) = \lim_{z\rightarrow 0^+} \frac{1}{p} \tr \left( (\bLambda -z\bI)^{-1} \right) = \lim_{z\rightarrow 0^+} \int_0^\infty \frac{1}{x - z} dF_n(x) = \lim_{z\rightarrow 0^+} m^{F_n}(z).
 \end{equation}
-If we are interested in the limiting properties of traces of inverse sample covariance matrices, we can investigate the properties of the Stieltjes transform. 
-However, to make matters slightly worse, we are most often (at least in this thesis) interested in quadratic or bilinear forms where the inverse sample covariance matrix is present. 
+To investigate the limiting properties of traces of inverse sample covariance matrices then all that is needed is the Stieltjes transform and its properties. 
+However, to make matters slightly worse, the objects of interest in this thesis are quadratic or bilinear forms where the inverse sample covariance matrix is present. 
 Examples are $\ones^\top \bS^{-1} \ones$ or $\ones^\top \bS^{-1} \bb$ for some vector $\bb$. 
-Altough $\tr(\bS^{-1})$ and $\ones^\top \bS^{-1} \ones$ may look similar, their limiting objects can behave quite differently. 
+Although $\tr(\bS^{-1})$ and $\ones^\top \bS^{-1} \ones$ may look similar, their limiting objects can behave quite differently. 
 This is due to the fact that the former does not depend on the eigenvectors while latter does. 
-\citet{rubio2011spectral} showed the following theorem which allows us to handle limiting objects on this specific form
-\begin{theorem}[Theorem 1 of \citet{rubio2011spectral}]
+\citet{rubio2011spectral} showed the following theorem which can be used to derive limiting objects on this specific form.
+\begin{theorem}[Theorem 1 of \citet{rubio2011spectral}]\label{thm:rubio}
+
+
 \begin{enumerate}[(a)]
   \item $\bX$ is an $p \times n$ random matrix such that the entier of $\sqrt{n}\bX$ are i.i.d complex random variables with mean 0, variance 1 and finite $8+\epsilon$ moment, for some $\epsilon > 0$.
   \item $\bA$ and $\mathbf{R}$ are $p \times n$ hermitian nonnegative definite matrices, with the spectral norm (denoted by $||\cdot||$) of $\mathbf{R}$ being bounded uniformly in $p$, and $\mathbf{T}$ is an $n \times n$ diagonal matrix with real nonegative entries  uniformly bounded in $n$.
   \item $\bB=\bA + \bR^{1/2} \bX \bT \bX^H \bR^{1/2}$, where $\bR^{1/2}$ is the nonnegative definite square root of $\bR$.
   \item $\bTheta$ is an arbitrary nonrandom $p \times p$ matrix, whose trace norm (i.e., $\tr((\bTheta^H \bTheta)^{1/2}):=||\bTheta||_{tr}$) is bounded uniformly in $p$.
 \end{enumerate}
+
 Then, with probability 1, for each $z\in \mathbbm{C}-\mathbbm{R}^+$, as $n=n(p) \rightarrow \infty$ such that $0<\lim\inf c_p<\lim \sup c_p < \infty$, with $c_p = p/n$
 \begin{equation}
   \tr\left(\bTheta\left( \left(\bB - z\bI\right)^{-1} - \left( \bA + x_p(e_p)\bR - z\bI \right)^{-1} \right) \right) \rightarrow 0
@@ -738,77 +777,75 @@ and $e_p=e_p(z)$ is the Stieltjes transform of a certain positive measure on $\m
   e_p = \frac{1}{p}\tr \left( \bR \left(\bA +  x_p(e_p) \bR - z\bI_p \right)^{-1} \right).
 \end{equation}
 \end{theorem}
-This theorem is used repeatedly in papers \ref{sec:paper3} through \ref{sec:paper5}. 
-It is that powerful and flexible. 
-However, we often assume finite $4+\epsilon$ moment, while the theorem above assumes $8+\epsilon$. 
-We can circumvent that by the supplement material of \citet{BodnarGuptaParolya2016}.
+This theorem is used repeatedly in papers \hyperref[sec:paper3]{3}, \hyperref[sec:paper4]{4} and \hyperref[sec:paper5]{5}.
+However, in this thesis it is assumed that $\bX$ has finite $4+\epsilon$ moment, while the theorem above assumes $8+\epsilon$. 
+That can be circumvented through the supplement material of \citet{BodnarGuptaParolya2016}.
 
-If we are able to construct a modified sample covariance matrix on the form of $\bB$ then our aim is to find $x_p(e_p)$, the transformation of the Stieltjes transform. $e_p(z)$.
-Sometimes we can find analytic solutions for the function $x_p(e_p)$. 
-We are able to do so in papers \ref{sec:paper3} and \ref{sec:paper4} but not in paper \ref{sec:paper5}. 
-There we need numerical methods to solve the system of equations at hand.
+Through Theorem \ref{thm:rubio} any limiting trace of the modified sample covariance matrix $\bB$ can be derived by first finding $x_p(e_p)$, the transformation of the Stieltjes transform $e_p(z)$.
+In simple cases, an analytic solutions for the functions $x_p(e_p)$ or $e_p(z)$ can be found. 
+This happens in papers \hyperref[sec:paper3]{3} and \hyperref[sec:paper4]{4} though not in paper \hyperref[sec:paper5]{5}. 
+In paper \hyperref[sec:paper5]{5} the solution is found using numerical methods to construct optimal portfolios.
 
 \section{Shrinkage estimators in modern portfolio theory}
-The estimator $\hV$ is clearly biased, it even diverges when $c$ approaches $1$. 
-This problem is not unique. 
-The least squares estimator is usually very volatile when there are many covariates in your regression model. 
+The estimator $\hV$ is clearly biased, it even diverges when $c$ approaches $1$.
+This problem is not unique.
+The least squares estimator is usually very volatile when there are many covariates in the regression model. 
 An easy solution is to use $(1-c)\hV$ as an unbiased estimator for the variance of the GMV portfolio.
-However, that might not be what we want. 
-We want to create a good estimator for the weights, since these are what we invest in! 
-There are many solutions to this problem but the most common is using a shrinkage estimator. 
-We will introduce bias to our weights but hopefully reduce the variance.
+However, that might not be what an investor wants.
+He/she invests in portfolio weights, so naturally the aim should be to construct a good estimator for these.
+There are many solutions to this problem but the most common is to use a shrinkage estimator.
+By introducing a shrinkage estimator, some bias is introduced to the weights but hopefully it also reduces the variance.
 
-Looking at the GMV portfolio, there are two natural extensions. 
-Either, we regularize the sample covariance matrix $\bS$ or we regularize the weights $\hbw_{GMV}$ directly. 
-Let us start with the latter. 
-The first extension is to combine the GMV portfolio weights with some target portfolio $\bb$. 
-We construct the shrunk portfolio weights $\hbw_{SH}$ as
-\begin{equation}
+Papers \hyperref[sec:paper3]{3} through \hyperref[sec:paper4]{5} work with the GMV portfolio and there are two natural extensions to it. 
+The weights $\hbw_{GMV}$ or the sample covariance matrix $\bS$ can be shrunk towards a target. 
+Papers \hyperref[sec:paper3]{3} and \hyperref[sec:paper4]{4} work with the former.
+Combining the GMV portfolio weights with some target portfolio $\bb$ through a linear combination results in
+\begin{equation*}\label{eqn:linshrink}
   \hbw_{SH} = \alpha\hbw_{GMV} + (1-\alpha)\bb
-\end{equation}
-which introduces the bias $(1-\alpha)(\optn{E}[\hbw_{GMV}]+\bb) - \bw_{GMV}$ but decreases the variance to
-\begin{align}
-  \optn{E}\left[\left(\alpha\hbw_{GMV} - \alpha \optn{E}[\hbw_{GMV}]\right)\left(\alpha\hbw_{GMV} - \alpha \optn{E}[\hbw_{GMV}]\right)^\top\right] 
-  & = 
+\end{equation*}
+which introduces the bias $\alpha(\optn{E}[\hbw_{GMV}] - \bw_{GMV})$ but decreases the variance to
+\begin{align*}
   \alpha^2\optn{E}\left[\left(\hbw_{GMV} - \optn{E}[\hbw_{GMV}]\right)\left(\hbw_{GMV} - \optn{E}[\hbw_{GMV}]\right)^\top\right]
-\end{align}
+\end{align*}
 It now stands to determine $\alpha$. 
-Shrinkage intensities are most often determined by cross-validation (see e.g. \citet[ch. 5]{james2013introduction}). 
-We try to find the best shrinkage coefficients by dividing data into a test and a training set.
+Shrinkage intensities are most often determined by cross-validation (CV) (see, e.g., \citet[ch. 5]{james2013introduction}). 
+The aim is to find the best shrinkage coefficients by dividing data into a validation and a training set.
 These are then used in conjunction with a loss function to determine the optimal value for the shrinkage coefficients.
 A natural choice of loss function for the GMV portfolio is the out-of-sample variance.
-Our aim is to determine $\min_\alpha \hbw_{SH}^\top(\alpha) \bSigma \hbw_{SH}(\alpha)$.
-The loss depends on $\bSigma$, which we do not know.
-The perhaps most obvious solution is to use the test set to estimate the $\bSigma$. 
-As we will see, that will have its own issues.
+The aim is to determine $\min_\alpha \hbw_{SH}^\top(\alpha) \bSigma \hbw_{SH}(\alpha)$.
+The out-of-sample loss depends on $\bSigma$, which is not known.
+The perhaps most obvious solution is to use the validation set to estimate the $\bSigma$, which has its own issues.
 The second solution, employed by \citet{bodnar2018estimation}, is to first solve the optimization problem analytically.
 The estimator is unobtainable, since it depends on $\bSigma$ so it is usually referred to as an \textit{oracle} estimator. 
-To construct an estimator we can actually use, a \textit{bona-fide} estimator, we take the limit of the oracle estimator and then construct a consistent estimator for the limiting object at hand.
-
+To construct an estimator which can actually be used, the authors construct a \textit{bona-fide} estimator.
+A bona-fide estimator only depends on esitmated quantities, so it is known.
+The aim is then to construct the bona-fide estimator such that it converges to the same limit as the oracle. 
+It is a consistent estimator for the limiting object at hand.
 The two methods can differ quite substantially in their solution. 
-One method is simple to implement while the other \textit{should} be theoretically superior.
-In \ref{high-dim-CV} we display R-code for a small motivating example to why deriving bona-fide estimators can prove to be fruitful.
-It is a comparison between the estimator from \citet{bodnar2018estimation} and determining the shrinkage coefficient using a 5 fold cross-validation procedure.
-In this example we use $n=250, p=150$ and $\bb$ equal to the EW portfolio.
+The CV method is simple to implement while the other \textit{should} be theoretically superior.
+In \ref{high-dim-CV} there is some R-code for a small motivating example to why deriving bona-fide estimators can prove to be fruitful.
+It is a comparison between the estimator from \citet{bodnar2018estimation} and determining the shrinkage coefficient using a 5 fold CV procedure.
+In this example $n=250, p=150$ and $\bb$ is equal to the Equally Weighted (EW) portfolio.
 It is a large portfolio, though $c=p/n<1$.
-%In this example we omit the code, but it is available on github\footnote{\url{https://github.com/Ethorsn/Phd-thesis}}.
 \begin{knitrout}\small
 \definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
-\captionof{chunk}{R-code performing a 5-fold cross validation for determining shrinkage coefficients as well as the implementation from the HDShOP package.}\label{high-dim-CV}\begin{alltt}
+\captionof{chunk}{R-code performing a 5-fold cross-validation for determining shrinkage coefficients as well as the analytic methods from the HDShOP package.}\label{high-dim-CV}\begin{alltt}
 \hlcom{# setup}
 \hlkwd{set.seed}\hlstd{(}\hlnum{123}\hlstd{)}
 \hlstd{p} \hlkwb{<-} \hlnum{150}
 \hlstd{n} \hlkwb{<-} \hlnum{250}
 \hlstd{K} \hlkwb{<-} \hlnum{5}
-\hlstd{b} \hlkwb{<-} \hlkwd{rep}\hlstd{(}\hlnum{1}\hlstd{,p)} \hlopt{/} \hlstd{p} \hlcom{# use EW portfolio as target }
+\hlcom{# use EW portfolio as target}
+\hlstd{b} \hlkwb{<-} \hlkwd{rep}\hlstd{(}\hlnum{1}\hlstd{,p)} \hlopt{/} \hlstd{p}
 \hlcom{# simulate params & dataset}
 \hlstd{Sigma} \hlkwb{<-} \hlstd{HDShOP}\hlopt{::}\hlkwd{RandCovMtrx}\hlstd{(p)}
 \hlstd{mu} \hlkwb{<-} \hlkwd{runif}\hlstd{(p,} \hlopt{-}\hlnum{0.1}\hlstd{,} \hlnum{0.1}\hlstd{)}
+\hlcom{# simulate from statistical model}
 \hlstd{Y} \hlkwb{<-} \hlstd{mu} \hlopt{%*%} \hlkwd{t}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{1}\hlstd{,n))} \hlopt{+} \hlkwd{t}\hlstd{(}\hlkwd{chol}\hlstd{(Sigma))} \hlopt{%*%} \hlkwd{matrix}\hlstd{(}\hlkwd{rt}\hlstd{(n}\hlopt{*}\hlstd{p,} \hlkwc{df}\hlstd{=}\hlnum{5}\hlstd{),} \hlkwc{ncol}\hlstd{=n)}
 \hlcom{# create test splits}
 \hlstd{folds} \hlkwb{<-} \hlkwd{split}\hlstd{(}\hlnum{1}\hlopt{:}\hlstd{n,} \hlnum{1}\hlopt{:}\hlstd{K)}
 \hlstd{grid} \hlkwb{<-} \hlkwd{expand_grid}\hlstd{(}\hlstr{"alpha"} \hlstd{=} \hlkwd{seq}\hlstd{(}\hlnum{0.01}\hlstd{,} \hlnum{0.99}\hlstd{,} \hlkwc{by}\hlstd{=}\hlnum{0.01}\hlstd{),} \hlstr{"fold"} \hlstd{=} \hlnum{1}\hlopt{:}\hlstd{K)}
-\hlcom{# perform 5-fold CV, pmap to map over rows }
+\hlcom{# perform 5-fold CV}
 \hlstd{result} \hlkwb{<-} \hlkwd{pmap}\hlstd{(grid,} \hlopt{~}\hlstd{\{}
     \hlstd{test} \hlkwb{<-} \hlstd{Y[,folds[[.y]]]}
     \hlstd{train} \hlkwb{<-} \hlstd{Y[,}\hlopt{-}\hlstd{folds[[.y]]]}
@@ -837,24 +874,25 @@ It is a large portfolio, though $c=p/n<1$.
 
 }
 
-\caption[Out of sample variance estimates from the 5-fold cross validation]{Out of sample variance estimates from the 5-fold cross validation.}\label{fig:cv_benchmark}
+\caption[Out-of-sample variance estimates from the 5-fold cross-validation]{Out-of-sample variance estimates from the 5-fold cross-validation.}\label{fig:cv_benchmark}
 \end{figure}
 
 \end{knitrout}
 
-In Figure \ref{fig:cv_benchmark} we illustrate the out of sample variance aggregated over folds. 
-Cross validation suggest that the optimal value should be $0.68$. 
+In Figure \ref{fig:cv_benchmark} the out-of-sample variance, aggregated over folds, is displayed. 
+Cross-validation suggest that the optimal value should be $0.68$. 
 The analytic method from \citet{bodnar2018estimation} suggests that the optimal value is $0.7968$.
 The "correct" value of $\alpha$, as given by the oracle estimator, is equal to $0.8151$. 
 Its limiting value (see Theorem 2.1 \citet{bodnar2018estimation}) is equal to $0.7933$.
 Although none of the methods are spot on, the bona-fide estimator is closer to what the optimal value should be.
-Furthermore, changing the number of folds in the K-fold cross validation can give quite different results in what the optimal value should be.
-This linear shrinkage approach is used in Paper \ref{sec:paper3} through \ref{sec:paper5}.
+Furthermore, changing the number of folds in the K-fold CV can give quite different results in the optimal value.
+If there is a possibility to derive a bona-fide estimator, then it seems that it is better than using a CV approach.
+This approach is used in paper \hyperref[sec:paper3]{3}, \hyperref[sec:paper4]{4} and \hyperref[sec:paper5]{5} as well as the linear shrinkage from \eqref{eqn:linshrink}.
 
-So far we have limited our approach to shrinking the weights. 
-The next step is to shrink the elements of $\bS$.
-If we do so then we can consider the case where $c>1$.
-We leave this as an open question for the next section where we describe the papers in more detail.
+Shrinking the weights can provide a good estimator in higher dimensions. 
+As previously stated, another approach is to shrink the elements of $\bS$.
+If the sample covariance matrix is shrunk, then the concentration ratio $c$ can be greater than one.
+This is the topic of the last paper of this thesis which is left for the next section where the papers are described in more detail.
 %\begin{enumerate}
 %	\item Other types of estimators and why they might be better than $\bS$.
 %	\item Rotation-invariant estimation - what does it mean (we do not want to target eigenvectors)?
@@ -865,118 +903,122 @@ We leave this as an open question for the next section where we describe the pap
 %%%%%% ------------------------------------------------------------------------
 
 
-The papers presented here are among a total of ... papers produced. These are selected based their common theme.
-
-\section{Paper 1 - Sampling Distributions of Optimal Portfolio Weights and Characteristics in Small and Large Dimensions}\label{sec:paper1}
-The paper investigates a fundamental question in modern portfolio theory. 
-What are the actual implications of using the sample covariance matrix $\bS$ and the sample mean $\byb$ instead of the true covariance matrix $\bSigma$ and $\bmu$?
-The paper does so when the returns follow a multivariate normal distribution. 
-In it we derive the distribution for all optimal portfolios on the common form
+The following papers are included in this thesis.
+\section{Paper 1 - Sampling distributions of optimal portfolio weights and characteristics in small and large dimensions}\label{sec:paper1}
+The paper investigates a fundamental question in MPT. 
+What are the actual implications of using the sample covariance matrix $\bS$ and the sample mean $\byb$ instead of the true covariance matrix $\bSigma$ and mean vector $\bmu$?
+The paper presents an answer to the question when the returns follow a multivariate normal distribution. 
+The paper contains the distribution for all optimal portfolios on the common form
 \begin{equation}\label{eqn:paper1_eq1}
-  \bL\hbw_{opt} = \bL\hbw_{GMV} + g(\hR, \hV, \hs)\bL\hat{\bQ}\byb
+  \bL\hbw_{opt} = \bL\hbw_{GMV} + g(\hR, \hV, \hs)\frac{\bL\hat{\bQ}\byb}{\hs}
 \end{equation}
 for some matrix $\bL$ of size $k \times p$ where $k<p$.
-To do so, we derive the stochastic representation for the joint distribution of all quantities in the equation \eqref{eqn:paper1_eq1}. 
-That enables us to efficiently simulate from the distribution.
-Using this representation we can easily compute quantiles of the joint distribution of the efficient frontier.
-Furthermore, we also derive the high-dimensional asymptotic distribution of said joint distribution. 
-The high-dimensional asymptotic distribution is then compared to different models.
-One scenario considers simulations from the stochastic representation, trying to deduce the finite-sample properties.
-The other scenarios try to investigate what happens when we deviate from the model.
-As one can expect, the high-dimensional distribution works well under the assumptions though seem to be reasonably robust from deviations of the model.
-The hardest part to determine is what different characteristics of the return distribution have on the sample distribution of the quantities in \eqref{eqn:paper1_eq1} it remains an unanswered question.
+The joint distribution of all quantities in \eqref{eqn:paper1_eq1} is derived through a stochastic representation. 
+The stochastic representation can be used to efficiently simulate from the distribution.
+By simulation, quantities such as quantiles or other summary statistics are easily computed.
+Furthermore, the high-dimensional asymptotic joint distribution is also derived. 
+In a simulation study, the high-dimensional asymptotic distribution is compared to simulated data.
+One scenario considers simulations from the stochastic representation, trying to deduce the finite-sample properties of the high dimensional distribution.
+The other scenarios try to investigate what happens when observations deviate from the model.
+As expected, the high-dimensional distribution works well under the assumptions and seems to be reasonably robust from deviations of the model.
+The GMV and self-financing portfolio are the most robust quantities to deviations from the model.
 
-\section{Paper 2 -Tangency portfolio weights under a skew-normal model in small and large dimensions}\label{sec:paper2}
-In this paper we investigate a portfolio from chapter \ref{ch:MPT}, the tangency portfolio. 
-The portfolio was obtained from the quadratic utility function, namely
+\section{Paper 2 - Tangency portfolio weights under a skew-normal model in small and large dimensions}\label{sec:paper2}
+In this paper, the implications of skewness on the Tangency Portfolio (TP) from Chapter \ref{ch:MPT} is investigated. 
+The portfolio is obtained from the quadratic utility function, namely
 \begin{equation}
-  \min_{\bw} \bw^\top (\bmu -r_f\ones) - \frac{\gamma}{2} \bw^\top \bSigma \bw
+  \min_{\bw} \bw^\top (\bmu -r_f\ones) - \frac{\gamma}{2} \bw^\top \bSigma \bw.
 \end{equation}
-This paper extends Paper 1 as it considers investments in a risk-free asset and use an extension of the multivariate normal model, the CSN model presented in chapter \ref{ch:estim}. 
-The model can include skewness in the asset returns, a trait they usually exhibit (see e.g. \citet{cont2001empirical}). 
-Similarly to Paper 1, we derive the distribution of the sample tangency portfolio.
-We investigate what implications the model has on the sample tangency portfolio.
-In short, skewness results in a bias of the portfolio weights. 
-The investor will not hold the correct portfolio on average.
-Furthermore, we also investigate its high-dimensional distribution and show that the skewness disappears asymptotically. 
-The high-dimensional distribution is the same as the previous research have shown (see .e.g. \citet{karlsson2021statistical})
+This paper extends paper 1 as it considers investments in a risk-free asset and use an extension of the multivariate normal model, the CSN model presented in Chapter \ref{ch:estim}. 
+The model can include skewness in the asset returns, a trait returns usually exhibit (see e.g., \citet{cont2001empirical}). 
+Similarly to paper 1, the distribution of the sample tangency portfolio is derived and what implications the skewness has on the portfolio.
+In short, skewness results in a bias present in the portfolio weights. 
+An investor will not hold the correct portfolio on average.
+Furthermore, the high-dimensional distribution of the sample tangency portfolio is derived.
+It can be seen that the skewness disappears asymptotically. 
+The high-dimensional distribution is the same as previous research has shown (see, e.g., \citet{karlsson2021statistical}).
 
-\section{Paper 3 - Dynamic Shrinkage Estimation of the High-Dimensional Minimum-Variance Portfolio}\label{sec:paper3}
-This paper solves a practical feature when investing in the GMV portfolio: how to rebalance it at fixed time points. 
-If the investor owns a GMV portfolio and waits for a week, month or year the data will likely indicate that they should hold another portfolio than what they are.
+\section{Paper 3 - Dynamic shrinkage estimation of the high-dimensional minimum-variance portfolio}\label{sec:paper3}
+This paper solves a practical feature when investing in the GMV portfolio: how to rebalance the portfolio at fixed time points. 
+If an investor owns a GMV portfolio and waits for a week, month or year the data will likely indicate that another GMV portfolio should be held.
 The change can be quite large if $n$ is sufficiently small.
-A natural question to ask is how to go from one portfolio to another, e.g. how to rebalance optimally when we receive a new set of data. 
+A natural question to ask is how to go from one portfolio to another, e.g., how to rebalance optimally when a new set of data is available. 
 
-In this paper we develop a dynamic rebalancing scheme for the GMV portfolio. 
-It aims to decrease the out-of-sample variance between the holding portfolio, which might be a random GMV portfolio, and the GMV portfolio that you are supposed to hold given the data you see. 
-We consider portfolios on the following form
+In this paper, a dynamic rebalancing scheme for the GMV portfolio is derived. 
+The scheme aims to decrease the out-of-sample variance between the holding portfolio, which might be a random GMV portfolio, and the GMV portfolio that is suggested to hold given this current period's data. 
+The portfolios are on the following form
 \begin{equation}
   \hbw_{SH;n_{i}}=\psi_{i}\hbw_{S;n_i}+ (1-\psi_{i})\hbw_{SH;n_{i-1}},
 \end{equation}
-where $\hbw_{S;n_i}$, $i=1,2,...,T$, is the Traditional sample GMV portfolio using the $i$th sample of size $n_i$ to estimate the GMV portfolio weights in \eqref{eqn:GMV}. 
+where $\hbw_{S;n_i}$, $i=1,2,...,T$, is the traditional sample GMV portfolio using the $i$th sample of size $n_i$ to estimate the GMV portfolio weights in \eqref{eqn:GMV}. 
 The initial portfolio, $\hbw_{SH;0}$, can be a random GMV portfolio or a deterministic target portfolio $\bb$.
-We assume that the investor have specified fixed dates $t_i$, $i=1,2,...,T$ that they want to rebalance their GMV portfolio. 
+It is assumed that an investor have specified dates $t_i$, $i=1,2,...,T$ that he/she wants to rebalance his/hers GMV portfolio. 
 The shrinkage coefficients are then determined through the following optimization problem
 $$
 \min_{\psi_i} \hbw_{SH;n_{i}}^\top \bSigma \hbw_{SH;n_{i}}.
 $$
-The problem is similar to the linear shrinkage discussed in chapter \ref{ch:highdim}.
-It is an extension to the work of \citet{bodnar2018estimation} and use the flexible location and scale model discussed in \eqref{eqn:location_scale_model}.
+The problem is similar to the linear shrinkage discussed in Chapter \ref{ch:highdim}.
+The portfolio allocation problem is an extension to the work of \citet{bodnar2018estimation} and use the flexible location and scale model in \eqref{eqn:location_scale_model}.
 
 The portfolio is shown to produce great results in an extensive simulation study.
-It also provides a better estimator for the volatility in comparison to the Traditional sample GMV as well as the GMV portfolio using \citet{lw20} nonlinear shrinkage estimator for the sample covariance matrix.
+It also provides a better estimator for the volatility in comparison to the traditional sample GMV as well as the GMV portfolio using \citet{lw20} nonlinear shrinkage estimator for the sample covariance matrix.
 There are also many other benefits of using the portfolio strategy.
-To transition from one portfolio to the next costs money.
-That will diminish the return and profit you make.
-Furthermore, its not always possible to go from one portfolio to the next in a day or even a month.
+Transitions from one portfolio to the next costs money, which will diminish the return and profit that can be made.
+Furthermore, it is not always possible to go from one portfolio to the next in a day or even a month.
 The traditional GMV portfolio might suggest that an institution should first own a large long position and the next month a large short position.
-Depending on the size of that institutions portfolio and the size of these positional changes, that might be illegal. 
-It can be deemed market influencing or just outright impossible to sell that many assets, there is a liquidity issue.
+Depending on the size of the institution and the portfolio, the size of these positional changes might be illegal. 
+It can be deemed market influencing or just outright impossible to sell that many assets.
+The rebalancing scheme provides a solution to these problems.
 
-\section{Paper 4 - Is the empirical out-of-sample variance an informative risk measure for high-dimensional portfolios}\label{sec:paper4}
+\section{Paper 4 - Is the empirical out-of-sample variance an informative risk measure for high-dimensional portfolios?}\label{sec:paper4}
 Any empirical application using the GMV portfolio is bound to include the volatility or variance as a performance measure. 
-A natural question to ask is then: is the empirical out-of-sample variance a consistent estimator of the variance? 
+However, is the empirical out-of-sample variance a consistent estimator of the variance? 
 Furthermore, is it a good option to use or are there perhaps better options to use as performance measures? 
-In this paper we investigate two different metrics of evaluation that are common to the GMV portfolio, the out-of-sample variance and the relative out-of-sample loss.   
+This paper investigates two different metrics of evaluation that are common to the GMV portfolio, the out-of-sample variance and the relative out-of-sample loss. 
 
-We consider the location and scale model from \eqref{eqn:location_scale_model} and three different portfolios. 
-The first portfolio is the Traditional GMV portfolio from \eqref{eqn:GMV}, the second is the portfolio from \citet{bodnar2018estimation} and the last is the linear shrinkage portfolio from \citet{frahm2010}.
-For the three different portfolios we derive their out-of-sample variance, relative loss and their empirical counterparts. 
-We do so under different assumptions on the parameters of the model.
+This paper also considers the location and scale model from \eqref{eqn:location_scale_model} and three different GMV portfolios. 
+The first portfolio is the traditional GMV portfolio from \eqref{eqn:GMV}, the second is the portfolio from \citet{bodnar2018estimation} and the last is the linear shrinkage portfolio from \citet{frahm2010}.
+The properties of the out-of-sample variance, relative loss and their empirical counterparts are derived for the three different portfolios. 
+It is done under different assumptions on the parameters of the model.
 Most notably, there is a natural ordering to the different out-of-sample losses.
 The empirical out-of-sample loss is smallest for \citet{bodnar2018estimation}, second to smallest is \citet{frahm2010} and the largest is the traditional sample GMV portfolio.
-Furthermore, we are able to derive the empirical out-of-sample variance for the different portfolios.
+Furthermore, the empirical out-of-sample variance for the different portfolios are presented.
 The assumptions that are necessary for convergence of the empirical out-of-sample variance are quite different from those used for the empirical out-of-sample loss.
-We argue that the assumptions necessary for convergence of the empirical out-of-sample variance are stronger than the empirical out-of-sample loss.
-The theoretical findings are investigated in a simulations study where we see an indication to that the ordering will always hold even when the model assumptions are violated.
+The assumptions necessary for convergence of the empirical out-of-sample variance are deemed stronger than the empirical out-of-sample loss.
+The theoretical findings are investigated in a simulation study and an empirical application which validate the ordering even when the model assumptions are violated.
 
-\section{Paper 5 - Double shrinkage}\label{sec:paper5}
-In this thesis we mostly use $\bS$ and cope with that the sample covariance matrix is a noisy estimator by linear shrinkage or understanding the uncertainty it provides.
-Using this estimator has implied that we have only consider $c<1$.
-In this paper we use a version of Thikonov shrinkage on the sample covariance matrix as well as the linear shrinkage from previous papers. 
-That enables us to cover the case where $c>1$ and potentially create a more robust estimator of the portfolio weights.
-In this paper we consider the following shrinkage estimator
+\section{Paper 5 - Two is better than one: Regularized shrinkage of large
+minimum variance portfolios.}\label{sec:paper5}
+The methods of this thesis most often use the sample covariance matrix $\bS$.
+They deal with the fact that the sample covariance matrix is a noisy estimator by linear shrinkage or understanding the uncertainty it provides.
+This estimator can only cover $c<1$.
+This paper introduces a Thikonov regularisation on the portfolio weights together with the linear shrinkage from prior papers. 
+It results in a ridge type estimator for the sample covariance matrix together with the linear shrinkage on the portfolio weights.
+It enables the method to cover the case where $c>1$ and potentially create a more robust estimator of the portfolio weights.
+The portfolio looks like
 $$
-\hbw_{SH} = \psi \frac{\left(\bS + \lambda \bI_p \right)^{-1}\ones_p}{\ones_p^\top\left(\bS + \lambda \bI_p \right)^{-1}\ones_p} + (1-\psi)\bb.
+\hbw_{SH} = \psi \frac{\left(\bS + \eta \bI_p \right)^{-1}\ones_p}{\ones_p^\top\left(\bS + \eta \bI_p \right)^{-1}\ones_p} + (1-\psi)\bb.
 $$
-As previously, since we are dealing with the GMV portfolio we naturally use the out-of-sample variance to determine $\psi$ and $\lambda$.
-It turns out that we can not construct a closed-form oracle estimator for the shrinkage parameters.
-However, we are able to construct an oracle loss function, which we can then derive a bona-fide estimator for.
-The bona-fide loss is consistent of the oracle loss.
+The natural loss for estimating $\psi$ and $\eta$ is the out-of-sample variance.
+It turns out that there is no possibility to construct a closed-form oracle estimator for the shrinkage parameters.
+However, there is a possibility to construct an oracle loss function, for which a bona-fide estimator can be derived.
+The bona-fide loss is proved to be a consistent estimator of the oracle loss.
 
-The model is seen to perform on-par with the nonlinear shrinkage of \citet{lw20} in all simulations and beat their method in a empirical analysis.
-Furthermore, it also increases/decreases the results of several other portfolio metrics.
-\textbf{more comments...}
+The model is seen to perform on-par with the nonlinear shrinkage of \citet{lw20} in all simulations.
+The method also consistently beats the \citet{lw20} method in an extensive empirical analysis.
+It provides the best out-of-sample variance for five out six different configurations. 
+The only competitor is the equally weighted portfolio.
+Furthermore, the method also increases/decreases the results of several other portfolio metrics.
 
 %\section*{Paper 6 - The capital market line, tangency portfolio and the effect of Tikhonov regularization in higher dimensions}\label{sec:paper6}
 
-\section{Other research results}
+\section{Other research results}\label{sec:other_results}
 
-Paper \ref{sec:paper3} is accompanied by the R-package \citet{DOSPortfolio}, available on CRAN. 
-The readers are free, or rather encouraged(!), to install it with \hlkwd{install.packages}\hlstd{(}\hlstr{"DOSPortfolio"}\hlstd{)}. 
+Paper 3 is accompanied by the R-package \citet{DOSPortfolio}, available on CRAN. 
+The readers of this thesis are free, or rather encouraged(!), to install it with \hlkwd{install.packages}\hlstd{(}\hlstr{"DOSPortfolio"}\hlstd{)}. 
 The package provides a simple interface for the methods implemented in the paper. 
-In \ref{DOSportfolio} we display a short example on how to construct the dynamic portfolio weights. 
-The package is the first iteration of possibly many more portfolios which can be constructed in a similar fashion.
+In \ref{DOSportfolio} a short example on how to construct the dynamic portfolio weights using the package is displayed. 
+The package is the first iteration of possibly many more portfolios which can be constructed in a similar fashion.\newpage
 \begin{knitrout}\small
 \definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
 \captionof{chunk}{R-code which showcase the use of the DOSPortfolio package.}\label{DOSportfolio}\begin{alltt}
@@ -986,28 +1028,28 @@ The package is the first iteration of possibly many more portfolios which can be
 \hlcom{# Sample p assets}
 \hlkwd{set.seed}\hlstd{(}\hlnum{1234}\hlstd{)}
 \hlstd{asset_cols} \hlkwb{<-} \hlkwd{sample}\hlstd{(}\hlnum{2}\hlopt{:}\hlkwd{ncol}\hlstd{(df),} \hlkwc{size} \hlstd{= p)}
-\hlcom{# specify reallocation points}
+\hlcom{# specify reallocation points, daily in this case}
 \hlstd{reallocation_points} \hlkwb{<-} \hlkwd{seq}\hlstd{(n,} \hlkwd{nrow}\hlstd{(df),} \hlkwc{by}\hlstd{=n)}
 \hlcom{# estimate portfolio weights}
 \hlstd{dos_weights} \hlkwb{<-} \hlstd{df} \hlopt{%>%}
   \hlkwd{select}\hlstd{(}\hlkwd{all_of}\hlstd{(asset_cols),} \hlopt{-}\hlstd{date)} \hlopt{%>%}
-  \hlkwd{DOSPortfolio}\hlstd{(.,}
-               \hlkwc{reallocation_points} \hlstd{= reallocation_points,}
+  \hlkwd{DOSPortfolio}\hlstd{(}\hlkwc{reallocation_points} \hlstd{= reallocation_points,}
                \hlkwc{target_portfolio} \hlstd{=} \hlkwd{rep}\hlstd{(}\hlnum{1}\hlstd{,} \hlkwd{ncol}\hlstd{(.))}\hlopt{/}\hlkwd{ncol}\hlstd{(.),}
                \hlkwc{shrinkage_type} \hlstd{=} \hlstr{"overlapping"}\hlstd{)}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
-Furthermore, the following papers were also coauthored throughout the writing of this thesis \cite{bodnar2020quantile}, \cite{bodnar2021bayesian}  and \cite{bodnar2021quantile}.
+Furthermore, the following papers were co-authored throughout the writing of this thesis \cite{bodnar2020quantile}, \cite{bodnar2021bayesian}  and \cite{bodnar2021quantile}.
 The first presents an analytic derivation of the MPT framework in the Bayesian setting. 
 It specifically looks at how quantiles of optimal portfolios can be constructed and the effects of estimation uncertainty in these. 
-This is especially important since the regulations in place demands that you report quantile-based risk measures (see \citet{basel4}).
+This is especially important since the regulations in place demands that quantile-based risk measures are reported (see \citet{basel4}).
 The second paper provides a continuation on the first. 
-The idea is to model the belief of the investor explicitly and to construct a prior which captures what the likelihood cannot. 
-We impose a prior distribution which adapts to the recent observations when the market is turbulent. 
+The idea is to model the belief of an investor in a prior distribution. 
+The method then aims to construct the prior to capture what the likelihood cannot. 
+It imposes a prior distribution which adapts to the recent observations when the market is turbulent. 
 The algorithm is seen to work well when markets are turbulent.
-The third paper also considers quantile based portfolios. 
-It does so in a general framework, not necessarily as the same framework as MPT where we only use the first two moments of the return distribution.
+The third paper also considers quantile-based portfolios. 
+The paper does so in a general framework, not necessarily the same framework as MPT where the first two moments of the return distribution are used.
 
 
 
@@ -1017,42 +1059,96 @@ It does so in a general framework, not necessarily as the same framework as MPT 
 
 
 There are many possible extensions and future projects to the thesis at hand.
-We talk very much of estimation uncertainty and how to cope with it.
+Estimation uncertainty is the primary motivation for this thesis.
 Bayesian statistics provide a straightforward way to integrate that. 
-However, it demands indepth knowledge of MCMC and also how to construct good prior distributions.
+However, it demands indepth knowledge of Markov Chain Monte Carlo and also how to construct good prior distributions.
 Neither are easy tasks.
 Another approach of incorporating estimation uncertainty is robust optimization.
 Robust optimization, in a MPT setting, tries to incorporate the estimation uncertainty into the portfolio allocation problem itself.
-The literature is large. 
-Are there connections to be made and especially with Empirical Bayes?
+Are there connections to be made and especially with empirical bayes?
 
-In Paper \ref{sec:paper3} we consider the allocations points fixed.
-That assumption can be limiting for some investors.
-Can we incorporate that decision process into the portfolio allocation problem?
+Paper \hyperref[sec:paper3]{3} assumes that the rebalancing points are fixed.
+This assumption can be limiting for some investors.
+Can those be exchanged for stopping times, incorporated in the decision process and the portfolio allocation problem?
 
-Many Multivariate GARCH models can be formulated as the following BEKK model (see e.g. \citet{engle1995multivariate})
+Many Multivariate GARCH models can be formulated as the following BEKK model (see, e.g., \citet{engle1995multivariate})
 \begin{equation}\label{eqn:BEKK}
   \bH_t = \bC \bC^\top + \sum_{k=1}^K \bA_k \boldsymbol{\epsilon}_{t-1}\boldsymbol{\epsilon}_{t-1}^\top \bA_k^\top + \sum_{k=1}^K \bG_k \bH_{t-1}\bG_k^\top,
 \end{equation}
 where $\bH_i$ is a sequence of conditional covariance matrices, $\boldsymbol{\epsilon}_t | \mathcal{F}_{t-1} \sim N_p(\mathbf{0], \bH_t})$ and the matrices $\bC, \bA_i$ and $\bG_i$ are of appropriate dimensions.
 These are usually very hard to fit and use for portfolio allocations. 
 The first issue is due to the number of parameters in the model.
-One parametrization is that $\tilde \bC = \bC\bC^\top$, where $\tilde \bC > 0$, then $\bC$ can be any matrix square root with up to $p(p-1)/2$ parameters to estimate. 
-Furthermore, the constraint that its product should be positive definite is highly nonlinear and can be hard to suffice.
-Using the same argument for each of the matrices we have $(K+1/2)p(p-1)$ parameters to estimate. 
-Building a portfolio of size 10 with $K=1$ implies that we need to estimate $135$ parameters.
-Furthermore, although the constraints should enforce forecasts which are positive definite its not necessarily true that they will numerically be invertible.
-They can provide forecasts which are very close to singular.
+There are a number of parametrisations but if all matrices are symmetric then there are $(K+1/2)p(p+1)$ parameters to estimate. 
+Building a portfolio of size 10 with $K=1$ implies that $165$ parameters need to be estimated.
+Furthermore, although the constraints should enforce forecasts which are positive definite it is not necessarily true that they will be numerically invertible.
+It can provide forecasts which are very close to singular.
 The first issue can be solved if one can formulate the models as Recurrent Neural Networks and use deep-learning libraries Torch or Tensorflow to fit the models. 
-These are tailored to solve the problem of fitting very large models! 
-Recent large Natural Languange Processing models have \textit{billions} of parameters (see e.g. \citet{brown2020language}). 
-By placing BEKK models in this framework one also has the possibility to develop new models. 
-The development is solely determined by constructing new layers to the networks. 
-It would also be easier to integrate different sources of information in the models.
+These are tailored to solve the problem of fitting very large models.
+Recent large Natural Language Processing models have \textit{billions} of parameters (see, e.g., \citet{brown2020language}). 
+The second problem can then possibly be solved by placing BEKK models in this framework.
+Positive definite forecasts could then be enforced by developing new layers to the network. 
+Furthermore, it would also be easier to integrate different sources of information in the models in the context of these models.
 
-\printbibliography
+\chapter{Svensk sammanfattning}
+
+Portföljer med finansiella instrument och diversifiering går oftast hand i hand.
+Diversifiering är ett, om inte det bästa, verktyget för att minska risken i en portfölj.
+Om en av investeringarna skulle gå dåligt spelar det ingen roll för den utgör en sådan liten del av portföljen.
+Modern Portföljteori (MPT) är ett ramverk för att konstruera diversifierade portföljer.
+Ett hinder är dock att MPT använder okända parametrar.
+Dessa okända parametrar är de två första momentet av tillgångslagens avkastningsfördelning.
+När dessa ersätts av skattare introduceras estimerings-osäkerhet.
+Om en investerare inte förstår osäkerheten finns det en risk att den dominerar alla resultat som strategin skulle kunna påvisa.
+Det finns inget sätt att avgöra om strategin fungerar eller inte.
+
+Denna avhandling innehåller fem artiklar.
+De innehåller resultat som kan hjälpa en investerare att hantera skattningsosäkerhet i oändliga portföljer samt, i vissa fall, beskriva portföljernas fördelning för ett ändligt stickprov.
+Dessa resultat gör det lättare för investerare att förstå investeringsprocessen och de empiriska resultat som kan observeras i praktiken.
+
+Artikel 1 utforskar alla portföljer i MPT-ramverket.
+I artikeln härleds alla optimala portföljers empiriska fördelning, det vill säga när skattare används istället för de sanna parametrarna.
+Det inkluderar fördelningen för vikterna samt den avkastning, varians och andra mått som karateriserar dessa portföljer.
+Därefter härleds den asymptotiska fördelningen för alla mått samt vikter i stora dimensioner.
+Denna fördelning kan ses som ett fall då en investerare diversifierar oändligt mycket i MPT-ramverket samt har oändligt mycket data på de tillgångslag han/hon investerar i.
+En simuleringsstudie visar att den asymptotiska fördelningen utgör en god approximation av den fördelningen för ändliga stickprov, givet att modelantagandet håller.
+
+Artikel 2 fortsätter vidare på artikel 1.
+I denna artikel undersöks portföljen från det kvadratiskt nytto-optimeringsproblem med en riskfri tillgång. 
+En riskfri tillgång kan exempelvis vara ett räntebärande konto.
+Denna portfölj är också känd som den tangerande portföljen.
+I artikeln härleds den empiriska fördelningen för portföljvikterna fast med en generalisering av modellen från artikel 1.
+Fördelningen för tillgångslagen antas vara skev-normal.
+Resultaten visar att skevhet gör att de empiriska vikterna i portföljen är i genomsnitt fel.
+Detta sker i genomsnitt för ändliga stickprov men den empiriska portföljen skattar rätt objekt i stora dimensioner. 
+
+Artikel 3 ger en lösning på problemet att äga en portfölj för att sedan gå över till en annan.
+I artikeln utvecklas en metod som omfördelar portföljen mellan fixa tidssteg.
+Den gör detta genom att minimera den framtida variansen för Minsta Varians (GMV) portföljen, givet att investeraren äger en portfölj.
+Portföljen som ägs i denna stund kan vara deterministisk eller en skattad GMV-portfölj.
+En stor simuleringsstudie visar att denna metod kan uppnå goda resultat i termer av att skatta den relativa förlusten.
+Den relativa förlusten är en enkel utveckling av portföljvariansen.
+Metoden utvärderas därefter med hjälp av marknadsdata.
+Den lyckas bäst i att ge minsta framtida varians samt ge de minsta förändringarna i portföljvikterna bland de olika metoderna i jämförelsegruppen.
+Metoden har implementerats i ett R-paket som heter DOSPortfolio och finns tillgängligt på CRAN. 
+
+Artikel 4 härleder olika egenskaper för två olika prestandamått av tre olika skattare för GMV-portföljer.
+Prestandamåtten är den framtida variansen samt den framtida relativa förlusten för GMV-portföljerna.
+Det tidigare nämnda prestandamåttet används närpå alltid för att utvärdera GMV-portföljer med empirisk data.
+Resultaten visar att den relativa förlusten inte behöver lika strikta antaganden för att konvergera i stora dimensioner.
+Detta mått kan därför täcka flera modeller med detta mått till skillnad från variansen.
+Prestandamåtten används sedan för att bestämma en ordning på de olika portföljerna.
+Dessa resultat verifieras i en simuleringsstudie samt på empirisk data. 
+
+Artikel 5 utvidgar en av GMV-portföljerna från artikel 3 och 4.
+I den här artikeln introduseras en Thikonov-regularisering på portföljvikterna vilket resulterar i en Ridge-liknande skattare för den empiriska kovariansmatrisen.
+Detta kombineras sedan med den linjära shrinkage-metoden från artikel 3 och 4.
+Denna portfölj undersöks sedan i en omfattande simuleringsstudie och dess prestanda studeras på empirisk data.
+Simuleringsstudien visar att metoden är jämförbar med ett flertal metoder.
+Den empiriska studien visar att metoden som utvecklas ger lägre skattningar av framtida varians än ett flertal referensportföljer samt att den visar bra prestanda gällande portföljvikterna.
+
+\printbibliography[keyword={ref_list}]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Insert papers here
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\part{Papers}
 \end{document}

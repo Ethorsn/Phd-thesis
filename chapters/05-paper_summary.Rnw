@@ -1,115 +1,119 @@
-The papers presented here are among a total of ... papers produced. These are selected based their common theme.
-
-\section{Paper 1 - Sampling Distributions of Optimal Portfolio Weights and Characteristics in Small and Large Dimensions}\label{sec:paper1}
-The paper investigates a fundamental question in modern portfolio theory. 
-What are the actual implications of using the sample covariance matrix $\bS$ and the sample mean $\byb$ instead of the true covariance matrix $\bSigma$ and $\bmu$?
-The paper does so when the returns follow a multivariate normal distribution. 
-In it we derive the distribution for all optimal portfolios on the common form
+The following papers are included in this thesis.
+\section{Paper 1 - Sampling distributions of optimal portfolio weights and characteristics in small and large dimensions}\label{sec:paper1}
+The paper investigates a fundamental question in MPT. 
+What are the actual implications of using the sample covariance matrix $\bS$ and the sample mean $\byb$ instead of the true covariance matrix $\bSigma$ and mean vector $\bmu$?
+The paper presents an answer to the question when the returns follow a multivariate normal distribution. 
+The paper contains the distribution for all optimal portfolios on the common form
 \begin{equation}\label{eqn:paper1_eq1}
-  \bL\hbw_{opt} = \bL\hbw_{GMV} + g(\hR, \hV, \hs)\bL\hat{\bQ}\byb
+  \bL\hbw_{opt} = \bL\hbw_{GMV} + g(\hR, \hV, \hs)\frac{\bL\hat{\bQ}\byb}{\hs}
 \end{equation}
 for some matrix $\bL$ of size $k \times p$ where $k<p$.
-To do so, we derive the stochastic representation for the joint distribution of all quantities in the equation \eqref{eqn:paper1_eq1}. 
-That enables us to efficiently simulate from the distribution.
-Using this representation we can easily compute quantiles of the joint distribution of the efficient frontier.
-Furthermore, we also derive the high-dimensional asymptotic distribution of said joint distribution. 
-The high-dimensional asymptotic distribution is then compared to different models.
-One scenario considers simulations from the stochastic representation, trying to deduce the finite-sample properties.
-The other scenarios try to investigate what happens when we deviate from the model.
-As one can expect, the high-dimensional distribution works well under the assumptions though seem to be reasonably robust from deviations of the model.
-The hardest part to determine is what different characteristics of the return distribution have on the sample distribution of the quantities in \eqref{eqn:paper1_eq1} it remains an unanswered question.
+The joint distribution of all quantities in \eqref{eqn:paper1_eq1} is derived through a stochastic representation. 
+The stochastic representation can be used to efficiently simulate from the distribution.
+By simulation, quantities such as quantiles or other summary statistics are easily computed.
+Furthermore, the high-dimensional asymptotic joint distribution is also derived. 
+In a simulation study, the high-dimensional asymptotic distribution is compared to simulated data.
+One scenario considers simulations from the stochastic representation, trying to deduce the finite-sample properties of the high dimensional distribution.
+The other scenarios try to investigate what happens when observations deviate from the model.
+As expected, the high-dimensional distribution works well under the assumptions and seems to be reasonably robust from deviations of the model.
+The GMV and self-financing portfolio are the most robust quantities to deviations from the model.
 
-\section{Paper 2 -Tangency portfolio weights under a skew-normal model in small and large dimensions}\label{sec:paper2}
-In this paper we investigate a portfolio from chapter \ref{ch:MPT}, the tangency portfolio. 
-The portfolio was obtained from the quadratic utility function, namely
+\section{Paper 2 - Tangency portfolio weights under a skew-normal model in small and large dimensions}\label{sec:paper2}
+In this paper, the implications of skewness on the Tangency Portfolio (TP) from Chapter \ref{ch:MPT} is investigated. 
+The portfolio is obtained from the quadratic utility function, namely
 \begin{equation}
-  \min_{\bw} \bw^\top (\bmu -r_f\ones) - \frac{\gamma}{2} \bw^\top \bSigma \bw
+  \min_{\bw} \bw^\top (\bmu -r_f\ones) - \frac{\gamma}{2} \bw^\top \bSigma \bw.
 \end{equation}
-This paper extends Paper 1 as it considers investments in a risk-free asset and use an extension of the multivariate normal model, the CSN model presented in chapter \ref{ch:estim}. 
-The model can include skewness in the asset returns, a trait they usually exhibit (see e.g. \citet{cont2001empirical}). 
-Similarly to Paper 1, we derive the distribution of the sample tangency portfolio.
-We investigate what implications the model has on the sample tangency portfolio.
-In short, skewness results in a bias of the portfolio weights. 
-The investor will not hold the correct portfolio on average.
-Furthermore, we also investigate its high-dimensional distribution and show that the skewness disappears asymptotically. 
-The high-dimensional distribution is the same as the previous research have shown (see .e.g. \citet{karlsson2021statistical})
+This paper extends paper 1 as it considers investments in a risk-free asset and use an extension of the multivariate normal model, the CSN model presented in Chapter \ref{ch:estim}. 
+The model can include skewness in the asset returns, a trait returns usually exhibit (see e.g., \citet{cont2001empirical}). 
+Similarly to paper 1, the distribution of the sample tangency portfolio is derived and what implications the skewness has on the portfolio.
+In short, skewness results in a bias present in the portfolio weights. 
+An investor will not hold the correct portfolio on average.
+Furthermore, the high-dimensional distribution of the sample tangency portfolio is derived.
+It can be seen that the skewness disappears asymptotically. 
+The high-dimensional distribution is the same as previous research has shown (see, e.g., \citet{karlsson2021statistical}).
 
-\section{Paper 3 - Dynamic Shrinkage Estimation of the High-Dimensional Minimum-Variance Portfolio}\label{sec:paper3}
-This paper solves a practical feature when investing in the GMV portfolio: how to rebalance it at fixed time points. 
-If the investor owns a GMV portfolio and waits for a week, month or year the data will likely indicate that they should hold another portfolio than what they are.
+\section{Paper 3 - Dynamic shrinkage estimation of the high-dimensional minimum-variance portfolio}\label{sec:paper3}
+This paper solves a practical feature when investing in the GMV portfolio: how to rebalance the portfolio at fixed time points. 
+If an investor owns a GMV portfolio and waits for a week, month or year the data will likely indicate that another GMV portfolio should be held.
 The change can be quite large if $n$ is sufficiently small.
-A natural question to ask is how to go from one portfolio to another, e.g. how to rebalance optimally when we receive a new set of data. 
+A natural question to ask is how to go from one portfolio to another, e.g., how to rebalance optimally when a new set of data is available. 
 
-In this paper we develop a dynamic rebalancing scheme for the GMV portfolio. 
-It aims to decrease the out-of-sample variance between the holding portfolio, which might be a random GMV portfolio, and the GMV portfolio that you are supposed to hold given the data you see. 
-We consider portfolios on the following form
+In this paper, a dynamic rebalancing scheme for the GMV portfolio is derived. 
+The scheme aims to decrease the out-of-sample variance between the holding portfolio, which might be a random GMV portfolio, and the GMV portfolio that is suggested to hold given this current period's data. 
+The portfolios are on the following form
 \begin{equation}
   \hbw_{SH;n_{i}}=\psi_{i}\hbw_{S;n_i}+ (1-\psi_{i})\hbw_{SH;n_{i-1}},
 \end{equation}
-where $\hbw_{S;n_i}$, $i=1,2,...,T$, is the Traditional sample GMV portfolio using the $i$th sample of size $n_i$ to estimate the GMV portfolio weights in \eqref{eqn:GMV}. 
+where $\hbw_{S;n_i}$, $i=1,2,...,T$, is the traditional sample GMV portfolio using the $i$th sample of size $n_i$ to estimate the GMV portfolio weights in \eqref{eqn:GMV}. 
 The initial portfolio, $\hbw_{SH;0}$, can be a random GMV portfolio or a deterministic target portfolio $\bb$.
-We assume that the investor have specified fixed dates $t_i$, $i=1,2,...,T$ that they want to rebalance their GMV portfolio. 
+It is assumed that an investor have specified dates $t_i$, $i=1,2,...,T$ that he/she wants to rebalance his/hers GMV portfolio. 
 The shrinkage coefficients are then determined through the following optimization problem
 $$
 \min_{\psi_i} \hbw_{SH;n_{i}}^\top \bSigma \hbw_{SH;n_{i}}.
 $$
-The problem is similar to the linear shrinkage discussed in chapter \ref{ch:highdim}.
-It is an extension to the work of \citet{bodnar2018estimation} and use the flexible location and scale model discussed in \eqref{eqn:location_scale_model}.
+The problem is similar to the linear shrinkage discussed in Chapter \ref{ch:highdim}.
+The portfolio allocation problem is an extension to the work of \citet{bodnar2018estimation} and use the flexible location and scale model in \eqref{eqn:location_scale_model}.
 
 The portfolio is shown to produce great results in an extensive simulation study.
-It also provides a better estimator for the volatility in comparison to the Traditional sample GMV as well as the GMV portfolio using \citet{lw20} nonlinear shrinkage estimator for the sample covariance matrix.
+It also provides a better estimator for the volatility in comparison to the traditional sample GMV as well as the GMV portfolio using \citet{lw20} nonlinear shrinkage estimator for the sample covariance matrix.
 There are also many other benefits of using the portfolio strategy.
-To transition from one portfolio to the next costs money.
-That will diminish the return and profit you make.
-Furthermore, its not always possible to go from one portfolio to the next in a day or even a month.
+Transitions from one portfolio to the next costs money, which will diminish the return and profit that can be made.
+Furthermore, it is not always possible to go from one portfolio to the next in a day or even a month.
 The traditional GMV portfolio might suggest that an institution should first own a large long position and the next month a large short position.
-Depending on the size of that institutions portfolio and the size of these positional changes, that might be illegal. 
-It can be deemed market influencing or just outright impossible to sell that many assets, there is a liquidity issue.
+Depending on the size of the institution and the portfolio, the size of these positional changes might be illegal. 
+It can be deemed market influencing or just outright impossible to sell that many assets.
+The rebalancing scheme provides a solution to these problems.
 
-\section{Paper 4 - Is the empirical out-of-sample variance an informative risk measure for high-dimensional portfolios}\label{sec:paper4}
+\section{Paper 4 - Is the empirical out-of-sample variance an informative risk measure for high-dimensional portfolios?}\label{sec:paper4}
 Any empirical application using the GMV portfolio is bound to include the volatility or variance as a performance measure. 
-A natural question to ask is then: is the empirical out-of-sample variance a consistent estimator of the variance? 
+However, is the empirical out-of-sample variance a consistent estimator of the variance? 
 Furthermore, is it a good option to use or are there perhaps better options to use as performance measures? 
-In this paper we investigate two different metrics of evaluation that are common to the GMV portfolio, the out-of-sample variance and the relative out-of-sample loss.   
+This paper investigates two different metrics of evaluation that are common to the GMV portfolio, the out-of-sample variance and the relative out-of-sample loss. 
 
-We consider the location and scale model from \eqref{eqn:location_scale_model} and three different portfolios. 
-The first portfolio is the Traditional GMV portfolio from \eqref{eqn:GMV}, the second is the portfolio from \citet{bodnar2018estimation} and the last is the linear shrinkage portfolio from \citet{frahm2010}.
-For the three different portfolios we derive their out-of-sample variance, relative loss and their empirical counterparts. 
-We do so under different assumptions on the parameters of the model.
+This paper also considers the location and scale model from \eqref{eqn:location_scale_model} and three different GMV portfolios. 
+The first portfolio is the traditional GMV portfolio from \eqref{eqn:GMV}, the second is the portfolio from \citet{bodnar2018estimation} and the last is the linear shrinkage portfolio from \citet{frahm2010}.
+The properties of the out-of-sample variance, relative loss and their empirical counterparts are derived for the three different portfolios. 
+It is done under different assumptions on the parameters of the model.
 Most notably, there is a natural ordering to the different out-of-sample losses.
 The empirical out-of-sample loss is smallest for \citet{bodnar2018estimation}, second to smallest is \citet{frahm2010} and the largest is the traditional sample GMV portfolio.
-Furthermore, we are able to derive the empirical out-of-sample variance for the different portfolios.
+Furthermore, the empirical out-of-sample variance for the different portfolios are presented.
 The assumptions that are necessary for convergence of the empirical out-of-sample variance are quite different from those used for the empirical out-of-sample loss.
-We argue that the assumptions necessary for convergence of the empirical out-of-sample variance are stronger than the empirical out-of-sample loss.
-The theoretical findings are investigated in a simulations study where we see an indication to that the ordering will always hold even when the model assumptions are violated.
+The assumptions necessary for convergence of the empirical out-of-sample variance are deemed stronger than the empirical out-of-sample loss.
+The theoretical findings are investigated in a simulation study and an empirical application which validate the ordering even when the model assumptions are violated.
 
-\section{Paper 5 - Double shrinkage}\label{sec:paper5}
-In this thesis we mostly use $\bS$ and cope with that the sample covariance matrix is a noisy estimator by linear shrinkage or understanding the uncertainty it provides.
-Using this estimator has implied that we have only consider $c<1$.
-In this paper we use a version of Thikonov shrinkage on the sample covariance matrix as well as the linear shrinkage from previous papers. 
-That enables us to cover the case where $c>1$ and potentially create a more robust estimator of the portfolio weights.
-In this paper we consider the following shrinkage estimator
+\section{Paper 5 - Two is better than one: Regularized shrinkage of large
+minimum variance portfolios.}\label{sec:paper5}
+The methods of this thesis most often use the sample covariance matrix $\bS$.
+They deal with the fact that the sample covariance matrix is a noisy estimator by linear shrinkage or understanding the uncertainty it provides.
+This estimator can only cover $c<1$.
+This paper introduces a Thikonov regularisation on the portfolio weights together with the linear shrinkage from prior papers. 
+It results in a ridge type estimator for the sample covariance matrix together with the linear shrinkage on the portfolio weights.
+It enables the method to cover the case where $c>1$ and potentially create a more robust estimator of the portfolio weights.
+The portfolio looks like
 $$
-\hbw_{SH} = \psi \frac{\left(\bS + \lambda \bI_p \right)^{-1}\ones_p}{\ones_p^\top\left(\bS + \lambda \bI_p \right)^{-1}\ones_p} + (1-\psi)\bb.
+\hbw_{SH} = \psi \frac{\left(\bS + \eta \bI_p \right)^{-1}\ones_p}{\ones_p^\top\left(\bS + \eta \bI_p \right)^{-1}\ones_p} + (1-\psi)\bb.
 $$
-As previously, since we are dealing with the GMV portfolio we naturally use the out-of-sample variance to determine $\psi$ and $\lambda$.
-It turns out that we can not construct a closed-form oracle estimator for the shrinkage parameters.
-However, we are able to construct an oracle loss function, which we can then derive a bona-fide estimator for.
-The bona-fide loss is consistent of the oracle loss.
+The natural loss for estimating $\psi$ and $\eta$ is the out-of-sample variance.
+It turns out that there is no possibility to construct a closed-form oracle estimator for the shrinkage parameters.
+However, there is a possibility to construct an oracle loss function, for which a bona-fide estimator can be derived.
+The bona-fide loss is proved to be a consistent estimator of the oracle loss.
 
-The model is seen to perform on-par with the nonlinear shrinkage of \citet{lw20} in all simulations and beat their method in a empirical analysis.
-Furthermore, it also increases/decreases the results of several other portfolio metrics.
-\textbf{more comments...}
+The model is seen to perform on-par with the nonlinear shrinkage of \citet{lw20} in all simulations.
+The method also consistently beats the \citet{lw20} method in an extensive empirical analysis.
+It provides the best out-of-sample variance for five out six different configurations. 
+The only competitor is the equally weighted portfolio.
+Furthermore, the method also increases/decreases the results of several other portfolio metrics.
 
 %\section*{Paper 6 - The capital market line, tangency portfolio and the effect of Tikhonov regularization in higher dimensions}\label{sec:paper6}
 
-\section{Other research results}
+\section{Other research results}\label{sec:other_results}
 
-Paper \ref{sec:paper3} is accompanied by the R-package \citet{DOSPortfolio}, available on CRAN. 
-The readers are free, or rather encouraged(!), to install it with \Sexpr{'install.packages("DOSPortfolio")'}. 
+Paper 3 is accompanied by the R-package \citet{DOSPortfolio}, available on CRAN. 
+The readers of this thesis are free, or rather encouraged(!), to install it with \Sexpr{'install.packages("DOSPortfolio")'}. 
 The package provides a simple interface for the methods implemented in the paper. 
-In \ref{DOSportfolio} we display a short example on how to construct the dynamic portfolio weights. 
-The package is the first iteration of possibly many more portfolios which can be constructed in a similar fashion.
+In \ref{DOSportfolio} a short example on how to construct the dynamic portfolio weights using the package is displayed. 
+The package is the first iteration of possibly many more portfolios which can be constructed in a similar fashion.\newpage
 <<paper3-summary, echo=TRUE, message=FALSE, ref="DOSportfolio", codecap="R-code which showcase the use of the DOSPortfolio package." >>=
 library(DOSPortfolio)
 df <- read_csv("../data/returns.csv")
@@ -117,28 +121,26 @@ p <- 350; n <- 400
 # Sample p assets
 set.seed(1234)
 asset_cols <- sample(2:ncol(df), size = p)
-# specify reallocation points
+# specify reallocation points, daily in this case
 reallocation_points <- seq(n, nrow(df), by=n)
 # estimate portfolio weights
 dos_weights <- df %>%
   select(all_of(asset_cols), -date) %>%
-  DOSPortfolio(., 
-               reallocation_points = reallocation_points,
+  DOSPortfolio(reallocation_points = reallocation_points,
                target_portfolio = rep(1, ncol(.))/ncol(.),
                shrinkage_type = "overlapping")
-
-
 @
-Furthermore, the following papers were also coauthored throughout the writing of this thesis \cite{bodnar2020quantile}, \cite{bodnar2021bayesian}  and \cite{bodnar2021quantile}.
+Furthermore, the following papers were co-authored throughout the writing of this thesis \cite{bodnar2020quantile}, \cite{bodnar2021bayesian}  and \cite{bodnar2021quantile}.
 The first presents an analytic derivation of the MPT framework in the Bayesian setting. 
 It specifically looks at how quantiles of optimal portfolios can be constructed and the effects of estimation uncertainty in these. 
-This is especially important since the regulations in place demands that you report quantile-based risk measures (see \citet{basel4}).
+This is especially important since the regulations in place demands that quantile-based risk measures are reported (see \citet{basel4}).
 The second paper provides a continuation on the first. 
-The idea is to model the belief of the investor explicitly and to construct a prior which captures what the likelihood cannot. 
-We impose a prior distribution which adapts to the recent observations when the market is turbulent. 
+The idea is to model the belief of an investor in a prior distribution. 
+The method then aims to construct the prior to capture what the likelihood cannot. 
+It imposes a prior distribution which adapts to the recent observations when the market is turbulent. 
 The algorithm is seen to work well when markets are turbulent.
-The third paper also considers quantile based portfolios. 
-It does so in a general framework, not necessarily as the same framework as MPT where we only use the first two moments of the return distribution.
+The third paper also considers quantile-based portfolios. 
+The paper does so in a general framework, not necessarily the same framework as MPT where the first two moments of the return distribution are used.
 
 <<examplePackage, fig.cap="Development of wealth using the weights from the DOSPortfolio package together with the traditional GMV portfolio estimator. In this scenario, the portfolio size is equal to 380 and the number of data points in each window is equal to 400. Dashed vertical lines indicate a reallocation point.", eval=FALSE>>=
 df <- select(df, date, all_of(asset_cols))

@@ -1,7 +1,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % packages
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage[margin=1in]{geometry}
+
+%Packages
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2cm, bottom=2cm]{geometry}
+\pagestyle{plain}
+
 \usepackage[T1]{fontenc}
 \usepackage{amsmath,dsfont}
 \usepackage{caption}
@@ -21,11 +25,12 @@
 \usepackage{hyperref}
 % References
 \usepackage[
-backend=bibtex,
+%backend=biber,
+sorting=nyt,
 style=authoryear,
-sorting=none,
+dashed=false,
 natbib=true,
-maxnames=4
+maxnames=4,
 ]{biblatex}
 
 \usepackage{multirow}
@@ -61,6 +66,22 @@ maxnames=4
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{proposition}[theorem]{Proposition}
 
+\renewcommand{\chaptername}{}
+
+\makeatletter
+\renewcommand{\@makechapterhead}[1]{%
+\vspace*{50 pt}%
+{\setlength{\parindent}{0pt} \raggedright \normalfont
+\bfseries\Huge
+\ifnum \value{secnumdepth}>1 
+   \if@mainmatter\thechapter.\ \fi%
+\fi
+#1\par\nobreak\vspace{40 pt}}}
+\makeatother
+
+%\renewcommand{\thechapter}{}
+%\renewcommand{\@seccntformat}[1]{}
+%\renewcommand{\thesection}{}
 % Definitions  etc.
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
@@ -202,4 +223,23 @@ maxnames=4
 \renewcommand{\thechunk}{Chunk~\thesection.\arabic{chunk}}
 \makeatletter
 \@addtoreset{chunk}{section}
+\makeatother
+
+
+\makeatletter
+\renewcommand\part{%
+	\if@openright
+	\cleardoublepage
+	\else
+	\clearpage
+	\fi
+	\thispagestyle{empty}%   % Original »plain« replaced by »emptyx
+	\if@twocolumn
+	\onecolumn
+	\@tempswatrue
+	\else
+	\@tempswafalse
+	\fi
+	\null\vfil
+	\secdef\@part\@spart}
 \makeatother

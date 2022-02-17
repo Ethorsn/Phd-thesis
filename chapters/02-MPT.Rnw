@@ -1,11 +1,11 @@
-We assume that the $p$-dimensional vector of asset returns $\by$ is random with mean vector $\optn{E}(\by)=\bmu$ and covariance matrix $\optn{Var}(\by)=\bSigma$. 
+Let the asset return $\by$ be a $p$-dimensional random vector with mean vector $\optn{E}(\by)=\bmu$ and covariance matrix $\optn{Var}(\by)=\bSigma$. 
 The matrix $\bSigma$ is of dimensions $(p \times p)$. 
-Although there are usually little restriction on $\bmu$ there are usually very specific restrictions on the covariance matrix $\bSigma$. 
-Since the covariance matrix is a subject of its own we dedicate the next section to it and disregard these restrictions for now.
-We will merely say that it is well behaved. 
-The restrictions on the mean will be commented on below. 
-Using the two moments for the asset returns the portfolio distribution $y = \bw^\top \by$ has mean $\optn{E}(y)=\bw^\top \bmu$ and variance $\optn{Var}(y)=\bw^\top \bSigma \bw$. 
-Let $\mu_0$ be the target return that the investor would like to achieve from his/hers portfolio and $\ones$ column vector of ones with appropriate dimensions. 
+Although there are usually little restriction on $\bmu$ there are very specific restrictions on the covariance matrix $\bSigma$. 
+Since the covariance matrix is a subject of its own there will be a whole section dedicated to it.
+Its restrictions are disregarded for now.
+Using the two moments for the asset returns, the portfolio return is defined as $y = \bw^\top \by$.
+It has mean $\optn{E}(y)=\bw^\top \bmu$ and variance $\optn{Var}(y)=\bw^\top \bSigma \bw$. 
+Let $\mu_0$ be the target return that the investor would like to achieve from his/her portfolio and $\ones$ column vector of ones with appropriate dimension. 
 \citet{markowitz1959portfolio} considered the following optimization problem
 \begin{equation}\label{eqn:markowitz_optim}
 \begin{aligned}
@@ -14,25 +14,24 @@ Let $\mu_0$ be the target return that the investor would like to achieve from hi
 & \text{subject to}
 & & \bw^\top \ones = 1, \\
 & && \bw^\top \bmu \geq \mu_0 \\
-&&& w_i \geq 0, i=1,2,..,p
+&&& w_i \geq 0, i=1,2,..,p.
 \end{aligned}
 \end{equation}
-This problem is a quadratic optimization problem with linear equality and inequality constraints. 
 The objective is to minimize the variance of the portfolio. 
 The constraint $\bw^\top \ones = 1$ states that the investor must invest all available money. 
 The weights are scaled according to the amount of cash invested.
 The disposition is very different whenever an inequality is used rather than equality. 
 As \citet{hult2012risk} states, if $\bw^\top \ones \leq 1$, then the investor could be throwing money away since there is a lot of opportunity left in the market when investing.
-The second constraint describes the investor expectations on the portfolio. 
+The second constraint describes the investors expectation on the portfolio. 
 As $\mu_0$ grows, the return of the portfolio will grow. 
-However, increasing $\mu_0$ will change the amount of variance the portfolio can achieve. 
-Depending on the value $\mu_0$ we would be accepting more risk, there is a risk-return trade-off. 
+However, increasing $\mu_0$ will change the amount of variance the portfolio can achieve, there is a risk-return trade-off. 
 The last constraint is rather simple though it can have quite large implications. 
-It states that the weights can not be negative which means that we can only invest money we have. 
+It states that the investor can only invest with money he/she has. 
 A negative value of $w_i$ in the $i$th asset is called a short position.
-You borrow the asset from someone who owns it and then sell it, hoping that it will be cheaper in the future.
+The asset is borrowed from someone who owns it and then sold, hoping that it will be cheaper in the future.
 For certain types of investors this constraint can be limiting and for others it is a must.
-In this thesis, we exclude it altogether. That is, this thesis considers
+In this thesis, it is excluded altogether. 
+That is, this thesis considers
 \begin{equation}\label{eqn:mean_variance}
 \begin{aligned}
 & \underset{\bw}{\text{minimize}} 
@@ -42,39 +41,35 @@ In this thesis, we exclude it altogether. That is, this thesis considers
 & && \bw^\top \bmu \geq \mu_0 \\
 \end{aligned}
 \end{equation}
-which is what we refer to the mean-variance (MV) optimization problem. 
-The solution to this problem is very often stated in terms of another famous portfolio, namely the Global Minimum Variance (GMV) portfolio and its related quantities (see e.g. \textcite{Bodnar2009CaIotEFiEM, bodnar2013equivalence, bauder2018bayesian}). 
-We will continue in the same manner. 
-Let $\bSigma^{-1}$ denote the inverse matrix of $\bSigma$, e.g. $\bSigma^{-1}\bSigma = \bI$, and
+which is referred to the Mean-Variance (MV) optimization problem. 
+The solution to this problem is very often stated in terms of another famous portfolio, namely the Global Minimum Variance (GMV) portfolio and its related quantities (see, e.g., \citet{Bodnar2009CaIotEFiEM}). 
+Let $\bSigma^{-1}$ denote the inverse matrix of $\bSigma$, e.g., $\bSigma^{-1}\bSigma = \bI$, and
 \begin{equation}\label{eqn:GMV}
-	\bw_{GMV} := \frac{\bSigma^{-1}\ones}{\ones^\top \bSigma^{-1}\ones}, \; R_{GMV} :=\optn{E}(\bw_{GMV}^\top\bx) = \frac{\ones^\top\bSigma^{-1}\bmu}{\ones^\top \bSigma^{-1}\ones}, \;
-	V_{GMV} := \optn{Var}(\bw_{GMV}^\top\bx) =\frac{1}{\ones^\top \bSigma^{-1}\ones}.
+	\bw_{GMV} := \frac{\bSigma^{-1}\ones}{\ones^\top \bSigma^{-1}\ones}, \; R_{GMV} :=\optn{E}(\bw_{GMV}^\top\by) = \frac{\ones^\top\bSigma^{-1}\bmu}{\ones^\top \bSigma^{-1}\ones}, \;
+	V_{GMV} := \optn{Var}(\bw_{GMV}^\top\by) =\frac{1}{\ones^\top \bSigma^{-1}\ones}.
 \end{equation}
-The GMV portfolio can be obtained by letting $\mu_0=R_{GMV}$ or by removing the constraint $\bw^\top \bmu \geq \mu_0$. 
-The solution to the MV problem in \eqref{eqn:mean_variance} is equal to
+The GMV portfolio can be obtained by letting $\mu_0=R_{GMV}$ or by removing the constraint $\bw^\top \bmu \geq \mu_0$ from \eqref{eqn:mean_variance}. 
+The solution to \eqref{eqn:mean_variance} is equal to
 \begin{equation}\label{eqn:mean_var_solution}
 	\bw_{MV} = \frac{\bSigma^{-1}\ones}{\ones^\top \bSigma^{-1}\ones} + \frac{\mu_0 - R_{GMV}}{V_{GMV}} \bQ \bmu,\; \bQ = \bSigma^{-1} - \frac{\bSigma^{-1} \ones \ones^\top \bSigma^{-1}}{\ones^\top \bSigma^{-1} \ones}.
 \end{equation}
 The solution is a combination of two different portfolios, the GMV portfolio and the self-financing portfolio $\bQ \bmu$. 
-The ratio $(\mu_0 - R_{GMV})/V_{GMV}$ acts as a weight to how much we should allocate in the self-financing portfolio. 
-Since $\bQ \bmu$ is self-financing, increasing $\mu_0$ does not cost anything, it will simply take larger short positions to finance the long positions.
-%If we set $\mu_0$ equal to $\bmu^\top \bSigma^{-1} \ones / \ones^\top \bSigma^{-1} \ones$ then the portfolio is equal to the GMV portfolio. 
-%Excluding the constraint $\bw^\top \bmu \geq \mu_0$ all together results in the same solution. 
+The ratio $(\mu_0 - R_{GMV})/V_{GMV}$ acts as a weight to how much is allocated in the self-financing portfolio. 
+Since $\bQ \bmu$ is self-financing, increasing $\mu_0$ does not cost anything, it will simply increase the position in the self-financing portfolio.
 
 The moments of the MV portfolio are equal to
 \begin{equation}\label{eqn:moments_mean_var_solution}
-\optn{E}(\bw_{MV}^\top\bx) = R_{GMV} + \frac{\mu_0 - R_{GMV}}{V_{GMV}} \bmu^\top \bQ \bmu, \;
-\optn{Var}(\bw_{MV}^\top\bx) =V_{GMV} + \left(\frac{\mu_0 - R_{GMV}}{V_{GMV}}\right)^2 \bmu^\top \bQ \bmu.
+\optn{E}(\bw_{MV}^\top\by) = R_{GMV} + \frac{\mu_0 - R_{GMV}}{V_{GMV}} \bmu^\top \bQ \bmu, \;
+\optn{Var}(\bw_{MV}^\top\by) =V_{GMV} + \left(\frac{\mu_0 - R_{GMV}}{V_{GMV}}\right)^2 \bmu^\top \bQ \bmu.
 \end{equation}
-From equation \eqref{eqn:moments_mean_var_solution} we can see that all values $\mu_0$ are rescaled according to the moments of the GMV portfolio. 
-If the taget return $\mu_0$ is is smaller than $R_{GMV}$, then you are better off with the GMV portfolio in terms of return and risk.
-However, if you choose a value $\mu_0>R_{GMV}$, then the portfolio return is larger than $R_{GMV}$.
-From the two expressions in \eqref{eqn:moments_mean_var_solution} we can see that as $\mu_0$ increases the risk grows quadratic in comparison to the mean which is linear. 
-This relationship was discovered by \textcite{merton1972} which coined the expression ''the efficient frontier''. 
-In Figure \ref{fig:mertons_efficient_frontier} on the left hand side, we show its behavior for two different portfolio sizes. 
-Increasing the portfolio size shifts the location of the parabola, e.g. moves it to the left, which serves as an illustration of the diversification effect. 
+From equation \eqref{eqn:moments_mean_var_solution} it can be observed that all values $\mu_0$ are rescaled according to the moments of the GMV portfolio. 
+The two expressions in \eqref{eqn:moments_mean_var_solution} constitute a famous relationship. 
+As $\mu_0$ increases, the risk grows quadratic in comparison to the mean which is linear. 
+This relationship was discovered by \citet{merton1972} which coined the expression ''the efficient frontier''. 
+In Figure \ref{fig:mertons_efficient_frontier} we display the efficient frontier and the capital market line, which is yet to be described, for two different portfolio sizes. 
+As seen in the left figure, increasing the portfolio size shifts the location of the parabola, e.g., moves it to the left, which serves as an illustration of the diversification effect. 
 There is no guarantee that an increase in the portfolio dimension increases the return.
-<<mertons_efficient_frontier, fig.cap="Efficient frontiers with and without a risk-free asset. The left plot illustrates two different efficient frontiers for different portfolio sizes. The right plot we illustrate the efficient frontier and the capital market line which appears when a riskless asset is available. The stocks are randomly selected from the S\\&P500. The individual means and standard deviations are displayed as points.", fig.height=3.5>>=
+<<mertons_efficient_frontier, fig.cap="Efficient frontiers without and with a risk-free asset. The left plot illustrates two different efficient frontiers for different portfolio sizes. The right plot illustrates the efficient frontier and the capital market line which appears when a risk-free asset is available. The stocks are randomly selected from the S\\&P500. The individual means and standard deviations are displayed as points.", fig.height=3.5>>=
 set.seed(4)
 df <-  select(HDShOP::SP_daily_asset_returns, -Date) %>%
   sample(30)
@@ -107,9 +102,9 @@ ggplot_df <- map_dfr(x, ~{
   R <- seq(t_$Rgmv, 0.9, length.out=200)
   data.frame("V"=sqrt((R-t_$Rgmv)^2/t_$s + t_$Vgmv),
              "R"=R)
-}, .id="portfolio size") %>% 
-  mutate(type="efficient frontier",
-         "Riskless asset avaiable"="No riskless asset avaiable")
+}, .id="Portfolio size") %>% 
+  mutate(type="Efficient frontier",
+         "Risk-free asset avaiable"="No risk-free asset avaiable")
 
 Sigma <- var(df)
 Sigma_inv <- solve(Sigma)
@@ -127,9 +122,9 @@ V <- sqrt((R-Rgmv)^2 / s + Vgmv)
 
 gamma <- seq(0.05, 300, length.out=100)
 ggplot_df <- tibble("V"=V,"R"=R, 
-                        "type"="efficient frontier",
-                        "portfolio size"="30",
-                        "Riskless asset avaiable"="Riskless asset avaiable") %>%
+                        "type"="Efficient frontier",
+                        "Portfolio size"="30",
+                        "Risk-free asset avaiable"="Risk-free asset avaiable") %>%
   bind_rows({
     map_dfr(gamma, ~{
       w_tp <- Sigma_inv %*% (mu - r_f * ones) / .x
@@ -140,8 +135,8 @@ ggplot_df <- tibble("V"=V,"R"=R,
       )
     }) %>%
       mutate("type"="Capital market line",
-             "portfolio size"="30",
-             "Riskless asset avaiable"="Riskless asset avaiable")
+             "Portfolio size"="30",
+             "Risk-free asset avaiable"="Risk-free asset avaiable")
   })  %>%
   bind_rows(ggplot_df)
 
@@ -149,105 +144,109 @@ ggplot_df %>%
   ggplot() +
   geom_line(aes(x=V, y=R, 
                 color=`type`,
-                linetype=`portfolio size`),
+                linetype=`Portfolio size`),
             size=1.06) +
   geom_point(aes(x=V, y=R), alpha=0.3, data=individual_assets) +
   labs(x=expression(sigma[w]), y=expression(mu[w])) +
   theme_minimal() +
-  facet_grid(.~`Riskless asset avaiable`) +
+  facet_grid(.~`Risk-free asset avaiable`) +
   scale_color_brewer("", palette = 6, type = "qual", direction = -1) +
   coord_cartesian(ylim=c(-0.125, 0.65)) +
   theme(text = element_text(size=STANDARD_TEXT_SIZE),
         legend.position = "bottom")
 @
 Any point on any of the two lines in the left hand-side plot of Figure \ref{fig:mertons_efficient_frontier} corresponds to a certain efficient and optimal portfolio with a specific value of $\mu_0$. 
-The points in the two plots depicts the expected returns and the standard deviations of a single-stock portfolio. 
-You can obtain these by investing in everything you got in a specific stock. 
-However, diversification will always decrease the risk we take which can be seen in the illustration. 
+The points in the two plots depict the expected returns and the standard deviations of a single-stock portfolio. 
+Diversification will always decrease the risk of the portfolio which can be seen in the illustration. 
 No single-stock portfolio can outperform any of the portfolios on the efficient frontier. 
-That can not happen. 
-The efficient frontier is the best we can do with the stocks at hand, given the objective.
+That cannot happen. 
 
-The right hand-side plot of Figure \ref{fig:mertons_efficient_frontier}, displays an extension to the mean-variance problem.
-It displays what happens when we include a risk-free asset in the portfolio allocation problem. 
-To introduce this option into our allocation problem we add the risk-free rate as part of the portfolio $w_0 r_f + \bw^\top \bx$ and optimize over $w_0$ as well. 
-We assume that the risk-free rate is deterministic and therefore \eqref{eqn:mean_variance} becomes 
+The right hand-side plot of Figure \ref{fig:mertons_efficient_frontier}, displays an efficient frontier and the capital market line.
+It is the solution to an extension to the mean-variance problem.
+It displays what happens when a risk-free asset is included in the portfolio allocation problem. 
+The risk-free asset is added to the portfolio as any other asset, with the exception that it is deterministic.
+With the option to invest in a risk-free asset, the return of the portfolio is $w_0 r_f + \bw^\top \by$. 
+The MV problem from \eqref{eqn:mean_variance} is then equal to
 \begin{equation}\label{eqn:mean_variance_riskfree}
 \begin{aligned}
 & \underset{\bw}{\text{minimize}} 
 & & \bw^\top \bSigma \bw \\
 & \text{subject to}
 & & w_0 + \bw^\top \ones = 1 \\
-& && w_0 r_f + \bw^\top \bmu = \tilde\mu_0 \\
+& && w_0 r_f + \bw^\top \bmu = \tilde\mu_0. \\
 \end{aligned}
 \end{equation}
-However, since $w_0 + \bw^\top \ones=1$ we substitute $w_0=1-\bw^\top \ones$ and solve the unconstrained optimization problem instead. 
+However, since $w_0 + \bw^\top \ones=1$ the amount invested in the risk-free asset can be substituted by $w_0=1-\bw^\top \ones$.
+The problem in \eqref{eqn:mean_variance_riskfree} reduces to an unconstrained optimization problem. 
 Its solution is given by 
 \begin{equation}\label{eqn:w_mean_variance_riskfree}
   \bw_{TP} = \frac{(\tilde\mu_0-r_f)}{(\bmu-r_f \ones)^\top \bSigma^{-1} (\bmu-r_f \ones)} \bSigma^{-1} (\bmu-r_f \ones).
 \end{equation}
 The collection of portfolios given by \eqref{eqn:mean_variance_riskfree} defines the whole capital market line which is shown in Figure \ref{fig:mertons_efficient_frontier}. 
 The portfolio has many interesting properties. 
-If there is a risk-free asset, then we can increase the return and decrease the risk of our position in the market. 
+If there is a risk-free asset, then there is a possibility to increase the return and decrease the risk of the portfolio. 
 This is most easily explained by the efficient frontier, displayed in Figure \ref{fig:mertons_efficient_frontier}. 
-For a given level of risk we can sometimes get the same or large return! 
+For a given level of risk a portfolio can always get the same, and sometimes larger, return! 
+
 The same solution can be obtained from the optimization problem with the quadratic utility, defined as 
-$$\min_{\bw} \bw^\top \bmu - \frac{\gamma}{2} \bw^\top \bSigma \bw$$ 
+$$\min_{\bw} \bw^\top (\bmu- r_f\ones) - \frac{\gamma}{2} \bw^\top \bSigma \bw$$ 
 for some $\gamma > 0$.
 The solution is given by 
 $$\frac{1}{\gamma}\bSigma^{-1} (\bmu-r_f \ones)$$
 which coincide with \eqref{eqn:w_mean_variance_riskfree} if 
 $$\frac{1}{\gamma} = \frac{(\tilde\mu_0-r_f)}{(\bmu-r_f \ones)^\top \bSigma^{-1} (\bmu-r_f \ones)}.$$ 
 The difference is that \eqref{eqn:w_mean_variance_riskfree} depends on a number of parameters while $\gamma$ is a fixed constant.
-This is quite common in MPT, there are many portfolio allocation problems which result in the same solution, see e.g. \citet{bodnar2013equivalence}.
+This is quite common in MPT and there are many portfolio allocation problems which result in the same solution, see, e.g., \citet{bodnar2013equivalence}.
 
 Ever since the end of 2014, there has been a lack of a risk-free asset in Sweden.\footnote{See \href{https://www.riksbank.se/sv/statistik/sok-rantor--valutakurser/reporanta-in--och-utlaningsranta/}{this visualization from Riksbanken}} 
-The risk-free rate has been equal to or less than zero. 
-Assuming that is true for our hypothetical investor, \eqref{eqn:w_mean_variance_riskfree} reduces to $\bw_{TP} = \tilde\mu_0 \bSigma^{-1} \bmu / \bmu^\top \bSigma^{-1} \bmu$. 
-The term $\bSigma^{-1} \bmu$ is also present in \eqref{eqn:mean_var_solution}, although hidden with the introduction of the matrix $\bQ$. 
-With a little work, one can rewrite \eqref{eqn:mean_var_solution} as
+The risk-free rate has been less than or equal to zero. 
+Assuming that it is true for a hypothetical investor, \eqref{eqn:w_mean_variance_riskfree} reduces to $\bw_{TP} = \tilde\mu_0 \bSigma^{-1} \bmu / \bmu^\top \bSigma^{-1} \bmu$. 
+The term $\bSigma^{-1} \bmu$ is also present in \eqref{eqn:mean_var_solution}, although hidden in the matrix $\bQ$. 
+With a little work, \eqref{eqn:mean_var_solution} can be rewritten as
 $$
 \left(1 - \frac{\mu_0-\R}{\V^2} \R \right) \bw_{GMV} + \frac{\mu_0-\R}{\V} \bSigma^{-1} \bmu.
 $$
 There are two insights to be drawn from this equation. 
 The first is that the weights on the efficient frontier is a combination of two portfolios, in this case the GMV and the tangency portfolio. 
-This result is usually known as the Mutual fund theorem, see \textcite{tobin1958liquidity}.
-To study all the portfolios on the efficient frontier we only need to study these two portfolios. 
-The second is that the true tangency portfolio is given by \eqref{eqn:w_mean_variance_riskfree} with 
+This result is usually known as the Mutual fund theorem, see \citet{tobin1958liquidity}.
+All portfolios on the efficient frontier can be studied through these two portfolios. 
+The second is that the tangent portfolio, where the efficient frontier and the capital market line meet, is given by \eqref{eqn:w_mean_variance_riskfree} with 
 $$
-\tilde\mu_0 = \R + \frac{\mu_0-\R}{\V} s  
+\tilde\mu_0 = \R + \frac{\mu_0-\R}{\V} s.
 $$
-which is where the efficient frontier and the capital market line meet. 
-Any tangency portfolio with $\mu_0\leq \R + \frac{\mu_0-\R}{\V} s$ will be "more efficient" than the efficient frontier if there is a risk free rate. 
-However, its not always the case that we want to optimize the amount of cash held in the risk-free asset. 
-Given that cash is free, we should most likely borrow as much as possible to invest in the market which might be a risk in itself.
+Any portfolio with $\tilde\mu_0\leq \R + \frac{\mu_0-\R}{\V} s$ will be "more efficient" than the efficient frontier if there is a risk-free rate. 
+However, its not obvious that the amount of cash allocated in a risk-free asset can be optimized. 
+Given that cash is free any investor should most likely borrow as much as possible to invest in the market.
+That might be a risk in itself which is not covered by the model.
 
-All of MPT use the inverse covariance matrix. In the next section we devote some attention to the assumption we make on the covariance matrix.  
+All of MPT use the inverse covariance matrix. 
+The next section is devoted to the assumption and restrictions made on the covariance matrix.  
 
-\section{Relationship between assets and the (inverse) covariance matrix}\label{subsec:cov_prec_matrix}
+\section{Relationship between assets and the (inverse) covariance matrix}\label{sec:cov_prec_matrix}
 %%% ----------------------
 The covariance matrix $\bSigma$ and the precision matrix $\bSigma^{-1}$ are fundamental to mean-variance portfolio theory. 
-In this section we discuss the restrictions we place on the covariance matrix and what the precision matrix actually represent. 
+This section goes into some depth on the assumptions and restrictions that are placed on the covariance matrix.
+%It also tries to and what the precision matrix actually represents. 
 
 For a vector $\by$ with finite second moment, the covariance matrix is defined as $\bSigma=\optn{E}((\by - \bmu)(\by - \bmu)^\top)$. 
 It contains the variances of each individual element of $\by$ on the diagonal as well as the covariances between every pair of elements on the off-diagonal. 
 That is, each diagonal element corresponds to the univariate case with variance equal to $\optn{E}((y_i - \mu_i)^2)$. 
 In the univariate case, a distribution is usually called degenerate or singular if the variance is equal to zero. 
-In the multivariate case. the covariance matrix can be singular on a number of occasions. 
+In the multivariate case, the covariance matrix can be singular on a number of occasions. 
 It is not limited to the diagonal elements.
-This is due to the fact that we involve covariances on the off-diagonal and we are therefore forced to work with a broader definition.  
-Since we work with real matrices in this thesis, we limit the definition accordingly. 
-From \textcite[ch 14.2]{harville1997matrix} we say that a real symmetric $p\times p$ matrix $\bA$ is called 
+This is due to the fact that covariances are involved on the off-diagonal.
+From \citet[ch 14.2]{harville1997matrix} a real symmetric $p\times p$ matrix $\bA$ is called 
 \begin{itemize}
 	\item positive definite if $\bz^\top \bA \bz > 0$
 	\item positive semi-definite if $\bz^\top \bA \bz \geq 0$
 \end{itemize}
 for all nonzero vectors $\bz \in \mathbbm{R}^p$.
-We will use $\bA > 0$ or $\bA \geq 0$ to indicate positive or semi-positive definiteness of the matrix $\bA$. 
-In the multivariate case we need to assert that a quadratic form is (strictly) positive to assert if the distribution is degenerate or not. 
-The definition of positive- or semi-positive definiteness can be quite cumbersome to work with. 
-We need to assert that the conditions holds for all vectors $\bz$. 
-One necessary condition for a matrix to be positive definite can be derived using the eigenvalues of a matrix and its eigenvalue decomposition, as described in \textcite[ch. 21]{harville1997matrix},
+Let $\bA > 0$ or $\bA \geq 0$ denote a positive or semi-positive definite matrix $\bA$. 
+The concept of a singular or degenerate distribution is replaced by a quadratic form.
+It involves the covariance matrix of a multi- or matrixvariate distribution.
+The definition of positive or semi-positive definiteness can be quite cumbersome to work with. 
+The conditions need to hold for all vectors $\bz$. 
+A necessary condition for a matrix to be positive definite can be derived using the eigenvalues of a matrix and its eigenvalue decomposition, as described in \citet[ch. 21]{harville1997matrix}.
 \begin{definition}\label{def:eigenvalue} 
 	Let $\bA$ be a $p\times p$ matrix. The characteristic roots (with multiplicity) are given by the solutions to
 	\begin{equation*}
@@ -256,33 +255,22 @@ One necessary condition for a matrix to be positive definite can be derived usin
 	where $|\cdot|$ is the determinant of a matrix.
 \end{definition} 
 Let $\lambda_i$, $i=1,2,...,p$, denote the \textit{ordered} eigenvalues of the matrix $\bA$ such that $\lambda_1\geq \lambda_2 \geq ... \geq \lambda_p$.
-Given an eigenvalue, the eigenvectors $\bu_i$ are defined by $\bA \bu_i = \lambda_i \bu_i$, $i=1,2,...,p$. 
+Given an eigenvalue $\lambda_i$, the eigenvectors $\bu_i$ are defined by $\bA \bu_i = \lambda_i \bu_i$, $i=1,2,...,p$. 
 Let $\boldsymbol{\Lambda} = \operatorname{diag}(\lambda_1, \lambda_2,...,\lambda_p)$ and $\bU= (\bu_1^\top, \bu_2^\top, ..., \bu_p^\top)^\top$. 
-It might happen that eigenvalues are equal, such as when $\bSigma = \sigma \bI$.
-Using the relation between eigenvalues and their eigenvectors we can derive the eigenvalue (or spectral) decomposition of a symmetric matrix 
+The relation between the matrix $\bA$ and its eigenvalues and eigenvectors can also be written as 
 \begin{equation}\label{eqn:eigenvalue_decomp}
-	\bA = \bU \boldsymbol{\Lambda} \bU^{-1}.
+	\bA = \bU \boldsymbol{\Lambda} \bU^{-1}
 \end{equation}
-Since $\bA$ is symmetric it also holds that $\bU^{-1} = \bU^\top$.
+which is called the eigen or spectral decomposition.
 A necessary condition for a matrix to be positive definite can be directly obtained from the eigenvalue decomposition. 
-Let $\bz\in \mathbbm{R}^p$ and $\by := \bU^{\top} \bz \in \mathbbm{R}^p$, then $\bz^\top \bA \bz = \bz^\top \bU \boldsymbol{\Lambda} \bU ^{\top} \bz = \by^\top \boldsymbol{\Lambda} \by = \sum_i^p \lambda_i y_i^2$ which is a second degree polynomial. 
+Let $\bz\in \mathbbm{R}^p$ and $\ba := \bU^{\top} \bz \in \mathbbm{R}^p$, then $\bz^\top \bA \bz = \bz^\top \bU \boldsymbol{\Lambda} \bU ^{\top} \bz = \ba^\top \boldsymbol{\Lambda} \ba = \sum_i^p \lambda_i a_i^2$ which is a second degree polynomial. 
 If the eigenvalues are all positive, then necessarily the matrix is positive definite. 
-If there are some eigenvalues which are zero then the matrix is semi-positive definite. 
+If there are some eigenvalues which are zero, then the matrix is semi-positive definite. 
 
-In all papers of this thesis we assume that the true covariance matrix is positive definite. 
-The assumption has a deep economical interpretation.
-If one (or more) eigenvalue(s) are zero then there is a possibility to construct a portfolio which does not contain any risk with a potentially positive return. 
-Its an arbitrage opportunity unless the elements of $\bmu$ are all zero.
+All papers of this thesis assume that the true covariance matrix is positive definite. 
+The assumption has a very important economical interpretation.
+If one (or more) eigenvalue(s) are zero, then there is a possibility to construct a portfolio which does not contain any risk.
+It is an arbitrage opportunity unless the elements of $\bmu$ are all zero.
 Assume $\lambda_p=0$, let $\bu_p$ be its eigenvector and set $\bw = \bu_p / \sum_i^p u_{ip}$. 
 The variance of that portfolio is zero since all eigenvectors are orthonormal and its mean is $\bw^\top \bmu$.
-If the true covariance matrix is not positive definite there might exist arbitrage opportunities, e.g. the possibility of making profit without taking any risk.
-
-%The eigenvalue decomposition is very useful.
-%%It provides a simple way to construct inverses, which is very important for MPT as seen in \eqref{eqn:mean_var_solution}.
-%We claim that $\bB = \bU \boldsymbol{\Lambda}^{-1} \bU^{-1}$ is a valid inverse which is easy to verify since $\bB \bA = \bU \boldsymbol{\Lambda}^{-1} \bU^{-1} \bU \boldsymbol{\Lambda} \bU^{-1} = \bI$. 
-%To study the inverse of the covariance matrix we can study the eigenvectors and the inverse of its eigenvalues.
-%Secondly, it contains a lot of information that might not be available at first glance. 
-%If $\bA$ is a covariance matrix then it contains variances and covariances, describing relations between random variables. 
-%The eigenvectors are rotations that try to capture as much variation as possible along its axis.
-%The eigenvalues is the variation along the eigenvectors axis. 
-%They describes how the system behaves and not the individual elements and their inverse values describe how the precision matrix behaves.
+If the true covariance matrix is not positive definite there might exist arbitrage opportunities, e.g., the possibility of making profit without taking any risk.
