@@ -47,7 +47,7 @@ The portfolios are on the following form
 \end{equation}
 where $\hbw_{S;n_i}$, $i=1,2,...,T$, is the traditional sample GMV portfolio using the $i$th sample of size $n_i$ to estimate the GMV portfolio weights in \eqref{eqn:GMV}. 
 The initial portfolio, $\hbw_{SH;0}$, can be a random GMV portfolio or a deterministic target portfolio $\bb$.
-It is assumed that an investor have specified dates $t_i$, $i=1,2,...,T$ that he/she wants to rebalance his/hers GMV portfolio. 
+It is assumed that an investor has specified dates $t_i$, $i=1,2,...,T$ that he/she wants to rebalance his/hers GMV portfolio. 
 The shrinkage coefficients are then determined through the following optimization problem
 $$
 \min_{\psi_i} \hbw_{SH;n_{i}}^\top \bSigma \hbw_{SH;n_{i}}.

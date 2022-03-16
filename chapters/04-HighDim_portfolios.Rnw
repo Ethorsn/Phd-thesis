@@ -2,48 +2,64 @@ In the previous chapter one specific way of estimating the sample covariance mat
 If there is a lot of data on the assets that is in the portfolio, then the estimated weights will most likely be close to the correct portfolio.
 The estimated portfolio will be consistent, e.g., it estimates the correct object of interest. 
 As previously mentioned, diversification is one of the best risk management tool there is and therefore, the asset universe is supposed to be big.
-However, \citet{bodnar2016optimal} Proposition 2.2 states that $\hV \rightarrow \V/(1-c)$ whenever $p,n \rightarrow \infty$ s.t. $p/n \rightarrow c \in [0,1)$. 
-If $c$ is close to one, then the sample GMV portfolio variance will explode. 
-\textit{Estimation uncertainty dominates the diversification effect}. 
+However, \citet{bodnar2016optimal} showed that the out-of-sample variance of the GMV portfolio can behave remarkably bad if $p$ is close to $n$.
+The out-of-sample variance for the GMV portfolio is defined as 
+\begin{equation}\label{eqn:oot_var}
+  \hbw_{GMV}^\top \bSigma \hbw_{GMV} = \frac{\ones^\top \bS^{-1} \bSigma \bS^{-1} \ones }{(\ones^\top \bS^{-1} \ones)^2},
+\end{equation}
+which tends to $\V/(1-c)$ whenever $p,n \rightarrow \infty$ s.t. $p/n \rightarrow c \in [0,1)$. 
+If $c$ is close to one, then the out-of-sample GMV portfolio variance will explode. 
+\textit{Estimation uncertainty dominates the diversification effect}.
 There are many solutions to the problem at hand (see, e.g., \citet{lw17} and the references therein). 
 The solution used in this thesis is Random Matrix Theory (RMT) and the use of some types of shrinkage estimators. 
-Both subjects are grand. 
+Both subjects are grand.
 A small introduction to them is presented in the following sections.
 
 \section{A short introduction to random matrix theory and the Stieltjes transform}
-The subject of RMT has many applications. 
-It was originally developed in the context of quantum physics (see \citet[Chapter 1 of]{mehta2004random}). 
-The theory and its applications have since then developed quite a lot. 
-Many fields, such as combinatorics, computational biology, wireless communication and finance (see, e.g., \citet{livan2018introduction}) use these results. 
-One of the seminal work in RMT was made by \citet{wigner1967random}. 
+The subject of RMT has many applications.
+It was originally developed in the context of quantum physics (see \citet[Chapter 1 of]{mehta2004random}).
+The theory and its applications have since then developed quite a lot.
+Many fields, such as combinatorics, computational biology, wireless communication and finance (see, e.g., \citet{livan2018introduction}) use these results.
+One of the seminal works in RMT was made by \citet{wigner1967random}. 
 Wigner originally modeled the limiting spectral distribution of a $p \times p$ dimensional random matrices $\bX$ with standard normal entries.
 The term "standard" might be a little misleading for statisticians as the matrix $\bX$ contains independent random variables although not identically distributed.
 The entries on the diagonal are $N(0,2)$ and the entries on the off-diagonal are $N(0,1)$.
 
-The empirical spectral distribution (ESD) of a matrix $\bA$ is defined as
+This thesis mainly works with symmetric matrices with real entries, e.g. the sample covariance matrix, though it can generalize to any matrix with real eigenvalues, also known as Hermitian matrices.
+Since $\bX$ or any other matrix in RMT, e.g. the sample covariance matrix $\bS$, is a sample from a model, it is most natural to define a Empirical Spectral Distribution (ESD) function rather than the classical Cumulative Distribution Function (CDF).
+The ESD of a matrix $\bX$ is defined as
 $$
-F^{\bA}(x)= \frac{1}{p} \sum_{i=1}^p \mathbbm{1}(\lambda_i \leq x)
+F^{\bX}(x)= \frac{1}{p} \sum_{i=1}^p \mathbbm{1}(\lambda_i \leq x)
 $$ 
-where $\lambda_i$ are the eigenvalues from the eigenvalue decomposition, see section \ref{sec:cov_prec_matrix}. 
-The limit, in this case, is taken as $p \rightarrow \infty$ which implies that $\bA$ will have infinitely many columns as well as rows.
-The limiting spectral distribution of $\bX$ can be shown to converge to (see, Chapter 2 of \citet{bai2010spectral})
+where $\lambda_i$ are the eigenvalues from the eigenvalue decomposition, see section \ref{sec:cov_prec_matrix}.
+A central assumption is that if $p \rightarrow \infty$ then the ESD converges to the limiting cumulative distribution function of the spectral distribution of $\bX$, which is simply referred to as the Limiting Spectral Distribution (LSD).
+The asymptotics in RMT is slightly different to most common settings.
+As $p \rightarrow \infty$, $\bX$ will have infinitely many columns as well as rows.
+\citet{wigner1967random} showed that if $\bX$ is a random matrix with standard normal entries then it ESD converges to the following LSD 
 $$
-F'(x) = \begin{cases}
+F(x) = \begin{cases}
 \frac{1}{2\pi} \sqrt{4-x^2} & \text{ if } |x|\leq 2 \\
 0 & \text{ otherwise.}
 \end{cases}
 $$
-There are many interesting facts about the empirical spectral distribution and its limiting distribution. 
-One of the most interesting is the support of the limiting distribution.
-The normal distribution has unbounded support but the eigenvalues of $\bX$ converges to a distribution with bounded support (see, \citet{livan2018introduction} for a good explanation to the reason why). 
-\citet{marchenko1967distribution} extended the result of \citet{wigner1967random} to the sample covariance matrix. 
+If the reader is interested in how it is derived, have a look in Chapter 2 of \citet{bai2010spectral}.
+There are many interesting facts about the ESD and its LSD. 
+One of the most interesting is the support of the LSD.
+The normal distribution has unbounded support but the eigenvalues of $\bX$ converges to a distribution with bounded support (see, \citet{livan2018introduction} for a good explanation to the reason why).
+This is of course not always the case.
+The normal distribution is the most kind distribution that has support on the whole real line.
+\citet{burda2002free} show that there can still exist a LSD when the elements of $\bX$ does not have finite second moment.
+The LSD can even have closed form solutions.
+
+Although the model Wigner considered is interesting, this thesis exclusively deals with sample covariance matrices which are symmetric.
+\citet{marchenko1967distribution} extended the result of \citet{wigner1967random} to the sample covariance matrix.
 Assume that $\bX$ is a $p \times n$ matrix that contains i.i.d random variables with zero mean and variance equal to $1$.
 The limit is now taken over the two quantities $p$ and $n$ at the same time, such that $p/n$ tends to a constant.
 The ratio is usually called the concentration ratio $c$.
-In this introduction it is assumed that $c<1$. 
+In this introduction it is assumed that $c<1$.
 The density of the limiting spectral distribution of $\bS=\frac{1}{n} \bX \bX^\top$ was then shown to be
 $$
-F'(x) = \begin{cases}
+F(x) = \begin{cases}
 \frac{1}{2\pi x c} \sqrt{(b-x)(x-a)} & \text{ if } a \leq x \leq b\\
 0 & \text{ otherwise}
 \end{cases}
@@ -59,7 +75,7 @@ m^F(z) = \int \frac{1}{x-z}dF(x)
 \end{equation}
 where $z \in \{z \in \mathbbm{C}: \mathbbm{Im}(z)>0 \}$. 
 The Stieltjes transform has many useful properties. 
-If the Stieltjes transform is known, then the spectral distribution $F$ can be derived by the inversion formula. 
+If the Stieltjes transform is known, then the distribution function $F$, or in our application LSD, can be derived by the inversion formula. 
 There is also pointwise convergence of it (see, appendix B.2 of \citet{bai2010spectral}). 
 To apply the results from RMT to MPT, take a sample covariance matrix $\bS$ with ESD $F_n(x)$ and eigenvalue-matrix $\bLambda$ as defined in Chapter \ref{ch:MPT}, and note that
 \begin{equation}
@@ -69,19 +85,20 @@ To investigate the limiting properties of traces of inverse sample covariance ma
 However, to make matters slightly worse, the objects of interest in this thesis are quadratic or bilinear forms where the inverse sample covariance matrix is present. 
 Examples are $\ones^\top \bS^{-1} \ones$ or $\ones^\top \bS^{-1} \bb$ for some vector $\bb$. 
 Although $\tr(\bS^{-1})$ and $\ones^\top \bS^{-1} \ones$ may look similar, their limiting objects can behave quite differently. 
-This is due to the fact that the former does not depend on the eigenvectors while latter does. 
+This is due to the fact that the former does not depend on the eigenvectors while latter does.
+Let $\mathbbm{C}^+ := {z \in \mathbbm{C}: \operatorname{Im}(z)>0}$ and let $||\cdot||$ denote the spectral norm, i.e. $|| \bX || =\max_i \sqrt{\lambda_{i}(\bX^\top \bX)}$
 \citet{rubio2011spectral} showed the following theorem which can be used to derive limiting objects on this specific form.
 \begin{theorem}[Theorem 1 of \citet{rubio2011spectral}]\label{thm:rubio}
 
 
 \begin{enumerate}[(a)]
-  \item $\bX$ is an $p \times n$ random matrix such that the entier of $\sqrt{n}\bX$ are i.i.d complex random variables with mean 0, variance 1 and finite $8+\epsilon$ moment, for some $\epsilon > 0$.
-  \item $\bA$ and $\mathbf{R}$ are $p \times n$ hermitian nonnegative definite matrices, with the spectral norm (denoted by $||\cdot||$) of $\mathbf{R}$ being bounded uniformly in $p$, and $\mathbf{T}$ is an $n \times n$ diagonal matrix with real nonegative entries  uniformly bounded in $n$.
-  \item $\bB=\bA + \bR^{1/2} \bX \bT \bX^H \bR^{1/2}$, where $\bR^{1/2}$ is the nonnegative definite square root of $\bR$.
-  \item $\bTheta$ is an arbitrary nonrandom $p \times p$ matrix, whose trace norm (i.e., $\tr((\bTheta^H \bTheta)^{1/2}):=||\bTheta||_{tr}$) is bounded uniformly in $p$.
+  \item \label{enum:1} $\bX$ is an $p \times n$ random matrix such that the entries of $\sqrt{n}\bX$ are i.i.d complex random variables with mean 0, variance 1 and finite $8+\epsilon$ moment, for some $\epsilon > 0$.
+  \item \label{enum:2} $\bA$ and $\mathbf{R}$ are $p \times p$ hermitian nonnegative definite matrices, with the spectral norm of $\mathbf{R}$ being bounded uniformly in $p$, and $\mathbf{T}$ is an $n \times n$ diagonal matrix with real nonnegative entries uniformly bounded in $n$.
+  \item \label{enum:3} $\bB=\bA + \bR^{1/2} \bX \bT \bX^H \bR^{1/2}$, where $\bR^{1/2}$ is the nonnegative definite square root of $\bR$.
+  \item \label{enum:4} $\bTheta$ is an arbitrary nonrandom $p \times p$ matrix, whose trace norm (i.e., $\tr((\bTheta^H \bTheta)^{1/2}):=||\bTheta||_{tr}$) is bounded uniformly in $p$.
 \end{enumerate}
 
-Then, with probability 1, for each $z\in \mathbbm{C}-\mathbbm{R}^+$, as $n=n(p) \rightarrow \infty$ such that $0<\lim\inf c_p<\lim \sup c_p < \infty$, with $c_p = p/n$
+Then, with probability 1, for each $z\in \mathbbm{C}-\mathbbm{R}^+$, as $n=n(p) \rightarrow \infty$ such that $0<\lim\inf c_p \leq \lim \sup c_p < \infty$, with $c_p = p/n$
 \begin{equation}
   \tr\left(\bTheta\left( \left(\bB - z\bI\right)^{-1} - \left( \bA + x_p(e_p)\bR - z\bI \right)^{-1} \right) \right) \rightarrow 0
 \end{equation}
@@ -95,26 +112,65 @@ and $e_p=e_p(z)$ is the Stieltjes transform of a certain positive measure on $\m
 \end{equation}
 \end{theorem}
 This theorem is used repeatedly in papers \hyperref[sec:paper3]{3}, \hyperref[sec:paper4]{4} and \hyperref[sec:paper5]{5}.
-However, in this thesis it is assumed that $\bX$ has finite $4+\epsilon$ moment, while the theorem above assumes $8+\epsilon$. 
+However, in this thesis it is assumed that $\bX$ has finite $4+\epsilon$ moment, while the theorem above states in \ref{enum:1} that $\bX$ must have $8+\epsilon$ moments. 
 That can be circumvented through the supplement material of \citet{BodnarGuptaParolya2016}.
-
-Through Theorem \ref{thm:rubio} any limiting trace of the modified sample covariance matrix $\bB$ can be derived by first finding $x_p(e_p)$, the transformation of the Stieltjes transform $e_p(z)$.
-In simple cases, an analytic solutions for the functions $x_p(e_p)$ or $e_p(z)$ can be found. 
-This happens in papers \hyperref[sec:paper3]{3} and \hyperref[sec:paper4]{4} though not in paper \hyperref[sec:paper5]{5}. 
-In paper \hyperref[sec:paper5]{5} the solution is found using numerical methods to construct optimal portfolios.
+The second condition \ref{enum:2} states that $\bA$ and $\bR$ needs to be hermitian nonnegative definite matrices.
+It means that all eigenvalues must be real and greater or equal to zero.
+To give a concrete example of what these might be we assume that $\bY$ follows the model defined in \eqref{eqn:location_scale_model}.
+If $p>n$, then the inverse of $\bS^{-1}$ does not exist.
+However, an augmented estimator for the sample covariance with properly defined inverse could be 
+\begin{equation}\label{eqn:bb}
+\bB = \beta\bI + \bS \eqdist \beta \bI + \bSigma^{1/2}\bX \bD \bX^\top \bSigma^{1/2}
+\end{equation}
+for some $\beta >0$.
+All eigenvalues of $\beta \bI$ are centered at one point. 
+It has bounded spectral norm. 
+Assuming that the largest eigenvalue of $\bSigma$ is uniformly bounded in $p$, then $\bSigma$ has bounded spectral norm.
+This is an assumption that highly criticized in the community though it is used on occasions in this thesis.
+More on that in section \ref{ch:future}.
+In the univariate setting, there is only one type of square root.
+However, as \ref{enum:3} portraits there can be different square roots for a matrix.
+This is due to the fact that there are possibly many solutions to the following system of equations $\bR = \tilde\bR \tilde\bR$.
+As an example, the matrix $\tilde \bR$ can be obtained by the Cholesky decomposition or by the eigenvalue decomposition.
+The former is not a symmetric decomposition while the latter is.
+The last condition, stated in \ref{enum:4}, is a simple constraint but can be one of the most important. 
+It directly limits what type of classes of sample covariance matrices that work in this framework.
+As an example $\bTheta=\bI$ does not work though $\bTheta = \bI / p$ will.
+A simple parable can be made to the ESD.
+Without the normalization $1/p$ there is no guarantee that the ESD will converge to anything at all.
+These are of course trivial examples.
+The quadratic form $\ones^\top \bS^{-1} \ones$ can serve as a more practical example. 
+For the sake of simplicity, assume that $\bmu = \mathbf{0}$ and note that
+\begin{equation}
+  \ones^\top \bS^{-1} \ones = \frac{1}{n}\ones^\top \bSigma^{-1/2} (\bX \bX^\top)^{-1} \bSigma^{-1/2} \ones = \frac{1}{n}\tr \left((\bX \bX^\top)^{-1} \bSigma^{-1/2} \ones\ones^\top \bSigma^{-1/2}\right).
+\end{equation}
+\citet{bodnar2018estimation} use Theorem \ref{thm:rubio} to derive that $|\tr(\bTheta(\bX \bX^\top -z\bI)^{-1}) - (x(z)-z)^{-1}\tr\left(\bTheta\right)| \rightarrow 0$ when $p,n \rightarrow \infty$ s.t. $p/n \rightarrow c \in (0,\infty)$ and $x(z) := (1-c + z + \sqrt{(1-c+z)^2-4z})/2$.
+If $\bSigma^{-1/2} \ones\ones^\top \bSigma^{-1/2}$ is assumed to have bounded trace norm, or that $1/\V$ is bounded in $p$, together with $p<n$ then
+$$
+\left|\tr\left(\ones^\top \bS^{-1} \ones\right) - \frac{1}{1-c}\frac{1}{\bV}\right| \rightarrow 0.
+$$
+The in-sample variance $(\ones^\top \bS^{-1}\ones)^{-1}$ will converge to zero if $c$ is close to one.
+However, as was previously stated, \citet{bodnar2018estimation} showed that the out-of-sample variance in \eqref{eqn:oot_var} of the GMV portfolio diverge when $c$ is close to one.
+The in-sample properties are not the issue for high-dimensional GMV portfolios, it is the out-of-sample properties that behave badly.
+Furthermore, it is not the in-sample properties that are important, its how well the investment strategy, or the portfolio, generalize to an out-of-sample setting.
+This serves as a motivation for the loss function in Paper \hyperref[sec:paper3]{3}, \hyperref[sec:paper4]{4} and \hyperref[sec:paper5]{5}.
+The aim should be to construct estimators of the GMV portfolio which tries to control the out-of-sample variance.
+A large portion of this thesis derives closed form solutions for the solution to the out-of-sample loss.
+This takes time and effort.
+There are other more simpler options to the issue at hand which will be investigated in the next section.
 
 \section{Shrinkage estimators in modern portfolio theory}
-The estimator $\hV$ is clearly biased, it even diverges when $c$ approaches $1$.
+The out-of-sample variance the GMV portfolio is clearly biased, it even diverges when $c$ approaches $1$.
 This problem is not unique.
 The least squares estimator is usually very volatile when there are many covariates in the regression model. 
-An easy solution is to use $(1-c)\hV$ as an unbiased estimator for the variance of the GMV portfolio.
+An easy solution is to multiply \eqref{eqn:oot_var} by $(1-c)$ as an unbiased estimator for the variance of the GMV portfolio.
 However, that might not be what an investor wants.
 He/she invests in portfolio weights, so naturally the aim should be to construct a good estimator for these.
 There are many solutions to this problem but the most common is to use a shrinkage estimator.
 By introducing a shrinkage estimator, some bias is introduced to the weights but hopefully it also reduces the variance.
 
 Papers \hyperref[sec:paper3]{3} through \hyperref[sec:paper4]{5} work with the GMV portfolio and there are two natural extensions to it. 
-The weights $\hbw_{GMV}$ or the sample covariance matrix $\bS$ can be shrunk towards a target. 
+The weights $\hbw_{GMV}$ can be shrunk towards a target, or ''holding'' portfolio, or the sample covariance matrix $\bS$ can be regularized such that large and small eigenvalues are penalized. 
 Papers \hyperref[sec:paper3]{3} and \hyperref[sec:paper4]{4} work with the former.
 Combining the GMV portfolio weights with some target portfolio $\bb$ through a linear combination results in
 \begin{equation*}\label{eqn:linshrink}
@@ -199,11 +255,10 @@ alpha_oracle <- (t(b) %*% Sigma %*% b - t(w_bodnar2018$w_GMVP) %*% Sigma %*% b) 
 In Figure \ref{fig:cv_benchmark} the out-of-sample variance, aggregated over folds, is displayed. 
 Cross-validation suggest that the optimal value should be $\Sexpr{min_vals$alpha}$. 
 The analytic method from \citet{bodnar2018estimation} suggests that the optimal value is $\Sexpr{round(w_bodnar2018$alpha,4)}$.
-The "correct" value of $\alpha$, as given by the oracle estimator, is equal to $\Sexpr{round(alpha_oracle, 4)}$. 
-Its limiting value (see Theorem 2.1 \citet{bodnar2018estimation}) is equal to $\Sexpr{round(alpha_true, 4)}$.
+The "correct" value of $\alpha$, as given by the oracle estimator $\hbw_{SH}^\top\bSigma \hbw_{SH}$, is equal to $\Sexpr{round(alpha_oracle, 4)}$. 
 Although none of the methods are spot on, the bona-fide estimator is closer to what the optimal value should be.
 Furthermore, changing the number of folds in the K-fold CV can give quite different results in the optimal value.
-If there is a possibility to derive a bona-fide estimator, then it seems that it is better than using a CV approach.
+In this case specific case there is value in deriving a bona-fide estimator when evaluating it against a simple CV approach.
 This approach is used in paper \hyperref[sec:paper3]{3}, \hyperref[sec:paper4]{4} and \hyperref[sec:paper5]{5} as well as the linear shrinkage from \eqref{eqn:linshrink}.
 
 Shrinking the weights can provide a good estimator in higher dimensions. 

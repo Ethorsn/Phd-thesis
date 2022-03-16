@@ -1,3 +1,25 @@
+%% What the methods assume
+% independence, validate through simulations though there is no general guarantee that it works.
+% Sigma having bounded support, especially paper 5.
+The methods of this thesis all rely on one concept, the observations from the joint asset return distribution are iid.
+Paper \hyperref[sec:paper2]{2} use a special case of the Closed Skew-normal model.
+That is the only model which has the potential to incorporate more developed timeseries dynamics in the data.
+The methods and theory from Paper \hyperref[sec:paper1]{1} and \hyperref[sec:paper2]{2} can not cope with it.
+The models used in Paper \hyperref[sec:paper3]{3} through \hyperref[sec:paper5]{5} also assumes iid.
+In these papers, the methods are tested through simulations.
+The simulation studies show that the methods are robust to deviations from the iid assumption though it does not provide an explanation to what effect it has.
+
+The next assumption sometimes used in this thesis is that $\Sigma$ were to have bounded eigenvalues.
+A common model for pricing assets is Arbitrage pricing theory and factor models. 
+One of these models are used in the simulation study of Papers \hyperref[sec:paper3]{3} through \hyperref[sec:paper5]{5}, the Capital Asset Pricing Model (CAPM).
+There are many motivations for using it (see, e.g., \citet{ross2013arbitrage}) which we will not discuss here.
+By imposing structure the model reduces the number of parameters.
+It omits some parts of the problems that the methods of this thesis are faced with.
+However, \citet{} showed that in such a model, the largest eigenvalue of the sample covariance matrix is of order $p$.
+It does not have bounded spectral norm.
+That can be circumvented at times but not in others.
+The methods in Paper \hyperref[sec:paper5]{5} has to assume that the spectral norm of $\bSigma$ is bounded, otherwise some quantities in the proofs diverge.
+
 There are many possible extensions and future projects to the thesis at hand.
 Estimation uncertainty is the primary motivation for this thesis.
 Bayesian statistics provide a straightforward way to integrate that. 
@@ -15,7 +37,7 @@ Many Multivariate GARCH models can be formulated as the following BEKK model (se
 \begin{equation}\label{eqn:BEKK}
   \bH_t = \bC \bC^\top + \sum_{k=1}^K \bA_k \boldsymbol{\epsilon}_{t-1}\boldsymbol{\epsilon}_{t-1}^\top \bA_k^\top + \sum_{k=1}^K \bG_k \bH_{t-1}\bG_k^\top,
 \end{equation}
-where $\bH_i$ is a sequence of conditional covariance matrices, $\boldsymbol{\epsilon}_t | \mathcal{F}_{t-1} \sim N_p(\mathbf{0], \bH_t})$ and the matrices $\bC, \bA_i$ and $\bG_i$ are of appropriate dimensions.
+where $\bH_i$ is a sequence of conditional covariance matrices, $\boldsymbol{\epsilon}_t | \mathcal{F}_{t-1} \sim N_p(\mathbf{0}, \bH_t)$ and the matrices $\bC, \bA_i$ and $\bG_i$ are of appropriate dimensions.
 These are usually very hard to fit and use for portfolio allocations. 
 The first issue is due to the number of parameters in the model.
 There are a number of parametrisations but if all matrices are symmetric then there are $(K+1/2)p(p+1)$ parameters to estimate. 

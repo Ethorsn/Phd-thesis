@@ -62,14 +62,14 @@ However, MPT relies on unknown parameters which need to be estimated.
 These parameters are the two first moments of the return distribution.
 By replacing them with some estimates, estimation uncertainty is introduced to the allocation problem.
 If the uncertainty is not well understood or taken into account, it has the potential to dominate any characteristic of the investment strategy.
-There is no way to determine if the strategy works or not.
+There is no way to determine if the strategy works, e.g. if it will provide a positive return, or not.
 
-This thesis contains five papers which provide results on how to deal with estimation uncertainty in high-dimensional and, in some cases, finite sample portfolios from the MPT framework.
+This thesis contains five papers which provide results on how to deal with estimation uncertainty in very large sample portfolios from the MPT framework.
 These results provide tools to better understand the investment process and the empirical results that can be observed.
 
 Paper 1 explores all of the portfolios that can be placed in the framework of MPT. 
-The paper provide the sampling distribution for all optimal portfolios and their characteristics.
-Their joint distribution is charactericed in terms of a stochastic representation.
+The paper provides the sampling distribution for all optimal portfolios and their characteristics.
+Their joint distribution is characterized in terms of a stochastic representation.
 This is done by assuming that the returns follow a multivariate normal distribution.
 Furthermore, the high-dimensional asymptotic joint distribution for the quantities of interest is derived.
 The high-dimensional distribution can be thought of as an infinitely diversified portfolio together with an infinite amount of data to estimate the parameters.
@@ -79,18 +79,18 @@ Paper 2 continues on the idea of paper 1.
 It considers the quadratic utility allocation problem from paper 1 but with an additional risk-free asset in the portfolio.
 This portfolio in known as the Tangency Portfolio (TP).
 The distribution of the sample TP weights is derived but under a more general model in comparison to paper 1. 
-The asset returns are assumed to follow a closed skew-normal distribution.
-Results show that skewness implies that the sample TP weights is on average biased in finite sample.
+The asset returns are assumed to follow a skew-normal distribution.
+Results show that the presence of skewness implies that the sample TP weights are on average biased in small samples.
 Although there is a bias in finite sample, the sample TP weights are consistent in high dimensions.
 
 Paper 3 takes on a practical aspect of investing, how to transition from one portfolio to another.
 A reallocation scheme is developed, which minimizes the out-of-sample variance of the Global Minimum Variance (GMV) portfolio, given a holding portfolio. 
-The holding portfolio can be deterministic or a random GMV portfolio from the previous period.
-Results show that this reallocation scheme can achieve great results in terms of estimating a relative loss in an extensive simulation study.
-The relative loss is a simple extension of the portfolio variance.
+The holding portfolio is the portfolio that the cash is currently invested in, it can be deterministic or a random GMV portfolio from the previous period.
+Results show that this reallocation scheme can provide precise estimates of the true GMV portfolio variance in an extensive simulation study.
 Furthermore, the empirical application shows that the reallocation scheme can provide the smallest out-of-sample variance in comparison to a number of benchmarks.
-It also provides the smallest change in portfolio weights between reallocation points.
-The theoretical results from this paper is implemented in the DOSPortfolio R package.
+It also provides the smallest change in portfolio weights between reallocation points. 
+It means that in the presence of transaction costs, it will provide the smallest cost.
+The theoretical results from this paper are implemented in the DOSPortfolio R package.
 
 Paper 4 derives properties of two different performance measures for three different high-dimensional GMV portfolio estimators. 
 The performance measures are the out-of-sample variance and the out-of-sample loss.
@@ -107,13 +107,11 @@ The portfolio performance is investigated in a large simulation study and its pe
 A simulation study shows that the method is comparable to a number of benchmarks. 
 Furthermore, an empirical application show that it can provide the lowest out-of-sample variance and provide good characteristics for the portfolio weights.
 
-\chapter*{List of included papers}
+\chapter*{List of papers}
 \nocite{bodnar2020sampling_thesis, javed2021tangency_thesis, bodnar2021dynamic_thesis, bodnar2021empirical_thesis, bodnar2022double_thesis, bodnar2021quantile_thesis, bodnar2020quantile_thesis, bodnar2021bayesian_thesis, DOSPortfolio_thesis}
 This thesis is based on the following papers
 
 \printbibliography[keyword={included_in_thesis}, title={Papers included in this thesis}, heading=subbibliography]
-\printbibliography[keyword={papers_list}, title={Papers \& other research results which are not included in this thesis},
-heading=subbibliography]
 
 \textbf{Author contribution:} 
 E. Thors\'en has actively contributed to developing the content of all papers.
@@ -129,6 +127,9 @@ E. Thorsén carried out all computer implementations in all articles.
 In all other aspects the authors contributed equally.
 
 \textbf{General comment:} An earlier version of \citet{bodnar2020sampling} was included in the Licenciate thesis of Erik Thors\'en, \citet{thorsen2019assessment}. 
+
+%\printbibliography[keyword={papers_list}, title={Papers \& other research results which are not included in this thesis}, heading=subsubbibliography]
+\printbibliography[keyword={papers_list}, heading=subsubbibliography]
 
 \chapter*{Acknowledgements}
 
@@ -214,7 +215,7 @@ Diversifiering är ett, om inte det bästa, verktyget för att minska risken i e
 Om en av investeringarna skulle gå dåligt spelar det ingen roll för den utgör en sådan liten del av portföljen.
 Modern Portföljteori (MPT) är ett ramverk för att konstruera diversifierade portföljer.
 Ett hinder är dock att MPT använder okända parametrar.
-Dessa okända parametrar är de två första momentet av tillgångslagens avkastningsfördelning.
+Dessa okända parametrar är de två första momentet av tillgångarnas avkastningsfördelning.
 När dessa ersätts av skattare introduceras estimerings-osäkerhet.
 Om en investerare inte förstår osäkerheten finns det en risk att den dominerar alla resultat som strategin skulle kunna påvisa.
 Det finns inget sätt att avgöra om strategin fungerar eller inte.
@@ -227,7 +228,7 @@ Artikel 1 utforskar alla portföljer i MPT-ramverket.
 I artikeln härleds alla optimala portföljers empiriska fördelning, det vill säga när skattare används istället för de sanna parametrarna.
 Det inkluderar fördelningen för vikterna samt den avkastning, varians och andra mått som karateriserar dessa portföljer.
 Därefter härleds den asymptotiska fördelningen för alla mått samt vikter i stora dimensioner.
-Denna fördelning kan ses som ett fall då en investerare diversifierar oändligt mycket i MPT-ramverket samt har oändligt mycket data på de tillgångslag han/hon investerar i.
+Denna fördelning kan ses som ett fall då en investerare diversifierar oändligt mycket i MPT-ramverket samt har oändligt mycket data på de tillgångarna han/hon investerar i.
 En simuleringsstudie visar att den asymptotiska fördelningen utgör en god approximation av den fördelningen för ändliga stickprov, givet att modelantagandet håller.
 
 Artikel 2 fortsätter vidare på artikel 1.
@@ -235,7 +236,7 @@ I denna artikel undersöks portföljen från det kvadratiskt nytto-optimeringspr
 En riskfri tillgång kan exempelvis vara ett räntebärande konto.
 Denna portfölj är också känd som den tangerande portföljen.
 I artikeln härleds den empiriska fördelningen för portföljvikterna fast med en generalisering av modellen från artikel 1.
-Fördelningen för tillgångslagen antas vara skev-normal.
+Fördelningen för tillgångarna antas vara skev-normal.
 Resultaten visar att skevhet gör att de empiriska vikterna i portföljen är i genomsnitt fel.
 Detta sker i genomsnitt för ändliga stickprov men den empiriska portföljen skattar rätt objekt i stora dimensioner. 
 

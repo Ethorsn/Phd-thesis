@@ -3,17 +3,17 @@
 A portfolio is any combination of assets.
 An asset might be a house, a stock, the value of a contract or any object with a price that can potentially be bought or sold.
 The price of an asset develops over time.
-The value of a house in Stockholm, Sweden, has increased a lot in the past years\footnote{As Metallica says "Sad but true", for the author of this thesis \url{https://www.maklarstatistik.se/omrade/riket/stockholms-lan/\#/villor/48m-prisutveckling}}.
+The house prices in Stockholm, Sweden, have increased a lot in the past years\footnote{\url{https://www.maklarstatistik.se/omrade/riket/stockholms-lan/\#/villor/48m-prisutveckling}}.
 However, the future price for a house is uncertain given that house prices are close to all-time highs.
 Will the price continue to increase or will there be a decrease?
 If there is a change, how big will that be?
-Depending on the answer, the optimal choice might be to sell the house today.
+Depending on the answer, the optimal choice might be to sell the house today and rent something instead.
 However, to make a decision on whether or not the house should be sold today, there is a need to specify its future value. 
 The future is unknown or random, in some sense.
 There are many possible changes in the assets value, both in direction and magnitude.
 In the context of a model there is a possibility to estimate the future price through the use of historical prices.
 The decision process now includes even more uncertainty.
-There is uncertainty from the model, the perception of past and future prices, and the uncertainty from using estimates instead of the ''true'' parameters for the model.
+There is uncertainty from the choice of model, the perception of past and future prices, and the uncertainty from using estimates instead of the ''true'' parameters for the model.
 If the house is one asset among many then there can be as many sources of uncertainty as there are assets, if not more.
 The allocation itself, in this case selling the house, is uncertain.
 Uncertainty is everywhere in decisions.
@@ -42,6 +42,9 @@ If an asset has a large variance then it is risky to invest in this asset.
 A high return might be at the cost of a large amount of risk.
 If an asset is not risky, then it would always make sense to invest in it.
 
+%%% Say something more?
+%% Literature review
+\subsection{Literature review}
 %Sampling to GMV
 To practically use a portfolio from the MPT framework the parameters of the model, the mean vector and the covariance matrix, need to be estimated.
 As previously said, this introduces estimation uncertainty.
@@ -60,7 +63,10 @@ Furthermore, \citet{kempf2006estimating} showed that an estimate of the GMV port
 Due to the vast literature in regression models, this approach has also spurred much research of the MPT framework (see, e.g., \citet{maillet2015global} and the references therein).
 
 % high-dimensional
-High-dimensional portfolios can be thought of as a consequence of an infinite amount of diversification.
+Diversification is a natural concept in MPT.
+It was one of the motivations for it.
+As more and more diversification is used, the portfolio will grow and in the most extreme case, the portfolio will contain infinitely many assets.
+High-dimensional portfolios, or portfolios that contain infinite number of assets, can be thought of as a consequence of a very large amount of diversification.
 Diversification is one, if not the best, risk management tool.
 It should, in theory, decrease the risk of the portfolio. 
 That is not always the case.
@@ -72,7 +78,7 @@ There are many ways to solve this.
 The former assumes that the eigenvectors are known and consider a nonlinear (rotational-invariant) estimation method for the covariance matrix. 
 The latter develops a regularization method much like \citet{frahm2010} but does so for high-dimensional portfolios.
 The mentioned papers do not assume any specific structure on the asset return distribution. 
-Another common model for asset returns, which impose some strucutre, is the factor model (see, e.g., \citet{ross2013arbitrage}). 
+Another common model for asset returns, which impose some structure, is the factor model (see, e.g., \citet{ross2013arbitrage}). 
 A factor can be many things, such as the area in which the house is located.
 \citet{ding2020high} use such a model to describe the implications of estimation to the GMV portfolio.
 %\citet{golosnoy2019exponential} and \citet{cai2020high} take another approach.
