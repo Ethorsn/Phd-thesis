@@ -47,8 +47,8 @@ There are many interesting facts about the ESD and its LSD.
 One of the most interesting is the support of the LSD.
 The normal distribution has unbounded support but the eigenvalues of $\bX$ converges to a distribution with bounded support (see, \citet{livan2018introduction} for a good explanation to the reason why).
 This is of course not always the case.
-The normal distribution is the most kind distribution that has support on the whole real line.
-\citet{burda2002free} show that there can still exist a LSD when the elements of $\bX$ does not have finite second moment.
+The normal distribution is one of few distributions that has support on the whole real line and all moments.
+\citet{burda2002free} show that there can still exist a LSD when the elements of $\bX$ do not have finite second moment.
 The LSD can even have closed form solutions.
 
 Although the model Wigner considered is interesting, this thesis exclusively deals with sample covariance matrices which are symmetric.
@@ -75,7 +75,7 @@ m^F(z) = \int \frac{1}{x-z}dF(x)
 \end{equation}
 where $z \in \{z \in \mathbbm{C}: \mathbbm{Im}(z)>0 \}$. 
 The Stieltjes transform has many useful properties. 
-If the Stieltjes transform is known, then the distribution function $F$, or in our application LSD, can be derived by the inversion formula. 
+If the Stieltjes transform is known, then the LSD $F$, can be derived by the inversion formula. 
 There is also pointwise convergence of it (see, appendix B.2 of \citet{bai2010spectral}). 
 To apply the results from RMT to MPT, take a sample covariance matrix $\bS$ with ESD $F_n(x)$ and eigenvalue-matrix $\bLambda$ as defined in Chapter \ref{ch:MPT}, and note that
 \begin{equation}
@@ -85,15 +85,13 @@ To investigate the limiting properties of traces of inverse sample covariance ma
 However, to make matters slightly worse, the objects of interest in this thesis are quadratic or bilinear forms where the inverse sample covariance matrix is present. 
 Examples are $\ones^\top \bS^{-1} \ones$ or $\ones^\top \bS^{-1} \bb$ for some vector $\bb$. 
 Although $\tr(\bS^{-1})$ and $\ones^\top \bS^{-1} \ones$ may look similar, their limiting objects can behave quite differently. 
-This is due to the fact that the former does not depend on the eigenvectors while latter does.
-Let $\mathbbm{C}^+ := {z \in \mathbbm{C}: \operatorname{Im}(z)>0}$ and let $||\cdot||$ denote the spectral norm, i.e. $|| \bX || =\max_i \sqrt{\lambda_{i}(\bX^\top \bX)}$
+This is due to the fact that the former does not depend on the eigenvectors while the latter does.
+Let $\mathbbm{C}^+ := {z \in \mathbbm{C}: \operatorname{Im}(z)>0}$ and let $||\cdot||$ denote the spectral norm, i.e. $|| \bX || =\max_i \sqrt{\lambda_{i}(\bX^\top \bX)}$.
 \citet{rubio2011spectral} showed the following theorem which can be used to derive limiting objects on this specific form.
-\begin{theorem}[Theorem 1 of \citet{rubio2011spectral}]\label{thm:rubio}
-
-
+\begin{theorem}[Theorem 1 in \citet{rubio2011spectral}]\label{thm:rubio}\hfill\break
 \begin{enumerate}[(a)]
   \item \label{enum:1} $\bX$ is an $p \times n$ random matrix such that the entries of $\sqrt{n}\bX$ are i.i.d complex random variables with mean 0, variance 1 and finite $8+\epsilon$ moment, for some $\epsilon > 0$.
-  \item \label{enum:2} $\bA$ and $\mathbf{R}$ are $p \times p$ hermitian nonnegative definite matrices, with the spectral norm of $\mathbf{R}$ being bounded uniformly in $p$, and $\mathbf{T}$ is an $n \times n$ diagonal matrix with real nonnegative entries uniformly bounded in $n$.
+  \item \label{enum:2} $\bA$ and $\mathbf{R}$ are $p \times p$ Hermitian nonnegative definite matrices, with the spectral norm of $\mathbf{R}$ being bounded uniformly in $p$, and $\mathbf{T}$ is a $n \times n$ diagonal matrix with real nonnegative entries uniformly bounded in $n$.
   \item \label{enum:3} $\bB=\bA + \bR^{1/2} \bX \bT \bX^H \bR^{1/2}$, where $\bR^{1/2}$ is the nonnegative definite square root of $\bR$.
   \item \label{enum:4} $\bTheta$ is an arbitrary nonrandom $p \times p$ matrix, whose trace norm (i.e., $\tr((\bTheta^H \bTheta)^{1/2}):=||\bTheta||_{tr}$) is bounded uniformly in $p$.
 \end{enumerate}
@@ -112,34 +110,33 @@ and $e_p=e_p(z)$ is the Stieltjes transform of a certain positive measure on $\m
 \end{equation}
 \end{theorem}
 This theorem is used repeatedly in papers \hyperref[sec:paper3]{3}, \hyperref[sec:paper4]{4} and \hyperref[sec:paper5]{5}.
-However, in this thesis it is assumed that $\bX$ has finite $4+\epsilon$ moment, while the theorem above states in \ref{enum:1} that $\bX$ must have $8+\epsilon$ moments. 
-That can be circumvented through the supplement material of \citet{BodnarGuptaParolya2016}.
-The second condition \ref{enum:2} states that $\bA$ and $\bR$ needs to be hermitian nonnegative definite matrices.
+However, in this thesis it is assumed that $\bX$ has finite $4+\epsilon$ moment, while the theorem above, condition \eqref{enum:1} states that $\bX$ must have $8+\epsilon$ moments. 
+This can be circumvented through the supplement material of \citet{BodnarGuptaParolya2016}.
+The second condition \eqref{enum:2} from Theorem \ref{thm:rubio} states that $\bA$ and $\bR$ must be hermitian nonnegative definite matrices.
 It means that all eigenvalues must be real and greater or equal to zero.
-To give a concrete example of what these might be we assume that $\bY$ follows the model defined in \eqref{eqn:location_scale_model}.
+To give a concrete example of what these might be, assume that $\bY$ follows the model defined in \eqref{eqn:location_scale_model}.
 If $p>n$, then the inverse of $\bS^{-1}$ does not exist.
 However, an augmented estimator for the sample covariance with properly defined inverse could be 
 \begin{equation}\label{eqn:bb}
 \bB = \beta\bI + \bS \eqdist \beta \bI + \bSigma^{1/2}\bX \bD \bX^\top \bSigma^{1/2}
 \end{equation}
 for some $\beta >0$.
-All eigenvalues of $\beta \bI$ are centered at one point. 
-It has bounded spectral norm. 
-Assuming that the largest eigenvalue of $\bSigma$ is uniformly bounded in $p$, then $\bSigma$ has bounded spectral norm.
-This is an assumption that highly criticized in the community though it is used on occasions in this thesis.
-More on that in section \ref{ch:future}.
+All eigenvalues of $\beta \bI$ are centered at one point and it has bounded spectral norm. 
+Assuming that the largest eigenvalue of $\bSigma$ is uniformly bounded in $p$, then $\bSigma$ also has bounded spectral norm.
+This is an assumption that can be criticized.
+It is used on occasions in this thesis but more on that in section \ref{ch:future}.
 In the univariate setting, there is only one type of square root.
-However, as \ref{enum:3} portraits there can be different square roots for a matrix.
-This is due to the fact that there are possibly many solutions to the following system of equations $\bR = \tilde\bR \tilde\bR$.
-As an example, the matrix $\tilde \bR$ can be obtained by the Cholesky decomposition or by the eigenvalue decomposition.
+However, as Theorem \ref{thm:rubio} condition \eqref{enum:3} hints at, there can be many square roots for a matrix.
+This is due to the fact that there are possibly many solutions to the following system of equations $\bR = \tilde\bR \tilde\bR^\top$.
+As an example, the matrix $\tilde \bR$ can be obtained by the Cholesky decomposition but also by the eigenvalue decomposition.
 The former is not a symmetric decomposition while the latter is.
-The last condition, stated in \ref{enum:4}, is a simple constraint but can be one of the most important. 
+The last condition, stated in \eqref{enum:4} of the same theorem, is a simple constraint but can be one of the most important. 
 It directly limits what type of classes of sample covariance matrices that work in this framework.
-As an example $\bTheta=\bI$ does not work though $\bTheta = \bI / p$ will.
+As an example $\bTheta=\bI$ does not work but $\bTheta = \bI / p$ will.
 A simple parable can be made to the ESD.
 Without the normalization $1/p$ there is no guarantee that the ESD will converge to anything at all.
-These are of course trivial examples.
-The quadratic form $\ones^\top \bS^{-1} \ones$ can serve as a more practical example. 
+
+The quadratic form $\ones^\top \bS^{-1} \ones$ can serve as another example. 
 For the sake of simplicity, assume that $\bmu = \mathbf{0}$ and note that
 \begin{equation}
   \ones^\top \bS^{-1} \ones = \frac{1}{n}\ones^\top \bSigma^{-1/2} (\bX \bX^\top)^{-1} \bSigma^{-1/2} \ones = \frac{1}{n}\tr \left((\bX \bX^\top)^{-1} \bSigma^{-1/2} \ones\ones^\top \bSigma^{-1/2}\right).
@@ -147,20 +144,19 @@ For the sake of simplicity, assume that $\bmu = \mathbf{0}$ and note that
 \citet{bodnar2018estimation} use Theorem \ref{thm:rubio} to derive that $|\tr(\bTheta(\bX \bX^\top -z\bI)^{-1}) - (x(z)-z)^{-1}\tr\left(\bTheta\right)| \rightarrow 0$ when $p,n \rightarrow \infty$ s.t. $p/n \rightarrow c \in (0,\infty)$ and $x(z) := (1-c + z + \sqrt{(1-c+z)^2-4z})/2$.
 If $\bSigma^{-1/2} \ones\ones^\top \bSigma^{-1/2}$ is assumed to have bounded trace norm, or that $1/\V$ is bounded in $p$, together with $p<n$ then
 $$
-\left|\tr\left(\ones^\top \bS^{-1} \ones\right) - \frac{1}{1-c}\frac{1}{\bV}\right| \rightarrow 0.
+\left|\ones^\top \bS^{-1} \ones - \frac{1}{1-c}\frac{1}{\V}\right| \rightarrow 0.
 $$
 The in-sample variance $(\ones^\top \bS^{-1}\ones)^{-1}$ will converge to zero if $c$ is close to one.
-However, as was previously stated, \citet{bodnar2018estimation} showed that the out-of-sample variance in \eqref{eqn:oot_var} of the GMV portfolio diverge when $c$ is close to one.
-The in-sample properties are not the issue for high-dimensional GMV portfolios, it is the out-of-sample properties that behave badly.
-Furthermore, it is not the in-sample properties that are important, its how well the investment strategy, or the portfolio, generalize to an out-of-sample setting.
-This serves as a motivation for the loss function in Paper \hyperref[sec:paper3]{3}, \hyperref[sec:paper4]{4} and \hyperref[sec:paper5]{5}.
+However, as previously stated, \citet{bodnar2018estimation} showed that the out-of-sample variance in \eqref{eqn:oot_var} of the GMV portfolio diverge when $c$ is close to one.
+It is not the in-sample properties that are important, its how well an investment strategy, or the portfolio, generalizes to an out-of-sample setting.
+This serves as a motivation for the loss function in papers \hyperref[sec:paper3]{3}, \hyperref[sec:paper4]{4} and \hyperref[sec:paper5]{5}.
 The aim should be to construct estimators of the GMV portfolio which tries to control the out-of-sample variance.
-A large portion of this thesis derives closed form solutions for the solution to the out-of-sample loss.
+A large portion of this thesis derives closed form solutions for the optimal shrinkage parameters to the out-of-sample loss.
 This takes time and effort.
 There are other more simpler options to the issue at hand which will be investigated in the next section.
 
 \section{Shrinkage estimators in modern portfolio theory}
-The out-of-sample variance the GMV portfolio is clearly biased, it even diverges when $c$ approaches $1$.
+The out-of-sample variance of the estimated GMV portfolio is clearly biased, it even diverges when $c$ approaches $1$.
 This problem is not unique.
 The least squares estimator is usually very volatile when there are many covariates in the regression model. 
 An easy solution is to multiply \eqref{eqn:oot_var} by $(1-c)$ as an unbiased estimator for the variance of the GMV portfolio.
@@ -172,32 +168,56 @@ By introducing a shrinkage estimator, some bias is introduced to the weights but
 Papers \hyperref[sec:paper3]{3} through \hyperref[sec:paper4]{5} work with the GMV portfolio and there are two natural extensions to it. 
 The weights $\hbw_{GMV}$ can be shrunk towards a target, or ''holding'' portfolio, or the sample covariance matrix $\bS$ can be regularized such that large and small eigenvalues are penalized. 
 Papers \hyperref[sec:paper3]{3} and \hyperref[sec:paper4]{4} work with the former.
-Combining the GMV portfolio weights with some target portfolio $\bb$ through a linear combination results in
-\begin{equation*}\label{eqn:linshrink}
-  \hbw_{SH} = \alpha\hbw_{GMV} + (1-\alpha)\bb
-\end{equation*}
-which introduces the bias $\alpha(\optn{E}[\hbw_{GMV}] - \bw_{GMV})$ but decreases the variance to
+Combining the sample GMV portfolio weights with some target portfolio $\bb$ through a linear combination results in
+\begin{equation}\label{eqn:linshrink}
+  \hbw_{SH} = \alpha\hbw_{GMV} + (1-\alpha)\bb.
+\end{equation}
+It is important to understand the error of an estimator, especially when shrinkage is introduced.
+One of the most common ways is the bias-variance trade-off, see e.g. \citet[ch. 2.2]{james2013introduction}.
+However, this is most often introduced in the univariate setting and the important objects of this thesis are the portfolio weights which are vectors.
+
+There are many extensions to it for the multivariate settings though one of the most obvious is the mean squared error, or euclidean norm, which was used by 
+\citet{stein1956} to investigate properties of the sample mean.  
+The best option in this application is to own the true GMV portfolio.
+Hence, using the estimator given by \eqref{eqn:linshrink} and the true value is $\bw_{GMV}$ together with the mean squared error results in
 \begin{align*}
-  \alpha^2\optn{E}\left[\left(\hbw_{GMV} - \optn{E}[\hbw_{GMV}]\right)\left(\hbw_{GMV} - \optn{E}[\hbw_{GMV}]\right)^\top\right]
+  \optn{E}\left[\left|\left|\hbw_{SH} - \bw_{GMV}\right|\right|^2_2\right] 
+  & = \optn{tr}\left(\optn{Cov}\left(\hbw_{SH}\right)\right) + \left|\left|\optn{E}\left(\hbw_{SH}\right) - \bw_{GMV}\right|\right|^2_2. \\ 
 \end{align*}
+Furthermore, from \eqref{eqn:linshrink} it holds that $\optn{tr}\left(\optn{Cov}\left(\hbw_{SH}\right)\right) = \alpha^2 \optn{tr}\left(\optn{Cov}\left(\hbw_{GMV}\right)\right)$.
+The quantity $\optn{tr}\left(\optn{Cov}\left(\hbw_{SH}\right)\right)$ is often referred to as total variation and can be seen as the variance in the bias-variance trade-off. 
+Due to the linearity of $\hbw_{SH}$ there is a clear effect of the shrinkage coefficients.
+If $\alpha>0$, then the total variation of the shrinkage portfolio estimator is less than the sample GMV portfolio.
+The latter term is the euclidean norm of the bias.
+The bias can be decomposed as
+$$
+\optn{E}\left(\hbw_{SH}\right) - \bw_{GMV} = \alpha (\optn{E}\left(\hbw_{GMV}\right) - \bw_{GMV}) + (1-\alpha) (\bb - \bw_{GMV})
+$$
+which shows that the bias can be decomposed into a difference that depends on the model and a difference that depends on the initial guess $\bb$.
+The first difference $\optn{E}\left[\hbw_{GMV}\right] - \bw_{GMV}$ depends on the statistical model and describes one part of estimation uncertainty, which is how well the sample GMV portfolio estimates the true one on average.
+The latter quantity characterizes how close the target portfolio $\bb$ is to the true GMV portfolio. 
+If an investors guess of $\bb$ is completely accurate, equal to the true GMV portfolio, then this part will cancel.
+If $\alpha>0$ and $\bb$ is any given portfolio, then the estimator will always be wrong. 
+However, it has the potential to be more stable depending on the properties of the statistical model.
+
 It now stands to determine $\alpha$. 
 Shrinkage intensities are most often determined by cross-validation (CV) (see, e.g., \citet[ch. 5]{james2013introduction}). 
 The aim is to find the best shrinkage coefficients by dividing data into a validation and a training set.
 These are then used in conjunction with a loss function to determine the optimal value for the shrinkage coefficients.
 A natural choice of loss function for the GMV portfolio is the out-of-sample variance.
-The aim is to determine $\min_\alpha \hbw_{SH}^\top(\alpha) \bSigma \hbw_{SH}(\alpha)$.
+The aim is to determine which value of $\alpha$ which minimize $\hbw_{SH}^\top(\alpha) \bSigma \hbw_{SH}(\alpha)$.
 The out-of-sample loss depends on $\bSigma$, which is not known.
-The perhaps most obvious solution is to use the validation set to estimate the $\bSigma$, which has its own issues.
+Perhaps the most obvious solution is to use the validation set to estimate the $\bSigma$.
 The second solution, employed by \citet{bodnar2018estimation}, is to first solve the optimization problem analytically.
 The estimator is unobtainable, since it depends on $\bSigma$ so it is usually referred to as an \textit{oracle} estimator. 
 To construct an estimator which can actually be used, the authors construct a \textit{bona-fide} estimator.
-A bona-fide estimator only depends on esitmated quantities, so it is known.
+A bona-fide estimator only depends on estimated quantities, so it is known.
 The aim is then to construct the bona-fide estimator such that it converges to the same limit as the oracle. 
 It is a consistent estimator for the limiting object at hand.
-The two methods can differ quite substantially in their solution. 
+The CV method and the bona-fide estimator can differ quite substantially in their solution. 
 The CV method is simple to implement while the other \textit{should} be theoretically superior.
 In \ref{high-dim-CV} there is some R-code for a small motivating example to why deriving bona-fide estimators can prove to be fruitful.
-It is a comparison between the estimator from \citet{bodnar2018estimation} and determining the shrinkage coefficient using a 5 fold CV procedure.
+It is a comparison between the estimator from \citet{bodnar2018estimation} and determining the shrinkage coefficient using a 5-fold CV procedure.
 In this example $n=250, p=150$ and $\bb$ is equal to the Equally Weighted (EW) portfolio.
 It is a large portfolio, though $c=p/n<1$.
 <<cv_bench, cache=TRUE, echo=TRUE, ref="high-dim-CV", codecap="R-code performing a 5-fold cross-validation for determining shrinkage coefficients as well as the analytic methods from the HDShOP package.">>=
@@ -253,13 +273,14 @@ alpha_oracle <- (t(b) %*% Sigma %*% b - t(w_bodnar2018$w_GMVP) %*% Sigma %*% b) 
 @
 
 In Figure \ref{fig:cv_benchmark} the out-of-sample variance, aggregated over folds, is displayed. 
-Cross-validation suggest that the optimal value should be $\Sexpr{min_vals$alpha}$. 
+Cross-validation suggests that the optimal value should be $\Sexpr{min_vals$alpha}$. 
 The analytic method from \citet{bodnar2018estimation} suggests that the optimal value is $\Sexpr{round(w_bodnar2018$alpha,4)}$.
 The "correct" value of $\alpha$, as given by the oracle estimator $\hbw_{SH}^\top\bSigma \hbw_{SH}$, is equal to $\Sexpr{round(alpha_oracle, 4)}$. 
 Although none of the methods are spot on, the bona-fide estimator is closer to what the optimal value should be.
-Furthermore, changing the number of folds in the K-fold CV can give quite different results in the optimal value.
-In this case specific case there is value in deriving a bona-fide estimator when evaluating it against a simple CV approach.
-This approach is used in paper \hyperref[sec:paper3]{3}, \hyperref[sec:paper4]{4} and \hyperref[sec:paper5]{5} as well as the linear shrinkage from \eqref{eqn:linshrink}.
+Furthermore, changing the number of folds in the code above can give quite different results in the optimal value.
+In this example, CV does not seem to be stable when used in conjunction with large dimensional portfolios.
+For this specific application, there is value in deriving a bona-fide estimator in terms of the loss and shrinkage estimator.
+This approach is used in papers \hyperref[sec:paper3]{3}, \hyperref[sec:paper4]{4} and \hyperref[sec:paper5]{5}.
 
 Shrinking the weights can provide a good estimator in higher dimensions. 
 As previously stated, another approach is to shrink the elements of $\bS$.

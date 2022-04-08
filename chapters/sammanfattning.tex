@@ -1,0 +1,54 @@
+Portföljer med finansiella instrument och diversifiering går oftast hand i hand.
+Diversifiering är ett, om inte det bästa, verktyget för att minska risken i en portfölj.
+Om en av investeringarna skulle gå dåligt spelar det ingen roll för den utgör en sådan liten del av portföljen.
+Modern Portföljteori (MPT) är ett ramverk för att konstruera diversifierade portföljer.
+Ett hinder är dock att MPT använder okända parametrar.
+Dessa okända parametrar är de två första momenten av tillgångarnas avkastningsfördelning.
+När dessa ersätts av skattare introduceras estimerings-osäkerhet.
+Om en investerare inte förstår osäkerheten finns det en risk att den dominerar alla resultat som portföljen, eller strategin, skulle kunna påvisa.
+Det finns inget sätt att avgöra om strategin fungerar eller inte.
+
+Denna avhandling innehåller fem artiklar.
+De innehåller resultat som kan hjälpa en investerare att hantera skattningsosäkerhet i oändliga portföljer samt, i vissa fall, beskriva portföljernas fördelning för ett ändligt stickprov.
+Dessa resultat gör det lättare för investerare att förstå investeringsprocessen och de empiriska resultat som kan observeras i praktiken.
+
+Artikel 1 utforskar alla portföljer i MPT-ramverket.
+I artikeln härleds alla optimala portföljers empiriska fördelning, det vill säga när skattare används istället för de sanna parametrarna.
+Det inkluderar fördelningen för vikterna samt den avkastning, varians och andra mått som karateriserar dessa portföljer.
+Därefter härleds den asymptotiska fördelningen för alla mått samt vikter i stora dimensioner.
+Denna fördelning kan ses som ett fall då en investerare diversifierar oändligt mycket i MPT-ramverket samt har oändligt mycket data gällande de tillgångar han/hon investerar i.
+En simuleringsstudie visar att den asymptotiska fördelningen utgör en god approximation av fördelningen för ändliga stickprov, givet att modelantagandet håller.
+
+Artikel 2 fortsätter vidare på artikel 1.
+I denna artikel undersöks portföljen från det kvadratiskt nytto-optimeringsproblem med en riskfri tillgång. 
+En riskfri tillgång kan exempelvis vara ett räntebärande konto.
+Denna portfölj är också känd som den tangerande portföljen.
+I artikeln härleds den empiriska fördelningen för portföljvikterna fast med en generalisering av modellen från artikel 1.
+Fördelningen för tillgångarna antas vara skev-normal.
+Resultaten visar att skevhet gör att de empiriska vikterna i portföljen är i genomsnitt fel.
+Detta sker i genomsnitt för ändliga stickprov men den empiriska portföljen skattar rätt objekt i stora dimensioner. 
+
+Artikel 3 ger en lösning på problemet att äga en portfölj för att sedan gå över till en annan.
+I artikeln utvecklas en metod som omfördelar portföljen på givna tidpunkter.
+Den gör detta genom att minimera den framtida variansen för Minsta Varians (GMV) portföljen, givet att en investeraren redan äger en portfölj.
+Portföljen som ägs i denna stund kan vara deterministisk eller en skattad GMV-portfölj.
+En omfattande simuleringsstudie visar att denna metod kan uppnå goda resultat i termer av att skatta den relativa förlusten.
+Den relativa förlusten är en enkel utveckling av portföljvariansen.
+Metoden utvärderas därefter med hjälp av marknadsdata.
+Den lyckas bäst i att ge minsta framtida varians samt ge de minsta förändringarna i portföljvikterna bland de olika metoderna i jämförelsegruppen.
+Metoden har implementerats i ett R-paket som heter DOSPortfolio och finns tillgängligt på CRAN. 
+
+Artikel 4 härleder olika egenskaper för två olika prestandamått av tre olika skattare för GMV-portföljer.
+Prestandamåtten är den framtida variansen samt den framtida relativa förlusten för GMV-portföljerna.
+Det tidigare nämnda prestandamåttet används närpå alltid för att utvärdera GMV-portföljer med empirisk data.
+Resultaten visar att den relativa förlusten inte behöver lika strikta antaganden för att konvergera i stora dimensioner.
+Detta mått kan därför täcka flera modeller till skillnad från variansen.
+Prestandamåtten används sedan för att bestämma en ordning på de olika portföljerna.
+Dessa resultat verifieras i en simuleringsstudie samt med empirisk data. 
+
+Artikel 5 utvidgar en av GMV-portföljerna från artiklarna 3 och 4.
+I den här artikeln introduseras en Thikonov-regularisering på portföljvikterna vilket resulterar i en Ridge-liknande skattare för den empiriska kovariansmatrisen.
+Detta kombineras sedan med den linjära shrinkage-metoden från artiklarna 3 och 4.
+Denna portfölj undersöks sedan i en omfattande simuleringsstudie och dess prestanda studeras med empirisk data.
+Simuleringsstudien visar att metoden är jämförbar med ett flertal metoder.
+Den empiriska studien visar att metoden som utvecklas ger lägre skattningar av framtida varians än ett flertal referensportföljer samt att den visar bra prestanda gällande portföljvikterna.

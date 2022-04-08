@@ -5,9 +5,9 @@ An asset might be a house, a stock, the value of a contract or any object with a
 The price of an asset develops over time.
 The house prices in Stockholm, Sweden, have increased a lot in the past years\footnote{\url{https://www.maklarstatistik.se/omrade/riket/stockholms-lan/\#/villor/48m-prisutveckling}}.
 However, the future price for a house is uncertain given that house prices are close to all-time highs.
-Will the price continue to increase or will there be a decrease?
-If there is a change, how big will that be?
-Depending on the answer, the optimal choice might be to sell the house today and rent something instead.
+Will the price continue to increase or will it decrease?
+If there is a change, how big will it be?
+Depending on the answer, one strategy might be to sell the house today, rent something instead and buy a new house when prices have decreased.
 However, to make a decision on whether or not the house should be sold today, there is a need to specify its future value. 
 The future is unknown or random, in some sense.
 There are many possible changes in the assets value, both in direction and magnitude.
@@ -21,34 +21,33 @@ Uncertainty is everywhere in decisions.
 The market price of a house is rarely observed.
 As a matter of fact, it is only observed when it is sold.
 Even though prices are rarely observed there might be houses that are similar.
-There are many different observations from the same population. 
-That might not be the case for the second asset that is listed above, a stock.
+There are many measurements from the same population, in this case houses which are similar to the one being sold. 
+This might not be the case for the second asset that is listed above, a stock.
 The frequency of which the price of a stock is observed can be much higher.
-On the other hand, there is only one stock with one accompanying timeseries.
+On the other hand, there is only one stock with one accompanying time series.
 This makes the analysis slightly different.
 There can be a lot of historical data, but no identical copies of the stock that can be used to compare and extract information from.
 Prices can only be observed as they develop.
 
-In this thesis, the aim is not to predict tomorrows price of an asset but to answer what amount of a budget should be spend on the different assets in the long run.
+In this thesis, the aim is not to predict tomorrows price of an asset but to answer what amount of a budget should be spent on the different assets in the long run.
 The methods in this thesis build upon the seminal work of \citet{markowitz1959portfolio}, what is known as Modern Portfolio Theory (MPT).
 Markowitz argued that any portfolio which simply maximizes its profit will result in a naive solution.
 Investing all the capital in the asset with the highest return is not sensible if the future is not known.
 Such an investment will be extremely risky. 
 As a consequence, Markowitz argued that any well diversified portfolio should be preferred to any non-diversified portfolio. 
-A well-diversified portfolio can be obtained through many different procedures.
+A well diversified portfolio can be obtained through many different procedures.
 Markowitz proposed the use of the mean and variance of the asset return distribution for the allocation problem.
 If an asset has high return on average, it would make sense to invest in it if return is all that matters.
-If an asset has a large variance then it is risky to invest in this asset. 
+If an asset has a large variance, then it is risky to invest in this asset. 
 A high return might be at the cost of a large amount of risk.
-If an asset is not risky, then it would always make sense to invest in it.
+If an asset is not risky, then it would always make sense to invest in it, especially in the class of MPT portfolios this thesis looks into.
 
-%%% Say something more?
 %% Literature review
-\subsection{Literature review}
+\section{Literature review}
 %Sampling to GMV
-To practically use a portfolio from the MPT framework the parameters of the model, the mean vector and the covariance matrix, need to be estimated.
-As previously said, this introduces estimation uncertainty.
-If the amount of data is small, then there is a large risk that the estimated portfolio will not be accurate and volatile as new data is observed.
+To practically use a portfolio from the MPT framework, the parameters of the model, the mean vector and the covariance matrix, need to be estimated.
+As previously mentioned, this introduces estimation uncertainty.
+If the amount of data is small, then there is a large risk that the estimated portfolio will be volatile and not accurate as new data is observed.
 The sampling distribution of the portfolio will have a large variance.
 One important portfolio in the MPT framework is the Global Minimum Variance (GMV) portfolio.
 This portfolio provides the smallest variance in the MPT framework.
@@ -64,7 +63,7 @@ Due to the vast literature in regression models, this approach has also spurred 
 
 % high-dimensional
 Diversification is a natural concept in MPT.
-It was one of the motivations for it.
+It was one of the motivations for MPT.
 As more and more diversification is used, the portfolio will grow and in the most extreme case, the portfolio will contain infinitely many assets.
 High-dimensional portfolios, or portfolios that contain infinite number of assets, can be thought of as a consequence of a very large amount of diversification.
 Diversification is one, if not the best, risk management tool.
@@ -78,7 +77,7 @@ There are many ways to solve this.
 The former assumes that the eigenvectors are known and consider a nonlinear (rotational-invariant) estimation method for the covariance matrix. 
 The latter develops a regularization method much like \citet{frahm2010} but does so for high-dimensional portfolios.
 The mentioned papers do not assume any specific structure on the asset return distribution. 
-Another common model for asset returns, which impose some structure, is the factor model (see, e.g., \citet{ross2013arbitrage}). 
+Another common model for asset returns, which impose some structure, is the factor model (see, e.g., \citep{ross2013arbitrage}). 
 A factor can be many things, such as the area in which the house is located.
 \citet{ding2020high} use such a model to describe the implications of estimation to the GMV portfolio.
 %\citet{golosnoy2019exponential} and \citet{cai2020high} take another approach.
@@ -86,12 +85,12 @@ A factor can be many things, such as the area in which the house is located.
 The high-dimensional GMV portfolio appears in other fields as well, such as signal processing where it goes under the name beamformer (see, e.g., \citet{LiStoicaWang2004}). 
 
 % more general MV portfolios and why GMV is most often chosen.
-The largest argument for using the GMV portfolio in the MPT framework is that it does not depend on the mean vector.
+An argument for using the GMV portfolio in the MPT framework is that it does not depend on the mean vector.
 Estimating the mean is hard (see, e.g., \citet{merton1980estimating}, \citet{best1991sensitivity}).
 However, it is only one out of many portfolios in the MPT framework.
 Including a target for the portfolio mean results in the mean-variance portfolio.
 \citet{el2010high} investigated the weights of the mean-variance portfolio when linear constraints are introduced to the portfolio allocation problem.
-That can include position restrictions as well as an investors desire for a given return.
+This can include position restrictions as well as an investor's desire for a given return.
 \citet{bodnarokhrinparolya2020} considered high-dimensional portfolios but use another portfolio allocation problem, namely the quadratic utility.
 The setting is similar to \citet{bodnar2018estimation} where the authors regularize the quadratic utility portfolio towards a target portfolio in the high-dimensional setting.
 \citet{karlsson2021statistical} used an extension to the quadratic utility, where a risk-free asset is introduced.
@@ -99,11 +98,11 @@ There they derived different statistical properties of its solution, known as th
 
 The rest of this thesis is structured as follows. 
 Chapter \ref{ch:MPT} presents the framework that this thesis will work within, namely MPT. 
-As previously described, MPT use information which is not available. 
+As previously described, MPT uses information which is not available. 
 It relies on parameters which are not known. 
 In the subsequent chapter, Chapter \ref{ch:estim}, the models used in this thesis are introducd. 
 It also introduces the more formal concept of estimation uncertainty and what it means for MPT.
-Chapter \ref{ch:highdim} presents what happens in the MPT framework when the investor diviersifies as much as possible.
+Chapter \ref{ch:highdim} presents what happens in the MPT framework when an investor diviersifies as much as possible.
 The portfolio will contain many, if not an infinite number, of assets.
 The last two chapters, Chapter \ref{ch:papersummary} and \ref{ch:future} provide a summary of the papers presented in this thesis as well as a summary of future possible research.
 

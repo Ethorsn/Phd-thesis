@@ -2,23 +2,26 @@
 % independence, validate through simulations though there is no general guarantee that it works.
 % Sigma having bounded support, especially paper 5.
 The methods of this thesis all rely on one concept, the observations from the joint asset return distribution are iid.
-Paper \hyperref[sec:paper2]{2} use a special case of the Closed Skew-normal model.
-That is the only model which has the potential to incorporate more developed timeseries dynamics in the data.
-The methods and theory from Paper \hyperref[sec:paper1]{1} and \hyperref[sec:paper2]{2} can not cope with it.
-The models used in Paper \hyperref[sec:paper3]{3} through \hyperref[sec:paper5]{5} also assumes iid.
+Paper \hyperref[sec:paper2]{2} use a special case of the CSN model.
+This is the only model which has the potential to incorporate more developed time series dynamics in the data.
+The methods and theory from papers \hyperref[sec:paper1]{1} and \hyperref[sec:paper2]{2} cannot work under the more general data generating process.
+The models used in papers \hyperref[sec:paper3]{3} through \hyperref[sec:paper5]{5} also assume iid observations.
 In these papers, the methods are tested through simulations.
-The simulation studies show that the methods are robust to deviations from the iid assumption though it does not provide an explanation to what effect it has.
+The simulation studies show that the methods are robust to deviations from the iid assumption.
+However, this thesis does not provide an explanation to what effect deviations from the assumption has on the portfolio estimates.
+Deriving the effects of the time dependency could help an investor understand the results of their investment strategy and portfolio.
 
-The next assumption sometimes used in this thesis is that $\Sigma$ were to have bounded eigenvalues.
-A common model for pricing assets is Arbitrage pricing theory and factor models. 
-One of these models are used in the simulation study of Papers \hyperref[sec:paper3]{3} through \hyperref[sec:paper5]{5}, the Capital Asset Pricing Model (CAPM).
-There are many motivations for using it (see, e.g., \citet{ross2013arbitrage}) which we will not discuss here.
-By imposing structure the model reduces the number of parameters.
+The next assumption used in this thesis is that $\bSigma$ were to have bounded eigenvalues.
+A common model for pricing assets is arbitrage pricing theory and factor models. 
+One of these models are used in the simulation study of papers \hyperref[sec:paper3]{3} through \hyperref[sec:paper5]{5}, the Capital Asset Pricing Model (CAPM).
+There are many motivations for using it (see, e.g., \citet{ross2013arbitrage}), which will not be discussed here.
+By imposing structure in the model, it reduces the number of parameters that needs to be estimated.
 It omits some parts of the problems that the methods of this thesis are faced with.
-However, \citet{} showed that in such a model, the largest eigenvalue of the sample covariance matrix is of order $p$.
+However, \citet{fan2013large} showed in such a model, the largest eigenvalue of the sample covariance matrix is of order $p$.
 It does not have bounded spectral norm.
-That can be circumvented at times but not in others.
-The methods in Paper \hyperref[sec:paper5]{5} has to assume that the spectral norm of $\bSigma$ is bounded, otherwise some quantities in the proofs diverge.
+This can sometimes be circumvented but not in others.
+The methods in Paper \hyperref[sec:paper5]{5} have to assume that the spectral norm of $\bSigma$ is bounded, otherwise some quantities in the proofs diverge.
+Removing the assumption could provide more theoretical justification for the method though the simulations study from Paper \hyperref[sec:paper5]{5} indicates that it is robust against deviations from this assumption.
 
 There are many possible extensions and future projects to the thesis at hand.
 Estimation uncertainty is the primary motivation for this thesis.
@@ -26,8 +29,8 @@ Bayesian statistics provide a straightforward way to integrate that.
 However, it demands indepth knowledge of Markov Chain Monte Carlo and also how to construct good prior distributions.
 Neither are easy tasks.
 Another approach of incorporating estimation uncertainty is robust optimization.
-Robust optimization, in a MPT setting, tries to incorporate the estimation uncertainty into the portfolio allocation problem itself.
-Are there connections to be made and especially with empirical bayes?
+In the MPT setting, robust optimization tries to incorporate the estimation uncertainty into the portfolio allocation problem itself.
+Are there connections to be made and especially with empirical Bayes?
 
 Paper \hyperref[sec:paper3]{3} assumes that the rebalancing points are fixed.
 This assumption can be limiting for some investors.
@@ -47,6 +50,6 @@ It can provide forecasts which are very close to singular.
 The first issue can be solved if one can formulate the models as Recurrent Neural Networks and use deep-learning libraries Torch or Tensorflow to fit the models. 
 These are tailored to solve the problem of fitting very large models.
 Recent large Natural Language Processing models have \textit{billions} of parameters (see, e.g., \citet{brown2020language}). 
-The second problem can then possibly be solved by placing BEKK models in this framework.
+The second issue can then possibly be solved by placing BEKK models in this framework.
 Positive definite forecasts could then be enforced by developing new layers to the network. 
-Furthermore, it would also be easier to integrate different sources of information in the models in the context of these models.
+Furthermore, it would also be easier to integrate different sources of information, such as sentiment, in the models.

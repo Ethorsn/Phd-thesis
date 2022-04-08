@@ -7,24 +7,24 @@ However, they will always be wrong unless they are exactly right from the start.
 Therefore, the parameters are usually estimated through data.
 If there is enough data and the model is good enough, then the estimates might be very close to true parameters.
 They will be more volatile than the manually specified parameters but they at least have the opportunity to converge to the true parameters of interest in the end.
-The papers of this thesis combines both but most often relies on data to estimate the parameters of interest.
+The papers in this thesis combine both but most often relies on data to estimate the parameters of interest.
 
-The data that is used in this thesis is prices for the individual assets.
+The data that is used in this thesis are prices for the individual assets.
 Let $p_{i,t}$ be the asset price of the $i$th asset at time $t$. 
 The methods of this thesis rarely use the asset prices themselves but a transformation of the relative differences, that is, their simple and log-returns. 
 The simple return is defined as $r_{i,t} := (p_{i,t}-p_{i,t-1})/p_{i,t-1}$ and the log-return is then defined as $y_{i,t} := \log(r_{i,t} + 1)$ and $\by_t=(y_{1,t},y_{2,t},..., y_{p,t})$.
 The return of a portfolio with $p$ assets is modeled as $\bw^\top \by_t$ where $\bw=(w_1, ..., w_p)$ are the portfolio weights.
 This is an approximation.
-In reality the portfolio return should be $\sum_{i=1}^p w_i r_{i,t}$ (or even $\sum_{i=1}^p w_i p_{i,t}$). 
-That is additive in the number of assets.
+In reality the portfolio return should be $\sum_{i=1}^p w_i r_{i,t}$, which is additive in the number of assets.
 However, logarithmic returns are additive in time which can be desirable. 
 Compounding returns is simple addition and the approximation can make the statistical analysis more tractable. 
-The difference between the two approaches is very small if the returns are small since $\log(1+r_{i,t}) \approx r_{i,t}$ for small values of $r_{i,t}$, which is often true for financial assets over short time periods, see \citet[p. 5]{tsay2005analysis}. 
+The difference between using $r_{i,t}$ and $y_{i,t}$ is very small if the returns are small since $y_{i,t}=\log(1+r_{i,t}) \approx r_{i,t}$ for small values of $r_{i,t}$.
+This is often true for financial assets over short time periods, see \citet[p. 5]{tsay2005analysis}. 
 
 There are many ways to estimate $\bmu$ and $\bSigma$.
 The most simple and versatile method is the Method of Moments (MM) (see e.g., \citet[ch. 9]{wasserman2004all}). 
 Let $\bY = (\by_1, \by_2, ..., \by_n)$ be a sample of log-returns.
-Using the sample, $\bmu$ and $\bSigma$ is replaced with the sample mean and the sample covariance matrix, i.e.,
+Using the sample, $\bmu$ and $\bSigma$ are replaced with the sample mean and the sample covariance matrix, i.e.,
 $$
 \byb = \frac{1}{n} \sum_i^n \by_i, \; \bS = \frac{1}{n}\bY \left(\bI_n - \frac{1}{n} \ones_n \ones_n^\top \right) \bY^\top.
 $$
@@ -36,9 +36,9 @@ For the sample covariance matrix to be positive definite, it demands that $n>p$,
 It is natural to ask: does an imprecise estimate of the covariance matrix $\bSigma$ provide an equally imprecise estimate of the inverse $\bSigma^{-1}$?
 In some simple cases the answer is no, sometimes it is worse. 
 It is therefore very important to understand the implications of not using the true parameters but their sample counterparts.
-It is very important to understand the effect of estimation uncertainty.
+In other words, it is important to understand the effect of estimation uncertainty.
 There are many approaches to this but the most natural is the bottom-up approach. 
-If the asset returns $\bY$ follow some distribution, then there is potentially some statistical properties for $\byb$ and $\bS$.
+If the asset returns $\bY$ follows some distribution, then there is potentially some statistical properties for $\byb$ and $\bS$.
 The aim is then to understand the implications of using $\bS^{-1}$ instead of $\bSigma^{-1}$ and $\byb$ instead of $\bmu$ in \eqref{eqn:mean_var_solution} and all the corresponding moments.
 To investigate how estimation uncertainty affects the methods from MPT the next section introduces the models that are used in this thesis.
 Their properties that are used in this thesis, are stated in the coming sections.
@@ -46,34 +46,35 @@ Thereafter the implications of using estimates for MPT are discussed in brief.
 
 \section{Matrixvariate distributions}
 One of the most fundamental models for asset returns is the multivariate normal distribution. 
-Since most of the distributions in this thesis are matrix variate, the matrixvariate normal distribution is presented. 
+Since most of the distributions in this thesis are matrixvariate, the matrixvariate normal distribution is presented. 
 It is slightly more general than the multivariate normal distribution. 
-It can capture more structure in the data than its multivariate counterpart.
+The matrixvariate distribution can capture more structure in the data than its multivariate counterpart.
+Let $\otimes$ denote the Kronocker product, the matrixvariate normal distribution is defined as
 % Multivariate normal distribution
-\begin{definition}[Definition 2.2.1 \citet{GuptaNagar2000}]\label{def:matrixnormal}
-	The random matrix $\bY$ $(p \times n)$ is said to have a matrix variate normal distribution with mean matrix $\bM$ and covariance matrix $\bSigma \otimes \bGamma$ where $\bSigma > 0$ is of dimension $(p \times p)$ and $\bGamma >0$ is of dimension $(n \times n)$, if $\optn{vec}(\bY^\top) \sim N_{np}(\optn{vec}(\bM^\top), \bSigma \otimes \bGamma)$.
+\begin{definition}[Definition 2.2.1 in \citet{GuptaNagar2000}]\label{def:matrixnormal}
+	The random matrix $\bY$ $(p \times n)$ is said to have a matrixvariate normal distribution with mean matrix $\bM$ and covariance matrix $\bSigma \otimes \bGamma$ where $\bSigma > 0$ is of dimension $(p \times p)$ and $\bGamma >0$ is of dimension $(n \times n)$, if $\optn{vec}(\bY^\top) \sim N_{n,p}(\optn{vec}(\bM^\top), \bSigma \otimes \bGamma)$.
 \end{definition}
-The multivariate normal distribution is a simple special case of it with $\bGamma = \bI$ and $n=1$.
+The multivariate normal distribution is a simple special case of it with $n=1$ and $\bGamma = \bI$.
 Since each element in $\bY$ has support on the real line the most natural thing is to use this type of model for the log-returns of the assets.
 A property of the matrixvariate normal distribution is that it is closed under linear transformations.
 That plays an important role for determining the distribution of the estimator $\byb$ but also to determine the portfolio return distribution.
 Both are linear transformations.
-This model is used very often and the applications are many.
+%The matrixvariate normal distribution is very often used and the applications are many.
 However, \citet{cont2001empirical} described a number of stylized facts of log-returns. 
 These stylized facts describe the characteristics of asset returns on different frequencies.  
 It is argued that the multivariate normal distribution has too thin tails in comparison to what is usually observed in asset returns on higher frequencies.
 Cont argued that daily returns are usually not symmetric and often show volatility clustering.
 However, Cont also argued that returns on a lower frequency such as monthly or quarterly can be close to normal.
 The shape of the return distribution is not the same over different frequencies. 
-A motivation for the multivariate normal model can be thought of as an investor which invests in the portfolio infrequently.
+A motivation for the matrixvariate normal distribution can be thought of as an investor which invests in the portfolio infrequently.
 That does not mean that he/she cannot observe the results of the market on a higher frequency!
 
-In the univariate case the sample variance follows a chi-square distribution assuming that the returns follow a normal distribution. 
+In the univariate case the properly normalized sample variance follows a chi-square distribution assuming that the returns follow a normal distribution. 
 If the returns follow a multivariate normal distribution and are assumed to be independent, then $\bS$ follows what is known as a Wishart distribution. 
 It is essentially a generalization of the chi-square distribution. 
 The probability density function (p.d.f.) of a Wishart distribution is given below.
 % Wishart
-\begin{definition}[Definition 3.2.1 \citet{GuptaNagar2000}]\label{def:wishart}
+\begin{definition}[Definition 3.2.1 in \citet{GuptaNagar2000}]\label{def:wishart}
 	A $p\times p$ random symmetric positive definite matrix $\bS$ is said to have a Wishart distribution with parameter $n$ ($n\geq p$) and $\bSigma > 0$, $(p \times p)$ written as $\bS \sim W_p(n, \bSigma)$ if its p.d.f. is given by
 	\begin{equation}\label{eqn:wishart_density}
   	\frac{|\bS|^{(n-p-1)/2} |\bSigma|^{- n/2} }{2^{pn/2} \Gamma_p (n/2) } \exp\left\{-\frac{1}{2} \operatorname{tr}(\bSigma^{-1}\bS)  \right\}
@@ -84,12 +85,12 @@ In comparison to the normal distribution the Wishart distribution is used very f
 The model is very often used for realized covariance matrices, see \citet{barndorff2004econometric}, \citet{golosnoy2019exponential} or \citet{alfelt2021modeling}.
 A realized covariance matrix is an estimate of the volatility process from returns on a much higher frequency than what is used in this thesis.
 
-If $\bY \sim N_{p,n}(\bmu \ones_n^\top, \bSigma \otimes \bI_n)$, then $n\bS \sim W(n-1, \bSigma)$ by \citet[Theorem 3.3.6]{GuptaNagar2000}.
+If $\bY \sim N_{p,n}(\bmu \ones_n^\top, \bSigma \otimes \bI_n)$, then $n\bS \sim W_p(n-1, \bSigma)$ by \citet[Theorem 3.3.6 in]{GuptaNagar2000}.
 Working from the bottom-up there is now a model for the estimated parameters of the original model.
 As previously stated, MPT works with inverse covariance matrices and not with the covariance matrix itself. 
 Thankfully, the Wishart distribution has an inverse counterpart.
 % Inverse Wishart
-\begin{definition}[Definition 3.4.1  \citet{GuptaNagar2000}]\label{def:inverse_wishart}
+\begin{definition}[Definition 3.4.1 in \citet{GuptaNagar2000}]\label{def:inverse_wishart}
 	A random matrix $\bV$ is said to be distributed as an inverted Wishart distribution with $m$ degrees of freedom and parameter matrix $\bGamma$ $(p \times p)$, denoted by $\bV \sim IW_p(m, \bGamma)$, if its density is given by
 	\begin{equation}\label{eqn:inverse_wishart}
 	\frac{2^{-(m-p-1)p/2} |\bGamma|^{(m-p-1)/2} }{\Gamma_p ((m-p-1)/2) |\bV|^{m/2}} \exp\left\{ -\frac{1}{2} \bV^{-1} \bGamma \right\}, \; m > 2p, \bV, \bGamma > 0.
@@ -115,16 +116,16 @@ Inverses can potentially make matters worse.
 %Furthermore, the noise in the sample mean can be extremely large in comparison to the noise in the sample covariance matrix.
 %The weights from \eqref{eqn:mean_var_solution} will be much more noisy whenever $\mu_0 \neq \R$ since these will depend on the sample mean vector (see e.g., \citet{merton1980estimating}, \citet{chopra1993effect}).
 %It is perhaps one of the most common motivations for using the GMV portfolio.
-It has been well established that returns on higher frequency the normal distribution can be a poor model. 
-The next feature, and perhaps most common, to include is skewness of the asset returns and to assess its effect on portfolios. 
+It has been well established that returns on a high frequency does not follow a normal distribution. 
+The next feature, and perhaps most natural, to include is skewness of the asset returns and to assess its effect on portfolios. 
 A $p$ dimensional Closed Skew Normal (CSN) random vector $\bz$ has density
 \begin{equation}
   f_\bz(\ba; \bmu, \bSigma, \bD, \bv, \Delta) = C \phi_p(\ba; \bmu, \bSigma) \Phi_q(\bD(\ba-\bmu); \bv, \Delta)
 \end{equation}
-where $C$ is a normalization constant and $\bmu, \bSigma, \bD, \bv$ and $\Delta$ are parameters of appropriate dimensions. 
+where $C$ is a normalization constant, $\phi_k$ and $\Phi_k$ are the probability density and cumulative distribution function for a $k$-dimensional standard normal distribution and $\bmu, \bSigma, \bD, \bv$ and $\Delta$ are parameters of appropriate dimensions. 
 Its matrixvariate counterpart is simply defined through the vec operator. 
 % Closed skew normal distribution
-\begin{definition}[Definition 3.1 \citet{dominguez2007matrix}]
+\begin{definition}[Definition 3.1 in \citet{dominguez2007matrix}]
   A random matrix $\bY$ $(p \times n)$ is said to have a matrix variate closed skew-normal distribution with parameters $\bM$ $(p \times n)$, $\bA$ $(np \times np)$, $\bB$ $(nq \times mp)$, $\bL$ $(q \times m)$ and $\bQ$ $(mq \times mq)$, with $\bA > 0$ and $\bQ>0$ if
   \begin{equation}
     \optn{vec}(\bY^\top) \sim CSN_{pm, qn}\left(\optn{vec}(\bM^\top), \bA, \bB, \optn{vec}(\bL^\top), \bQ\right).
@@ -134,12 +135,11 @@ The closed skew-normal distribution is heavily parametrized.
 For each column in the matrix $\bY$ there is a mean vector $\bm$ and an additional four vectors $\ba$, $\bb$, $\bl$ and $\bq$ describing skewness and volatility of the asset returns.
 The matrixvariate distribution can capture a lot of structure.
 However, it also puts a heavy restriction on some of the parameters, as they need to be positive definite.
-The parameter $\bA$ might be interpreted as a covariance matrix although that is a simplification.
-It is something more.
-It can capture variance along \textit{both} axis of the matrix $\bY$, such as volatility for a specific asset but also unconditional volatility over time.
+The parameter $\bA$ might be interpreted as a covariance matrix although this is a simplification.
+It is something more and can capture variance along \textit{both} axes of the matrix $\bY$, such as volatility for a specific asset but also unconditional volatility over time.
 There is also some type of dependence between $\bA$ and how skewness is observed, by the fact that moments include \textit{almost all of the parameters} (see, e.g., the steps that begins at the end of page 1606 in \citet{dominguez2007matrix}).
 Due to the stochastic representation in Proposition 2.1 \citet{dominguez2007matrix}, the introduction of skewness can be thought of as random shocks to the mean.
-The overzealous parametrisation make estimating the parameters rather difficult and that is why paper \hyperref[sec:paper2]{2} use the assumption that $q=m=1$.
+The overzealous parametrisation makes estimating the parameters rather difficult and that is why paper \hyperref[sec:paper2]{2} uses the assumption that $q=m=1$.
 
 The last model in this thesis is the most general.
 It is also the model that has the least amount of interesting properties in itself.
@@ -157,7 +157,7 @@ Although the model can capture many types of return distributions, such as skew,
 
 Estimates of model parameters are interesting in themselves. 
 However, this thesis is about portfolios.
-In the next section, the implications of estimation uncertainty on optimal portfolios is displayed.
+In the next section, the implications of estimation uncertainty on optimal portfolios are displayed.
 
 \section{Inference and sampling distributions of optimal portfolios and their characteristics}
 The empirical counterpart of \eqref{eqn:mean_var_solution} is obtained by replacing $\bmu$ and $\bSigma$ with $\byb$ and $\bS$. It is equal to
@@ -172,13 +172,13 @@ and the shape parameter of the efficient frontier $\hat{s} = \byb^\top \bQ \byb$
 This is a portfolio that can actually be invested in. 
 
 From the previous section, the distributions of $\byb$ and $\bS$ are known if $\bY$ follows the matrixvariate normal distribution stated in Definition \ref{def:matrixnormal}. 
-In that scenario, the two estimators are even independent (see Theorem 3.3.6 \citet{GuptaNagar2000}) which makes the analysis simpler.
-However, in MPT there are many complicated transforms containing both $\byb$ and $\bS^{-1}$.
+In this scenario, the two estimators are even independent (see Theorem 3.3.6 in \citet{GuptaNagar2000}) which makes the analysis simpler.
+However, in MPT there are many complicated transformations containing both $\byb$ and $\bS^{-1}$.
 One example is the return for the GMV portfolio
 \begin{equation}\label{eqn:return_gmv_sample}
 \hR=\frac{\byb^\top\bS^{-1}\ones}{\ones^\top\bS^{-1}\ones}.
 \end{equation}
-Since $\byb$ and $\bS$ are independent then the conditional distribution of \eqref{eqn:return_gmv_sample} on $\byb$ is the same as the unconditional distribution.
+Since $\byb$ and $\bS$ are independent, the conditional distribution of \eqref{eqn:return_gmv_sample} given $\byb=\tilde\by$ is the same as the unconditional distribution of $\tilde{R}_{GMV} = \tilde\by^\top \bS^{-1} \ones / \ones^\top \bS^{-1} \ones$.
 However, \eqref{eqn:return_gmv_sample} still contains the sample covariance matrix in the nominator as well as the denominator.
 The two quantities $\byb^\top\bS^{-1}\ones$ and $\ones^\top\bS^{-1}\ones$ are obviously not independent.
 To solve the problem at hand consider two $p\times p$ matrices with the following block structure 
@@ -194,7 +194,6 @@ To solve the problem at hand consider two $p\times p$ matrices with the followin
 \end{equation}
 where $\text{dim}(\bA_{11}) = \text{dim}(\bV_{11})= m \times m$, $m<p$. 
 Let $\bA_{11\cdot 2} := \bA_{11} - \bA_{12} \bA_{22}^{-1} \bA_{21}$ denote the Schur complement of the matrix $\bA$ and define $\bV_{11\cdot 2}$ in the same manner. 
-Let $\otimes$ denote the Kronocker product. 
 The following theorem is used a lot in papers \hyperref[sec:paper2]{1} and \hyperref[sec:paper2]{2}.
 \begin{theorem}[Theorem~3 in \citet{BodnarOkhrin2008}]\label{thrm:invWis}
  Suppose $\bA \sim W^{-1}_k(n, \bV)$, where $\bA$ and $\bV$ are partitioned as in \eqref{eqn:blockmat}. Then
@@ -209,22 +208,22 @@ The following theorem is used a lot in papers \hyperref[sec:paper2]{1} and \hype
 	\end{flalign}
 	where $\Gamma_{m}(\cdot)$ is the multivariate Gamma function;
 	\item $\bA_{22}$ is independent of $\bA_{12}\bA^{-1}_{22}$ and $\bA_{11\cdot 2}$;
-	\item $\bA_{11\cdot 2}| \bA_{12}\bA^{-1}_{22}=\bX \sim W_m^{-1}(n,  \bV_{11\cdot 2} + \left(\bX - \bV_{12}\bV_{22}^{-1} \right)\bV_{22} \left(\bX - \bV_{12}\bV_{22}^{-1} \right)^\top )$
+	\item $\bA_{11\cdot 2}| \bA_{12}\bA^{-1}_{22}=\bX \sim W_m^{-1}(n,  \bV_{11\cdot 2} + \left(\bX - \bV_{12}\bV_{22}^{-1} \right)\bV_{22} \left(\bX - \bV_{12}\bV_{22}^{-1} \right)^\top )$.
  \end{enumerate}
 \end{theorem}
-So given an inverse Wishart distribution the distribution of many, quite difficult, transformations of its sub-matrices can be derived. 
-Let $\bH^\top = (\bL^\top, \tilde\by, \ones)^\top$ and note that $(\bH \bS^{-1} \bH^\top)^{-1}$ follows a Wishart distribution by Theorem 3.3.13 \citet{GuptaNagar2000}. 
+Given an inverse Wishart distribution the distribution of many, quite difficult, transformations of its sub-matrices can be derived. 
+Let $\bH^\top = (\bL^\top, \tilde\by, \ones)^\top$ and note that $(\bH \bS^{-1} \bH^\top)^{-1}$ follows a Wishart distribution by Theorem 3.3.13 in \citet{GuptaNagar2000}. 
 The inverse of $(\bH \bS^{-1} \bH^\top)^{-1}$ follows an inverse Wishart distribution.
 Observe that
 $$
 \bH \bS^{-1} \bH^\top = 
 \begin{pmatrix}
-  \bL \bS^{-1} \bL^\top & \bL \bS^{-1} \ones & \bL \bS^{-1}\tilde\by\\
+  \bL \bS^{-1} \bL^\top & \bL \bS^{-1}\tilde\by& \bL \bS^{-1} \ones \\
   \tilde\by^\top \bS^{-1} \bL^\top & \tilde\by^\top \bS^{-1}\tilde\by & \tilde\by^\top \bS^{-1} \ones \\
    \ones^\top \bS^{-1} \bL^\top& \ones^\top \bS^{-1}\tilde\by & \ones^\top \bS^{-1} \ones  \\
 \end{pmatrix}.
 $$
-In this case the product between $\bA_{12}$ and $\bA_{22}^{-1}$ together with the above results in
+If $\bA_{12}=(\bL \bS^{-1} \ones \; \tilde\by^\top \bS^{-1} \ones)^\top$ and $\bA_{22}^{-1}=1/\ones^\top \bS^{-1} \ones$, then, together with Theorem \ref{thrm:invWis} results in
 $$
 \bA_{12}\bA^{-1}_{22}= 
 \begin{pmatrix}
@@ -232,14 +231,13 @@ $$
   \frac{\tilde\by^\top \bS^{-1} \ones}{\ones^\top \bS^{-1} \ones}
 \end{pmatrix}^\top
 $$
-which is the joint distribution of the return of the GMV portfolio, $\hR$, and some scaled version of linear combinations of the tangency portfolio with $\gamma = \hV^{-1}$ and $r_f=0$.
-By \eqref{eqn:almostT} the joint distribution of these follows a matrixvariate t-distribution (see \citet[Definition 4.2.1]{GuptaNagar2000}) and the return of the GMV portfolio is independent to its variance. 
-Similar to the matrixvariate normal distribution, the matrixvariate t-distribution is also closed under linear transformations (see \citet[Theorem 4.3.5]{GuptaNagar2000}).
+which is the joint distribution of the return of the GMV portfolio, $\hR$, and some scaled version of linear combinations of the TP with $\gamma = \hV^{-1}$ and $r_f=0$.
+By \eqref{eqn:almostT} the joint distribution of these follows a matrixvariate t-distribution (see \citet[Definition 4.2.1 in]{GuptaNagar2000}) and the return of the GMV portfolio is independent to its variance. 
+Similar to the matrixvariate normal distribution, the matrixvariate t-distribution is also closed under linear transformations (see \citet[Theorem 4.3.5 in]{GuptaNagar2000}).
 This implies that $\hR$ follows a t-distribution, conditionally on the mean.
 The parameters of the distribution are presented in Lemma 7.1 in paper \hyperref[sec:paper1]{1}. 
 Paper \hyperref[sec:paper1]{1} uses these properties to derive the full joint distribution for all the quantities used in \eqref{eqn:meanvar_solution_sample}.
-The result is more general than that.
-It provides the joint distribution of all optimal portfolios. 
+It even provides the joint distribution of all optimal portfolios. 
 The joint distribution is characterized through its stochastic representation.
 The stochastic representation is a very verbose way of characterizing the distribution in terms of simple random variables.
 These random variables are simple to simulate.
@@ -249,7 +247,8 @@ It can therefore be very important that simulations are fast.
 This is extremely simple to do with the stochastic representation.
 
 \section{Simulations, inverses and why stochastic representations are valuable}
-Assume that the investor cares about simulations, is interested in the GMV portfolio and that the returns follow a matrixvariate normal distribution, i.e. $\bY \sim N_{p,n}(\bmu \ones_n^\top, \bSigma \otimes \bI_n)$. 
+Assume that an investor is interested in the GMV portfolio and to have some disposition of what some possible values of the true covariance matrix may be.
+In this scenario it is also assumed that the returns follow a matrixvariate normal distribution, i.e. $\bY \sim N_{p,n}(\bmu \ones_n^\top, \bSigma \otimes \bI_n)$. 
 To simulate from the sampling distribution of the variance of the GMV portfolio, there are a number of steps that needs to be performed
 \begin{enumerate}
   \item Simulate $\bY$ and construct $\bS$
@@ -258,12 +257,12 @@ To simulate from the sampling distribution of the variance of the GMV portfolio,
 \end{enumerate}
 The second step is notoriously demanding.
 The default method to use in R is 'solve' which is a wrapper for certain LAPACK\footnote{For the interested reader \url{https://www.netlib.org/lapack/}} functions.
-The inverse itself takes $2p^3$ flops (cpu cycles), which is not cheap (see, e.g., \citet[ch 14]{higham2002accuracy}).
+The inverse itself takes $2p^3$ flops (cpu cycles), which is not cheap (see, e.g., \citet[ch. 14]{higham2002accuracy}).
 If $p$ is large, then simulation of the quantity $\hV$ will be extremely cumbersome.
 Another method is R's \Sexpr{'chol2inv'} which relies on the Cholesky decomposition. 
 In theory, it should be faster but demands that the Cholesky decomposition is computed.
 The last two options that are available is to simulate $\bS$ directly or to derive the stochastic representation of $\hV$.
-Paper \hyperref[sec:paper1]{1} and \hyperref[sec:paper2]{2} go into great detail to derive the stochastic representation of different quantities of optimal portfolios. 
+Papers \hyperref[sec:paper1]{1} and \hyperref[sec:paper2]{2} go into great detail to derive the stochastic representation of different quantities of optimal portfolios. 
 One of them is the sample variance of the GMV portfolio.
 If $\bY \sim N_{p,n}(\bmu \ones_n^\top, \bSigma \otimes \bI_n)$, then by Theorem 1 in \citet{bodnar2020sampling} $\hV \sim \V\xi /(n-1)$ where $\xi \sim \chi^2_{n-p}$.
 The inversion can be omitted all together.
@@ -311,7 +310,7 @@ ggplot2::autoplot(result) +
 @
 
 In Figure \ref{fig:microbenchmark_output} a violinplot of the benchmark is displayed.
-Scenario 4 uses the stochastic representation and the time its benchmark is much smaller any of the former strategies.
+Scenario 4 uses the stochastic representation and the time it takes to simulate 1000 observations from the sampling distribution is much smaller any of the former strategies.
 It is quite clear that it is the fastest.
 Scenario 3 comes in second place in terms of speed.
 Simulating directly from the Wishart distribution is quick.
@@ -320,18 +319,18 @@ Scenario 1 and 2 does not make use of C or stochastic representations which make
 The conclusion is that inversions are very cumbersome to deal with and take a lot of time regardless if the Cholesky decomposition is used or not.
 It can also be a very unstable operation, especially if the matrix is close to singular.
 Simulating the variance of the GMV portfolio is one simple example of the application of the stochastic representation.
-Using the results from Paper \hyperref[sec:paper1]{1} and \hyperref[sec:paper2]{2} one can perform large scale simulations efficiently to compute moments from the sampling distributions for the portfolio characteristics and the portfolio weights themselves.
+Using the results from Papers \hyperref[sec:paper1]{1} and \hyperref[sec:paper2]{2} one can perform large scale simulations efficiently to compute moments from the sampling distributions for the portfolio characteristics and the portfolio weights themselves.
 
-A large portion of this thesis work with $\bS$, $\byb$.
-That is of course a simplification and not always the case.
+A large portion of this thesis works with $\bS$, $\byb$.
+This is of course two options out of many.
 The estimators $\bS$ and $\byb$ contain a lot of uncertainty where the former contains less than the latter (see, e.g., \citet{frankfurter1971portfolio}, \citet{merton1980estimating}, \citet{best1991sensitivity}). 
 Furthermore, there are a number of other issues at hand.
 If $p$ is comparable to $n$ but $n>p$, then the expectation of the inverse Wishart distribution is very biased.
 It is also very hard to compute $\bS^{-1}$ from $\bS$ numerically if the matrix is close to singular.
 There are two strategies to solve the problem.
 The first is to understand what implications estimation uncertainty has on the quantities of interest directly.
-Paper \hyperref[sec:paper1]{1} and \hyperref[sec:paper2]{2} does so by deriving the sampling distribution of the portfolios.
-The second approach is to use another estimator which can limit the estimation uncertainty.
-As we will see in the next chapter, that will come at a cost.
+Papers \hyperref[sec:paper1]{1} and \hyperref[sec:paper2]{2} do so by deriving the sampling distribution of the portfolios.
+The second approach is to use another estimator which can limit or decrease the estimation uncertainty.
+That will come at a cost.
 It may, or will, introduce some bias to the portfolios.
 It is something of utmost importance if an investor believes in diversification.

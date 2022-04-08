@@ -1,22 +1,22 @@
 \documentclass[12pt, oneside]{book}
 
 \input{header.tex}
-
 \makeatletter
 
 \title{Optimal portfolios -- estimation and uncertainty assessment in the high-dimensional setting}
 \author{Erik Thorsén}
+\date{}
 
+\newcommand{\email}{erik.thorsen$@$math.su.se}
+\newcommand{\auth}{Erik Thorsén}
+\newcommand{\yr}{2022}
+\newcommand{\address}{Matematiska Institutionen, Stockholms Universitet, 106 91 Stockholm}
 
 \addbibresource{references.bib}
 \addbibresource{references-thesis.bib}
 
 \begin{document}
 
-% \SweaveOpts{concordance=TRUE}
-
-
-\maketitle
 <<setup, echo=FALSE, results='hide', message=FALSE, warning=FALSE>>=
 library(knitr)
 # set standard configs for knitr 
@@ -52,121 +52,73 @@ knit_hooks$set(inline = function(x) {
   highr::hi_latex(x) 
 }) 
 @
-\chapter*{\centering Abstract}
-{\small
-Financial portfolios and diversification go hand in hand.
-Diversification is one of, if not the, best risk mitigation strategy there is.
-If any investment that is part of the portfolio performs poorly, then it will not impact the performance of the portfolio because there are many other investments that may behave differently.
-Modern Portfolio Theory (MPT) is a framework for constructing diversified portfolios.
-However, MPT relies on unknown parameters which need to be estimated. 
-These parameters are the two first moments of the return distribution.
-By replacing them with some estimates, estimation uncertainty is introduced to the allocation problem.
-If the uncertainty is not well understood or taken into account, it has the potential to dominate any characteristic of the investment strategy.
-There is no way to determine if the strategy works, e.g. if it will provide a positive return, or not.
 
-This thesis contains five papers which provide results on how to deal with estimation uncertainty in very large sample portfolios from the MPT framework.
-These results provide tools to better understand the investment process and the empirical results that can be observed.
+%%%%%% ------------------------------------------------------------------------
+%%%%%% FRONTMATTER
+%%%%%% ------------------------------------------------------------------------
+\frontmatterSU
 
-Paper 1 explores all of the portfolios that can be placed in the framework of MPT. 
-The paper provides the sampling distribution for all optimal portfolios and their characteristics.
-Their joint distribution is characterized in terms of a stochastic representation.
-This is done by assuming that the returns follow a multivariate normal distribution.
-Furthermore, the high-dimensional asymptotic joint distribution for the quantities of interest is derived.
-The high-dimensional distribution can be thought of as an infinitely diversified portfolio together with an infinite amount of data to estimate the parameters.
-The high-dimensional distribution can be seen to provide a good approximation to the finite sample one in a simulation study.
+\maketitle
 
-Paper 2 continues on the idea of paper 1.
-It considers the quadratic utility allocation problem from paper 1 but with an additional risk-free asset in the portfolio.
-This portfolio in known as the Tangency Portfolio (TP).
-The distribution of the sample TP weights is derived but under a more general model in comparison to paper 1. 
-The asset returns are assumed to follow a skew-normal distribution.
-Results show that the presence of skewness implies that the sample TP weights are on average biased in small samples.
-Although there is a bias in finite sample, the sample TP weights are consistent in high dimensions.
+%: ----------------------- Cover page back side ------------------------
 
-Paper 3 takes on a practical aspect of investing, how to transition from one portfolio to another.
-A reallocation scheme is developed, which minimizes the out-of-sample variance of the Global Minimum Variance (GMV) portfolio, given a holding portfolio. 
-The holding portfolio is the portfolio that the cash is currently invested in, it can be deterministic or a random GMV portfolio from the previous period.
-Results show that this reallocation scheme can provide precise estimates of the true GMV portfolio variance in an extensive simulation study.
-Furthermore, the empirical application shows that the reallocation scheme can provide the smallest out-of-sample variance in comparison to a number of benchmarks.
-It also provides the smallest change in portfolio weights between reallocation points. 
-It means that in the presence of transaction costs, it will provide the smallest cost.
-The theoretical results from this paper are implemented in the DOSPortfolio R package.
+\newpage
 
-Paper 4 derives properties of two different performance measures for three different high-dimensional GMV portfolio estimators. 
-The performance measures are the out-of-sample variance and the out-of-sample loss.
-The former is always used as an evaluation metric for an empirical application of the GMV portfolio.
-The results show that the out-of-sample loss does not need the same stringent assumptions as the out-of-sample variance in the high-dimensional setting.
-It can therefore cover many more models.
-Using the out-of-sample loss, an ordering of the three different portfolios is provided.
-This ordering is verified in a simulations study and an empirical application.
+%\input{0_frontmatter/abstract} % Uncomment to input the abstract if you want to have it printed.
 
-Paper 5 extends the results of one of the high-dimensional GMV portfolios used in paper 3 and 4. 
-It introduces Thikonov regularization to the portfolio weights which results in a Ridge type estimator for the sample covariance matrix combined with the linear shrinkage from paper 3 and 4.
-The portfolio solution covers the case where there are more assets in comparison to the number of datapoints.
-The portfolio performance is investigated in a large simulation study and its performance is studied in an empirical application.
-A simulation study shows that the method is comparable to a number of benchmarks. 
-Furthermore, an empirical application show that it can provide the lowest out-of-sample variance and provide good characteristics for the portfolio weights.
+\phantom{.}
+
+\vspace{\stretch{1}}
+
+{\fontfamily{\familydefault}\selectfont
+{\scriptsize
+\noindent
+\copyright \auth, Stockholm, \yr % Name of author, location year
+\newline
+Address: \address
+\newline
+E-mail address: \email
+ 
+\vspace{5mm}
+\noindent
+ISBN XXX-XX-XXXX-XXX-X % Provided by the library: disputationer@su.se
+
+\vspace{5mm}
+\noindent
+Printed in Sweden by Printing Company, Stockholm, \yr %name of printing company
+
+\noindent
+Distributor: Department of Mathematics, Stockholm University %name of department
+}
+}
+\cleardoublepage
+
+% to remove 
+% \chapter*{\centering Abstract}
+% \input{chapters/abstract}
+
+\begin{dedication}
+{\fontfamily{calligra}\selectfont
+{\Large
+To my family
+}
+}
+\end{dedication}
+%%%%%
 
 \chapter*{List of papers}
-\nocite{bodnar2020sampling_thesis, javed2021tangency_thesis, bodnar2021dynamic_thesis, bodnar2021empirical_thesis, bodnar2022double_thesis, bodnar2021quantile_thesis, bodnar2020quantile_thesis, bodnar2021bayesian_thesis, DOSPortfolio_thesis}
-This thesis is based on the following papers
-
-\printbibliography[keyword={included_in_thesis}, title={Papers included in this thesis}, heading=subbibliography]
-
-\textbf{Author contribution:} 
-E. Thors\'en has actively contributed to developing the content of all papers.
-In the first paper, E. Thors\'en contributed with the derivation of the theoretical results and with writing the majority of the paper in collaboration with all other authors. The original idea was presented by T. Bodnar.
-In the second paper, E. Thors\'en contributed with the theoretical derivations and writing the majority of the paper in collaboration of S. Mazur and F. Javed. The original idea was presented by S. Mazur and F. Javed.
-The original idea of the third paper was born from discussions with T. Bodnar and N. Parolya. 
-In this paper, E. Thors\'en contributed with the theoretical derivations and the writing of the paper.
-The original idea of the fourth paper stemmed from discussions from the third paper together with T. Bodnar and N. Parolya.
-In this paper, E. Thors\'en contributed with the theoretical derivations and the writing of the paper.
-The fifth paper also sprung from the third and fourth paper. 
-In this paper, E. Thors\'en contributed to the theoretical derivations, the writing of the paper and the idea behind it.
-E. Thorsén carried out all computer implementations in all articles.
-In all other aspects the authors contributed equally.
-
-\textbf{General comment:} An earlier version of \citet{bodnar2020sampling} was included in the Licenciate thesis of Erik Thors\'en, \citet{thorsen2019assessment}. 
-
-%\printbibliography[keyword={papers_list}, title={Papers \& other research results which are not included in this thesis}, heading=subsubbibliography]
-\printbibliography[keyword={papers_list}, heading=subsubbibliography]
+\input{chapters/list_of_papers}
 
 \chapter*{Acknowledgements}
+\input{chapters/acknowledgements}
 
-Early in my graduate studies I asked a professor what it takes to complete a PhD and he answered "grit".
-The purpose of a PhD is to spend a number of years intensively digging deeper into a subject, coming up with ideas that most often have been solved, does not seem to be solvable or cannot be solved at all.
-It is a very humbling experience and there are many people that I would like to thank for making it a fun one as well!
-
-The first person to thank is my supervisor Taras Bodnar.
-I am immensely grateful for your guidance, knowledge and discussions over the years.
-Thank you for giving me the opportunity of doing this.
-I could not have asked for a better supervisor.
-I also want to thank my co-supervisor Joanna Tyrcha for your support.
-
-I also want to give special thanks to my co-authors that also made this an exciting and great learning experience.
-Nestor Parolya, whom I have gotten the pleasure to work extensively with over the last few years. 
-You are a co-author of almost all the papers in this thesis and it has been a joy.
-I have learned a lot from our discussions.
-Thank you, Stepan Mazur and Farrukh Javed for the fun discussions and great collaborations!
-Furthermore, thank you Vilhelm Niklasson, Mathias Lindholm and Holger Dette for the (very) long and rewarding discussions! 
-
-Thank you Ola Hössjer for letting me be a part in developing and teaching the course Statistical Data Processing.
-I have learned so much from the experience and grown as a person from it!
-
-I also want to thank all my colleagues at the Department of Mathematics.
-It has been a incredibly fun place to work and I think that the environment has been, and will continue to be, great.
-There are a number of individuals that have made my experience even better.
-Thank you Vilhelm, Gustav and Stanislas for being wonderful people to share an office with.
-I hope to continue our brewing adventures Vilhelm and the wonderful banter Gustav!
-I also want to thank Felix, Måns, Sebastian and Hampus whom i have gotten to spend a lot of time with during covid. 
-It made everything so much easier.
-
-Last but not least, I cannot express enough love and gratitude towards my old (and new!) family. 
-Mom, dad and my beloved sister, I cannot thank you enough for all your support.
-Johanna, you make me a much happier person and I look forward to many more years with you and our son. 
 \newpage
 
 \tableofcontents
+%%%%%% ------------------------------------------------------------------------
+%%%%%% END OF FRONTMATTER
+%%%%%% ------------------------------------------------------------------------
+\mainmatterSU
 
 \part{Introduction}
 %%%%%% ------------------------------------------------------------------------
@@ -209,61 +161,9 @@ Johanna, you make me a much happier person and I look forward to many more years
 @
 
 \chapter{Svensk sammanfattning}
+\input{chapters/sammanfattning}
 
-Portföljer med finansiella instrument och diversifiering går oftast hand i hand.
-Diversifiering är ett, om inte det bästa, verktyget för att minska risken i en portfölj.
-Om en av investeringarna skulle gå dåligt spelar det ingen roll för den utgör en sådan liten del av portföljen.
-Modern Portföljteori (MPT) är ett ramverk för att konstruera diversifierade portföljer.
-Ett hinder är dock att MPT använder okända parametrar.
-Dessa okända parametrar är de två första momentet av tillgångarnas avkastningsfördelning.
-När dessa ersätts av skattare introduceras estimerings-osäkerhet.
-Om en investerare inte förstår osäkerheten finns det en risk att den dominerar alla resultat som strategin skulle kunna påvisa.
-Det finns inget sätt att avgöra om strategin fungerar eller inte.
-
-Denna avhandling innehåller fem artiklar.
-De innehåller resultat som kan hjälpa en investerare att hantera skattningsosäkerhet i oändliga portföljer samt, i vissa fall, beskriva portföljernas fördelning för ett ändligt stickprov.
-Dessa resultat gör det lättare för investerare att förstå investeringsprocessen och de empiriska resultat som kan observeras i praktiken.
-
-Artikel 1 utforskar alla portföljer i MPT-ramverket.
-I artikeln härleds alla optimala portföljers empiriska fördelning, det vill säga när skattare används istället för de sanna parametrarna.
-Det inkluderar fördelningen för vikterna samt den avkastning, varians och andra mått som karateriserar dessa portföljer.
-Därefter härleds den asymptotiska fördelningen för alla mått samt vikter i stora dimensioner.
-Denna fördelning kan ses som ett fall då en investerare diversifierar oändligt mycket i MPT-ramverket samt har oändligt mycket data på de tillgångarna han/hon investerar i.
-En simuleringsstudie visar att den asymptotiska fördelningen utgör en god approximation av den fördelningen för ändliga stickprov, givet att modelantagandet håller.
-
-Artikel 2 fortsätter vidare på artikel 1.
-I denna artikel undersöks portföljen från det kvadratiskt nytto-optimeringsproblem med en riskfri tillgång. 
-En riskfri tillgång kan exempelvis vara ett räntebärande konto.
-Denna portfölj är också känd som den tangerande portföljen.
-I artikeln härleds den empiriska fördelningen för portföljvikterna fast med en generalisering av modellen från artikel 1.
-Fördelningen för tillgångarna antas vara skev-normal.
-Resultaten visar att skevhet gör att de empiriska vikterna i portföljen är i genomsnitt fel.
-Detta sker i genomsnitt för ändliga stickprov men den empiriska portföljen skattar rätt objekt i stora dimensioner. 
-
-Artikel 3 ger en lösning på problemet att äga en portfölj för att sedan gå över till en annan.
-I artikeln utvecklas en metod som omfördelar portföljen mellan fixa tidssteg.
-Den gör detta genom att minimera den framtida variansen för Minsta Varians (GMV) portföljen, givet att investeraren äger en portfölj.
-Portföljen som ägs i denna stund kan vara deterministisk eller en skattad GMV-portfölj.
-En stor simuleringsstudie visar att denna metod kan uppnå goda resultat i termer av att skatta den relativa förlusten.
-Den relativa förlusten är en enkel utveckling av portföljvariansen.
-Metoden utvärderas därefter med hjälp av marknadsdata.
-Den lyckas bäst i att ge minsta framtida varians samt ge de minsta förändringarna i portföljvikterna bland de olika metoderna i jämförelsegruppen.
-Metoden har implementerats i ett R-paket som heter DOSPortfolio och finns tillgängligt på CRAN. 
-
-Artikel 4 härleder olika egenskaper för två olika prestandamått av tre olika skattare för GMV-portföljer.
-Prestandamåtten är den framtida variansen samt den framtida relativa förlusten för GMV-portföljerna.
-Det tidigare nämnda prestandamåttet används närpå alltid för att utvärdera GMV-portföljer med empirisk data.
-Resultaten visar att den relativa förlusten inte behöver lika strikta antaganden för att konvergera i stora dimensioner.
-Detta mått kan därför täcka flera modeller med detta mått till skillnad från variansen.
-Prestandamåtten används sedan för att bestämma en ordning på de olika portföljerna.
-Dessa resultat verifieras i en simuleringsstudie samt på empirisk data. 
-
-Artikel 5 utvidgar en av GMV-portföljerna från artikel 3 och 4.
-I den här artikeln introduseras en Thikonov-regularisering på portföljvikterna vilket resulterar i en Ridge-liknande skattare för den empiriska kovariansmatrisen.
-Detta kombineras sedan med den linjära shrinkage-metoden från artikel 3 och 4.
-Denna portfölj undersöks sedan i en omfattande simuleringsstudie och dess prestanda studeras på empirisk data.
-Simuleringsstudien visar att metoden är jämförbar med ett flertal metoder.
-Den empiriska studien visar att metoden som utvecklas ger lägre skattningar av framtida varians än ett flertal referensportföljer samt att den visar bra prestanda gällande portföljvikterna.
+\backmatterSU
 
 \printbibliography[keyword={ref_list}]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
