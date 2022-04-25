@@ -7,34 +7,34 @@ By using estimates, estimation uncertainty is introduced to the allocation probl
 This thesis contains five papers which provide results on how to deal with estimation uncertainty in very large sample portfolios from the MPT framework.
 These results provide tools to better understand the investment process and the empirical results that can be observed.
 
-Paper 1 explores all of the portfolios that can be placed in the framework of MPT. 
+Paper I explores all of the portfolios that can be placed in the framework of MPT. 
 The paper provides the sampling distribution for all optimal portfolios and their characteristics.
 This is done by assuming that the returns follow a multivariate normal distribution.
 Furthermore, the high-dimensional asymptotic joint distribution for the quantities of interest is derived.
 A simulation study shows that the high-dimensional distribution can provide a good approximation to the finite sample one.
 
-Paper 2 continues on the idea of paper 1.
-It considers the quadratic utility allocation problem from paper 1 with an additional risk-free asset in the portfolio.
+Paper II continues on the idea of paper I.
+It considers the quadratic utility allocation problem from paper I with an additional risk-free asset in the portfolio.
 The portfolio is usually known as the Tangency Portfolio (TP).
 The distribution of the sample TP weights is derived under a skew-normal distribution.
 Results show that skewness implies a bias in the finite sample TP weights.
 The bias dissapears in the high-dimensional distribution.
 
-Paper 3 takes on a practical aspect of investing, namely how to transition from one portfolio to another.
+Paper III takes on a practical aspect of investing, namely how to transition from one portfolio to another.
 A reallocation scheme is developed, which minimizes the out-of-sample variance of the Global Minimum Variance (GMV) portfolio, given a holding portfolio. 
-The holding portfolio is the portfolio which the investor currently owns.
+The holding portfolio is the portfolio which an investor currently owns.
 An extensive simulation study show that the reallocation scheme can provide accurate estimates of the portfolio variance.
 Furthermore, an empirical application shows that the scheme provides the smallest out-of-sample variance in comparison to a number of benchmarks.
 The theoretical results from this paper are implemented in the DOSPortfolio R-package.
 
-Paper 4 derives properties of two different performance measures for three different high-dimensional GMV portfolio estimators. 
+Paper IV derives properties of two different performance measures for three different high-dimensional GMV portfolio estimators. 
 The measures are the out-of-sample variance and loss.
 The former is always used as an evaluation metric in empirical applications.
 The results show that the latter metric, the out-of-sample loss, does not need the same stringent assumptions as the out-of-sample variance in the high-dimensional setting.
 Using the out-of-sample loss, the performance of the three different portfolios can be ordered.
 This order is verified in a simulation study and an empirical application.
 
-Paper 5 extends the results of papers 3 and 4. 
+Paper V extends the results of papers III and IV. 
 It introduces Thikonov regularization to the GMV portfolio weights as well as linear shrinkage.
 A simulation study shows that the method is preferable to a number of benchmarks. 
 Furthermore, an empirical application shows that it can provide the smallest out-of-sample variance and provide good characteristics for the portfolio weights.

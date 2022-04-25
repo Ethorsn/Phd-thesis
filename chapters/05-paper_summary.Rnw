@@ -1,5 +1,5 @@
 The following papers are included in this thesis.
-\section{Paper 1 - Sampling distributions of optimal portfolio weights and characteristics in small and large dimensions}\label{sec:paper1}
+\section{Paper I - Sampling distributions of optimal portfolio weights and characteristics in small and large dimensions}\label{sec:paper1}
 The paper investigates a fundamental question in MPT. 
 What are the actual implications of using the sample covariance matrix $\bS$ and the sample mean $\byb$ instead of the true covariance matrix $\bSigma$ and mean vector $\bmu$?
 The paper presents an answer to the question when the returns follow a multivariate normal distribution. 
@@ -18,22 +18,22 @@ The other scenarios try to investigate what happens when observations deviate fr
 As expected, the high-dimensional distribution works well under the assumptions and seems to be reasonably robust from deviations of the model.
 The GMV and self-financing portfolio are the most robust quantities to deviations from the model.
 
-\section{Paper 2 - Tangency portfolio weights under a skew-normal model in small and large dimensions}\label{sec:paper2}
-In this paper, the implications of skewness on the Tangency Portfolio (TP) from Chapter \ref{ch:MPT} is investigated. 
+\section{Paper II - Tangency portfolio weights under a skew-normal model in small and large dimensions}\label{sec:paper2}
+In this paper, the implications of skewness on the Tangency Portfolio (TP) from Chapter \ref{ch:MPT} are investigated. 
 The portfolio is obtained from the quadratic utility function, namely
 \begin{equation}
   \min_{\bw} \bw^\top (\bmu -r_f\ones) - \frac{\gamma}{2} \bw^\top \bSigma \bw.
 \end{equation}
-This paper extends paper 1 as it considers investments in a risk-free asset and use an extension of the multivariate normal model, the CSN model presented in Chapter \ref{ch:estim}. 
+This paper extends paper I as it considers investments in a risk-free asset and use an extension of the multivariate normal model, the CSN model presented in Chapter \ref{ch:estim}. 
 The model can include skewness in the asset returns, a trait returns usually exhibit (see e.g., \citet{cont2001empirical}). 
-Similarly to paper 1, the distribution of the sample tangency portfolio is derived and the implications the skewness has on the portfolio.
+Similarly to paper I, the distribution of the sample tangency portfolio is derived and the implications the skewness has on the portfolio.
 In short, skewness results in a bias present in the portfolio weights. 
 An investor will not hold the correct portfolio on average.
 Furthermore, the high-dimensional distribution of the sample tangency portfolio is derived.
 It can be seen that the skewness disappears asymptotically. 
 The high-dimensional distribution is the same as previous research has shown (see, e.g., \citet{karlsson2021statistical}).
 
-\section{Paper 3 - Dynamic shrinkage estimation of the high-dimensional minimum-variance portfolio}\label{sec:paper3}
+\section{Paper III - Dynamic shrinkage estimation of the high-dimensional minimum-variance portfolio}\label{sec:paper3}
 This paper solves a practical feature when investing in the GMV portfolio: how to rebalance the portfolio at fixed time points. 
 If an investor owns a GMV portfolio and waits for a week, month or year the data will likely indicate that another GMV portfolio should be held.
 The change can be quite large if $n$ is sufficiently small.
@@ -58,14 +58,14 @@ The portfolio allocation problem is an extension to the work of \citet{bodnar201
 The portfolio is shown to produce great results in an extensive simulation study.
 It also provides a better estimator for the volatility in comparison to the traditional sample GMV as well as the GMV portfolio using \citet{lw20} nonlinear shrinkage estimator for the sample covariance matrix.
 There are also many other benefits of using the portfolio strategy.
-Transitions from one portfolio to the next costs money, which will diminish the return and profit that can be made.
+Transitions from one portfolio to the next cost money, which will diminish the return and profit that can be made.
 Furthermore, it is not always possible to go from one portfolio to the next in a day or even a month.
 The traditional GMV portfolio might suggest that an institution should first own a large long position and the next month a large short position.
 Depending on the size of the institution and the portfolio, the size of these positional changes might be illegal. 
 It can be deemed market influencing or just outright impossible to sell that many assets.
 The rebalancing scheme provides a solution to these problems.
 
-\section{Paper 4 - Is the empirical out-of-sample variance an informative risk measure for high-dimensional portfolios?}\label{sec:paper4}
+\section{Paper IV - Is the empirical out-of-sample variance an informative risk measure for high-dimensional portfolios?}\label{sec:paper4}
 Any empirical application using the GMV portfolio is bound to include the volatility or variance as a performance measure. 
 However, the empirical out-of-sample variance is not consistent.
 Is the empirical out-of-sample variance for a shrunk portfolio a consistent estimator of the variance? 
@@ -83,7 +83,7 @@ The assumptions that are necessary for convergence of the empirical out-of-sampl
 The assumptions necessary for convergence of the empirical out-of-sample variance are deemed stronger than the empirical out-of-sample loss.
 The theoretical findings are investigated in a simulation study and an empirical application which validate the ordering even when the model assumptions are violated.
 
-\section{Paper 5 - Two is better than one: Regularized shrinkage of large
+\section{Paper V - Two is better than one: Regularized shrinkage of large
 minimum variance portfolios}\label{sec:paper5}
 The methods of this thesis most often use the sample covariance matrix $\bS$.
 They deal with the fact that the sample covariance matrix is a noisy estimator for the portfolio weights by linear shrinkage on the weights themselves.
@@ -106,18 +106,17 @@ Further, the method consistently beats the \citet{lw20} method in an extensive e
 The regularized shrinkage approach provides the best out-of-sample variance for five out of six different configurations.
 Furthermore, the method also increases the performance of several other portfolio metrics.
 
-%\section*{Paper 6 - The capital market line, tangency portfolio and the effect of Tikhonov regularization in higher dimensions}\label{sec:paper6}
-
 \section{Other research results}\label{sec:other_results}
 
-Paper 3 is accompanied by the DOSPortfolio R-package (see, \citet{DOSPortfolio}), available on CRAN. 
+Paper III is accompanied by the DOSPortfolio R-package (see, \citet{DOSPortfolio}), available on CRAN. 
 The readers of this thesis are free, or rather encouraged(!), to install it with \Sexpr{'install.packages("DOSPortfolio")'}. 
 The package provides a simple interface for the methods implemented in the paper. 
 In \ref{DOSportfolio} a short example on how to construct the dynamic portfolio weights using the package is displayed. 
 The package is the first iteration of possibly many more portfolios which can be constructed in a similar fashion.
 <<paper3-summary, echo=TRUE, message=FALSE, ref="DOSportfolio", codecap="R-code which showcase the use of the DOSPortfolio package." >>=
+library(tidyverse)
 library(DOSPortfolio)
-df <- read_csv("../data/returns.csv")
+df <- HDShOP::SP_daily_asset_returns
 p <- 350; n <- 400
 # Sample p assets
 set.seed(1234)
@@ -126,7 +125,7 @@ asset_cols <- sample(2:ncol(df), size = p)
 reallocation_points <- seq(n, nrow(df), by=n)
 # estimate portfolio weights
 dos_weights <- df %>%
-  select(all_of(asset_cols), -date) %>%
+  select(all_of(asset_cols), -Date) %>%
   DOSPortfolio(reallocation_points = reallocation_points,
                target_portfolio = rep(1, ncol(.))/ncol(.),
                shrinkage_type = "overlapping")

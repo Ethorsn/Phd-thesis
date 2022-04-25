@@ -1,4 +1,4 @@
-\documentclass[12pt, oneside]{book}
+\documentclass[12pt, twoside]{book}
 
 \input{header.tex}
 \makeatletter
@@ -53,59 +53,62 @@ knit_hooks$set(inline = function(x) {
 }) 
 @
 
-%%%%%% ------------------------------------------------------------------------
-%%%%%% FRONTMATTER
-%%%%%% ------------------------------------------------------------------------
 \frontmatterSU
-
-\maketitle
-
-%: ----------------------- Cover page back side ------------------------
-
-\newpage
-
-%\input{0_frontmatter/abstract} % Uncomment to input the abstract if you want to have it printed.
-
-\phantom{.}
-
-\vspace{\stretch{1}}
-
-{\fontfamily{\familydefault}\selectfont
-{\scriptsize
-\noindent
-\copyright \auth, Stockholm, \yr % Name of author, location year
-\newline
-Address: \address
-\newline
-E-mail address: \email
- 
-\vspace{5mm}
-\noindent
-ISBN XXX-XX-XXXX-XXX-X % Provided by the library: disputationer@su.se
-
-\vspace{5mm}
-\noindent
-Printed in Sweden by Printing Company, Stockholm, \yr %name of printing company
-
-\noindent
-Distributor: Department of Mathematics, Stockholm University %name of department
-}
-}
-\cleardoublepage
-
-% to remove 
-% \chapter*{\centering Abstract}
-% \input{chapters/abstract}
-
-\begin{dedication}
-{\fontfamily{calligra}\selectfont
-{\Large
-To my family
-}
-}
-\end{dedication}
-%%%%%
-
+%%%%%% ------------------------------------------------------------------------
+%%%%%% FRONTMATTER, this is done in the printing tool at SU.
+%%%%%% If you want to have it just uncomment the following lines
+%%%%%% ------------------------------------------------------------------------
+% 
+% 
+% \maketitle
+% 
+% %: ----------------------- Cover page back side ------------------------
+% 
+% \newpage
+% 
+% %\input{0_frontmatter/abstract} % Uncomment to input the abstract if you want to have it printed.
+% 
+% \phantom{.}
+% 
+% \vspace{\stretch{1}}
+% 
+% {\fontfamily{\familydefault}\selectfont
+% {\scriptsize
+% \noindent
+% \copyright \auth, Stockholm, \yr % Name of author, location year
+% \newline
+% Address: \address
+% \newline
+% E-mail address: \email
+%  
+% \vspace{5mm}
+% \noindent
+% ISBN XXX-XX-XXXX-XXX-X % Provided by the library: disputationer@su.se
+% 
+% \vspace{5mm}
+% \noindent
+% Printed in Sweden by Printing Company, Stockholm, \yr %name of printing company
+% 
+% \noindent
+% Distributor: Department of Mathematics, Stockholm University %name of department
+% }
+% }
+% \cleardoublepage
+% 
+% % to remove 
+% % \chapter*{\centering Abstract}
+% % \input{chapters/abstract}
+% 
+% \begin{dedication}
+% {\fontfamily{calligra}\selectfont
+% {\Large
+% a dedication if one wants one.
+% }
+% }
+% \end{dedication}
+%%%%%% ------------------------------------------------------------------------
+%%%%%% This is what must be included in the pdf for the printing tool at SU.
+%%%%%% ------------------------------------------------------------------------
 \chapter*{List of papers}
 \input{chapters/list_of_papers}
 
@@ -118,8 +121,8 @@ To my family
 %%%%%% ------------------------------------------------------------------------
 %%%%%% END OF FRONTMATTER
 %%%%%% ------------------------------------------------------------------------
-\mainmatterSU
 
+\mainmatterSU
 \part{Introduction}
 %%%%%% ------------------------------------------------------------------------
 \chapter{Decisions, uncertainty and asset allocations}\label{ch:intro}

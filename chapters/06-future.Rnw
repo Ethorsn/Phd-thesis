@@ -1,27 +1,24 @@
-%% What the methods assume
-% independence, validate through simulations though there is no general guarantee that it works.
-% Sigma having bounded support, especially paper 5.
 The methods of this thesis all rely on one concept, the observations from the joint asset return distribution are iid.
-Paper \hyperref[sec:paper2]{2} use a special case of the CSN model.
+Paper \hyperref[sec:paper2]{II} uses a special case of the CSN model.
 This is the only model which has the potential to incorporate more developed time series dynamics in the data.
-The methods and theory from papers \hyperref[sec:paper1]{1} and \hyperref[sec:paper2]{2} cannot work under the more general data generating process.
-The models used in papers \hyperref[sec:paper3]{3} through \hyperref[sec:paper5]{5} also assume iid observations.
+The methods and theory from papers \hyperref[sec:paper1]{I} and \hyperref[sec:paper2]{II} cannot work under the more general data generating process.
+The models used in papers \hyperref[sec:paper3]{III} through \hyperref[sec:paper5]{V} also assume iid observations.
 In these papers, the methods are tested through simulations.
 The simulation studies show that the methods are robust to deviations from the iid assumption.
-However, this thesis does not provide an explanation to what effect deviations from the assumption has on the portfolio estimates.
-Deriving the effects of the time dependency could help an investor understand the results of their investment strategy and portfolio.
+However, this thesis does not provide an explanation to what effect deviations from the assumption have on the portfolio estimates.
+Deriving the effects of the time dependency could help an investor understand the results of his/her investment strategy and portfolio.
 
-The next assumption used in this thesis is that $\bSigma$ were to have bounded eigenvalues.
+The next assumption used in this thesis is that $\bSigma$ has bounded eigenvalues.
 A common model for pricing assets is arbitrage pricing theory and factor models. 
-One of these models are used in the simulation study of papers \hyperref[sec:paper3]{3} through \hyperref[sec:paper5]{5}, the Capital Asset Pricing Model (CAPM).
+One of these models are used in the simulation study of papers \hyperref[sec:paper3]{III} through \hyperref[sec:paper5]{V}, the Capital Asset Pricing Model (CAPM).
 There are many motivations for using it (see, e.g., \citet{ross2013arbitrage}), which will not be discussed here.
 By imposing structure in the model, it reduces the number of parameters that needs to be estimated.
 It omits some parts of the problems that the methods of this thesis are faced with.
 However, \citet{fan2013large} showed in such a model, the largest eigenvalue of the sample covariance matrix is of order $p$.
 It does not have bounded spectral norm.
 This can sometimes be circumvented but not in others.
-The methods in Paper \hyperref[sec:paper5]{5} have to assume that the spectral norm of $\bSigma$ is bounded, otherwise some quantities in the proofs diverge.
-Removing the assumption could provide more theoretical justification for the method though the simulations study from Paper \hyperref[sec:paper5]{5} indicates that it is robust against deviations from this assumption.
+The methods in Paper \hyperref[sec:paper5]{V} have to assume that the spectral norm of $\bSigma$ is bounded, otherwise some quantities in the proofs diverge.
+Removing the assumption could provide more theoretical justification for the method though the simulations study from Paper \hyperref[sec:paper5]{V} indicates that it is robust against deviations from this assumption.
 
 There are many possible extensions and future projects to the thesis at hand.
 Estimation uncertainty is the primary motivation for this thesis.
@@ -32,7 +29,7 @@ Another approach of incorporating estimation uncertainty is robust optimization.
 In the MPT setting, robust optimization tries to incorporate the estimation uncertainty into the portfolio allocation problem itself.
 Are there connections to be made and especially with empirical Bayes?
 
-Paper \hyperref[sec:paper3]{3} assumes that the rebalancing points are fixed.
+Paper \hyperref[sec:paper3]{III} assumes that the rebalancing points are fixed.
 This assumption can be limiting for some investors.
 Can those be exchanged for stopping times, incorporated in the decision process and the portfolio allocation problem?
 

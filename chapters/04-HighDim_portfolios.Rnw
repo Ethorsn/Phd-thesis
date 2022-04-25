@@ -17,9 +17,9 @@ A small introduction to them is presented in the following sections.
 
 \section{A short introduction to random matrix theory and the Stieltjes transform}
 The subject of RMT has many applications.
-It was originally developed in the context of quantum physics (see \citet[Chapter 1 of]{mehta2004random}).
+It was originally developed in the context of quantum physics (see Chapter 1 of \cite{mehta2004random}).
 The theory and its applications have since then developed quite a lot.
-Many fields, such as combinatorics, computational biology, wireless communication and finance (see, e.g., \citet{livan2018introduction}) use these results.
+Many fields, such as combinatorics, computational biology, wireless communication and finance (see, e.g., \cite{livan2018introduction}) use these results.
 One of the seminal works in RMT was made by \citet{wigner1967random}. 
 Wigner originally modeled the limiting spectral distribution of a $p \times p$ dimensional random matrices $\bX$ with standard normal entries.
 The term "standard" might be a little misleading for statisticians as the matrix $\bX$ contains independent random variables although not identically distributed.
@@ -109,7 +109,7 @@ and $e_p=e_p(z)$ is the Stieltjes transform of a certain positive measure on $\m
   e_p = \frac{1}{p}\tr \left( \bR \left(\bA +  x_p(e_p) \bR - z\bI_p \right)^{-1} \right).
 \end{equation}
 \end{theorem}
-This theorem is used repeatedly in papers \hyperref[sec:paper3]{3}, \hyperref[sec:paper4]{4} and \hyperref[sec:paper5]{5}.
+This theorem is used repeatedly in papers \hyperref[sec:paper3]{III}, \hyperref[sec:paper4]{IV} and \hyperref[sec:paper5]{V}.
 However, in this thesis it is assumed that $\bX$ has finite $4+\epsilon$ moment, while the theorem above, condition \eqref{enum:1} states that $\bX$ must have $8+\epsilon$ moments. 
 This can be circumvented through the supplement material of \citet{BodnarGuptaParolya2016}.
 The second condition \eqref{enum:2} from Theorem \ref{thm:rubio} states that $\bA$ and $\bR$ must be hermitian nonnegative definite matrices.
@@ -124,7 +124,7 @@ for some $\beta >0$.
 All eigenvalues of $\beta \bI$ are centered at one point and it has bounded spectral norm. 
 Assuming that the largest eigenvalue of $\bSigma$ is uniformly bounded in $p$, then $\bSigma$ also has bounded spectral norm.
 This is an assumption that can be criticized.
-It is used on occasions in this thesis but more on that in section \ref{ch:future}.
+It is used on occasions in this thesis but more on that in chapter \ref{ch:future}.
 In the univariate setting, there is only one type of square root.
 However, as Theorem \ref{thm:rubio} condition \eqref{enum:3} hints at, there can be many square roots for a matrix.
 This is due to the fact that there are possibly many solutions to the following system of equations $\bR = \tilde\bR \tilde\bR^\top$.
@@ -149,7 +149,7 @@ $$
 The in-sample variance $(\ones^\top \bS^{-1}\ones)^{-1}$ will converge to zero if $c$ is close to one.
 However, as previously stated, \citet{bodnar2018estimation} showed that the out-of-sample variance in \eqref{eqn:oot_var} of the GMV portfolio diverge when $c$ is close to one.
 It is not the in-sample properties that are important, its how well an investment strategy, or the portfolio, generalizes to an out-of-sample setting.
-This serves as a motivation for the loss function in papers \hyperref[sec:paper3]{3}, \hyperref[sec:paper4]{4} and \hyperref[sec:paper5]{5}.
+This serves as a motivation for the loss function in papers \hyperref[sec:paper3]{III}, \hyperref[sec:paper4]{IV} and \hyperref[sec:paper5]{V}.
 The aim should be to construct estimators of the GMV portfolio which tries to control the out-of-sample variance.
 A large portion of this thesis derives closed form solutions for the optimal shrinkage parameters to the out-of-sample loss.
 This takes time and effort.
@@ -165,19 +165,19 @@ He/she invests in portfolio weights, so naturally the aim should be to construct
 There are many solutions to this problem but the most common is to use a shrinkage estimator.
 By introducing a shrinkage estimator, some bias is introduced to the weights but hopefully it also reduces the variance.
 
-Papers \hyperref[sec:paper3]{3} through \hyperref[sec:paper4]{5} work with the GMV portfolio and there are two natural extensions to it. 
+Papers \hyperref[sec:paper3]{III} through \hyperref[sec:paper5]{V} work with the GMV portfolio and there are two natural extensions to it. 
 The weights $\hbw_{GMV}$ can be shrunk towards a target, or ''holding'' portfolio, or the sample covariance matrix $\bS$ can be regularized such that large and small eigenvalues are penalized. 
-Papers \hyperref[sec:paper3]{3} and \hyperref[sec:paper4]{4} work with the former.
+Papers \hyperref[sec:paper3]{III} and \hyperref[sec:paper4]{IV} work with the former.
 Combining the sample GMV portfolio weights with some target portfolio $\bb$ through a linear combination results in
 \begin{equation}\label{eqn:linshrink}
   \hbw_{SH} = \alpha\hbw_{GMV} + (1-\alpha)\bb.
 \end{equation}
 It is important to understand the error of an estimator, especially when shrinkage is introduced.
-One of the most common ways is the bias-variance trade-off, see e.g. \citet[ch. 2.2]{james2013introduction}.
+One of the most common ways is the bias-variance trade-off, see e.g., \citet[ch. 2.2]{james2013introduction}.
 However, this is most often introduced in the univariate setting and the important objects of this thesis are the portfolio weights which are vectors.
 
 There are many extensions to it for the multivariate settings though one of the most obvious is the mean squared error, or euclidean norm, which was used by 
-\citet{stein1956} to investigate properties of the sample mean.  
+\citet{stein1956} to investigate properties of the sample mean.
 The best option in this application is to own the true GMV portfolio.
 Hence, using the estimator given by \eqref{eqn:linshrink} and the true value is $\bw_{GMV}$ together with the mean squared error results in
 \begin{align*}
@@ -221,6 +221,7 @@ It is a comparison between the estimator from \citet{bodnar2018estimation} and d
 In this example $n=250, p=150$ and $\bb$ is equal to the Equally Weighted (EW) portfolio.
 It is a large portfolio, though $c=p/n<1$.
 <<cv_bench, cache=TRUE, echo=TRUE, ref="high-dim-CV", codecap="R-code performing a 5-fold cross-validation for determining shrinkage coefficients as well as the analytic methods from the HDShOP package.">>=
+library(tidyverse)
 # setup
 set.seed(123)
 p <- 150
@@ -273,14 +274,14 @@ alpha_oracle <- (t(b) %*% Sigma %*% b - t(w_bodnar2018$w_GMVP) %*% Sigma %*% b) 
 @
 
 In Figure \ref{fig:cv_benchmark} the out-of-sample variance, aggregated over folds, is displayed. 
-Cross-validation suggests that the optimal value should be $\Sexpr{min_vals$alpha}$. 
+The CV algorithm suggests that the optimal value should be $\Sexpr{min_vals$alpha}$. 
 The analytic method from \citet{bodnar2018estimation} suggests that the optimal value is $\Sexpr{round(w_bodnar2018$alpha,4)}$.
 The "correct" value of $\alpha$, as given by the oracle estimator $\hbw_{SH}^\top\bSigma \hbw_{SH}$, is equal to $\Sexpr{round(alpha_oracle, 4)}$. 
 Although none of the methods are spot on, the bona-fide estimator is closer to what the optimal value should be.
 Furthermore, changing the number of folds in the code above can give quite different results in the optimal value.
 In this example, CV does not seem to be stable when used in conjunction with large dimensional portfolios.
 For this specific application, there is value in deriving a bona-fide estimator in terms of the loss and shrinkage estimator.
-This approach is used in papers \hyperref[sec:paper3]{3}, \hyperref[sec:paper4]{4} and \hyperref[sec:paper5]{5}.
+This approach is used in papers \hyperref[sec:paper3]{III}, \hyperref[sec:paper4]{IV} and \hyperref[sec:paper5]{V}.
 
 Shrinking the weights can provide a good estimator in higher dimensions. 
 As previously stated, another approach is to shrink the elements of $\bS$.

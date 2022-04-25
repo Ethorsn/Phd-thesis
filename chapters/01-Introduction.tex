@@ -1,17 +1,17 @@
 % General introduction to why portfolio theory and allocations are hard
 % ca 1page
-A portfolio is any combination of assets.
+A portfolio is a combination of assets.
 An asset might be a house, a stock, the value of a contract or any object with a price that can potentially be bought or sold.
 The price of an asset develops over time.
 The house prices in Stockholm, Sweden, have increased a lot in the past years\footnote{\url{https://www.maklarstatistik.se/omrade/riket/stockholms-lan/\#/villor/48m-prisutveckling}}.
-However, the future price for a house is uncertain given that house prices are close to all-time highs.
+However, the future price for a house is uncertain, especially given that house prices are close to all-time highs.
 Will the price continue to increase or will it decrease?
 If there is a change, how big will it be?
 Depending on the answer, one strategy might be to sell the house today, rent something instead and buy a new house when prices have decreased.
 However, to make a decision on whether or not the house should be sold today, there is a need to specify its future value. 
 The future is unknown or random, in some sense.
 There are many possible changes in the assets value, both in direction and magnitude.
-In the context of a model there is a possibility to estimate the future price through the use of historical prices.
+In the context of a model there is a possibility to predict the future price through the use of historical prices.
 The decision process now includes even more uncertainty.
 There is uncertainty from the choice of model, the perception of past and future prices, and the uncertainty from using estimates instead of the ''true'' parameters for the model.
 If the house is one asset among many then there can be as many sources of uncertainty as there are assets, if not more.
@@ -40,7 +40,7 @@ Markowitz proposed the use of the mean and variance of the asset return distribu
 If an asset has high return on average, it would make sense to invest in it if return is all that matters.
 If an asset has a large variance, then it is risky to invest in this asset. 
 A high return might be at the cost of a large amount of risk.
-If an asset is not risky, then it would always make sense to invest in it, especially in the class of MPT portfolios this thesis looks into.
+If an asset is not risky, then it would always make sense to invest in it, especially in the class of MPT portfolios this thesis studies.
 
 %% Literature review
 \section{Literature review}
@@ -77,12 +77,12 @@ There are many ways to solve this.
 The former assumes that the eigenvectors are known and consider a nonlinear (rotational-invariant) estimation method for the covariance matrix. 
 The latter develops a regularization method much like \citet{frahm2010} but does so for high-dimensional portfolios.
 The mentioned papers do not assume any specific structure on the asset return distribution. 
-Another common model for asset returns, which impose some structure, is the factor model (see, e.g., \citep{ross2013arbitrage}). 
+Another common model for asset returns, which impose some structure, is the factor model (see, e.g., \cite{ross2013arbitrage}). 
 A factor can be many things, such as the area in which the house is located.
 \citet{ding2020high} use such a model to describe the implications of estimation to the GMV portfolio.
 %\citet{golosnoy2019exponential} and \citet{cai2020high} take another approach.
 %The authors of these two papers use data on a very high frequency to estimate a sequence of sample covariance matrices and use that sequence to construct high-dimensional GMV portfolios. 
-The high-dimensional GMV portfolio appears in other fields as well, such as signal processing where it goes under the name beamformer (see, e.g., \citet{LiStoicaWang2004}). 
+The high-dimensional GMV portfolio appears in other fields as well, such as signal processing where it goes under the name beamformer (see, e.g., \cite{LiStoicaWang2004}). 
 
 % more general MV portfolios and why GMV is most often chosen.
 An argument for using the GMV portfolio in the MPT framework is that it does not depend on the mean vector.

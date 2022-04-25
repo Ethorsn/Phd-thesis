@@ -1,7 +1,7 @@
 To make a decision on whether or not to invest in an asset, the price needs to be available.
 Although prices can be used for some of the methods in this thesis, they can be quite misleading to work with.
 Constructing portfolios is all about making decisions on how much to invest in what.
-Therefore it is of great importance that assets can be compared in some manner. 
+Therefore, it is of great importance that assets can be compared in some manner. 
 An asset with a high price will most likely have a high variance due to the scale of the price. 
 If the variance is used as a risk measure then that asset will seem more risky than an asset that has a low price which is on another scale.
 Because of this issue with prices, assets are most often described by their return, or percentage change, between two periods. 
@@ -62,11 +62,12 @@ This is due to the short selling constraint in the latter optimization problem.
 If $\mu_0=1.1$ but $\bmu= (0.1, 1)^\top$ then it does not matter how much can be bought of the first or second asset.
 The short constraint limits the amount of return the portfolio can achieve while the MV problem does not suffer from it.
 
-The solution to the MV problem is very often stated in terms of another famous portfolio, namely the Global Minimum Variance (GMV) portfolio and its related quantities (see, e.g., \citet{Bodnar2009CaIotEFiEM}). 
+The solution to the MV problem is very often stated in terms of another famous portfolio, namely the Global Minimum Variance (GMV) portfolio and its related quantities (see, e.g., \cite{Bodnar2009CaIotEFiEM}). 
 Let $\bSigma^{-1}$ denote the inverse matrix of $\bSigma$, i.e., $\bSigma^{-1}\bSigma = \bI$, and
 \begin{equation}\label{eqn:GMV}
-	\bw_{GMV} := \frac{\bSigma^{-1}\ones}{\ones^\top \bSigma^{-1}\ones}, \; R_{GMV} :=\optn{E}(\bw_{GMV}^\top\by) = \frac{\ones^\top\bSigma^{-1}\bmu}{\ones^\top \bSigma^{-1}\ones}, \;
-	V_{GMV} := \optn{Var}(\bw_{GMV}^\top\by) =\frac{1}{\ones^\top \bSigma^{-1}\ones}.
+	\bw_{GMV} := \frac{\bSigma^{-1}\ones}{\ones^\top \bSigma^{-1}\ones},
+	\: R_{GMV} :=\optn{E}(\bw_{GMV}^\top\by) = \frac{\ones^\top\bSigma^{-1}\bmu}{\ones^\top \bSigma^{-1}\ones},
+	:\ V_{GMV} := \optn{Var}(\bw_{GMV}^\top\by) =\frac{1}{\ones^\top \bSigma^{-1}\ones}.
 \end{equation}
 The GMV portfolio can be obtained by letting $\mu_0=R_{GMV}$ or by removing the constraint $\bw^\top \bmu \geq \mu_0$ from \eqref{eqn:mean_variance}. 
 The solution to \eqref{eqn:mean_variance} is equal to
@@ -87,11 +88,12 @@ The two expressions in \eqref{eqn:moments_mean_var_solution} constitute a famous
 As $\mu_0$ increases, the risk, in terms of the variance, grows quadratic in comparison to the mean which is linear. 
 This relationship was shown by \citet{merton1972} which coined the expression ''the efficient frontier''.
 It can easily be derived from \eqref{eqn:moments_mean_var_solution}.
-Let $R =\optn{E}(\bw_{MV}^\top\by)$ and $V=\optn{Var}(\bw_{MV}^\top\by)$ and use the former relation to arrive at 
+Let $R =\optn{E}(\bw_{MV}^\top\by)$ and $V=\optn{Var}(\bw_{MV}^\top\by)$ and use the portfolio mean from \eqref{eqn:moments_mean_var_solution} to arrive at 
 $$
-\frac{(R-\R)^2}{\bmu^\top \bQ \bmu} = \frac{(\mu_0 - \R)^2}{\V^2}
+\frac{R-\R}{\bmu^\top \bQ \bmu} = \frac{\mu_0 - \R}{\V}
 $$
-which is then used in the expression for the variance of a mean-variance portfolio which results in the following relationsship
+which is then used in the expression for the variance of equation \eqref{eqn:moments_mean_var_solution}. 
+It results in the following relationship
 \begin{equation}\label{eqn:efficient_frontier}
 \bmu^\top \bQ \bmu (V - \V) = (R - \R)^2.
 \end{equation}
@@ -236,10 +238,10 @@ The difference is that \eqref{eqn:w_mean_variance_riskfree} depends on a number 
 This is quite common in MPT and there are many portfolio allocation problems which result in the same solution, see, e.g., \citet{bodnar2013equivalence}.
 
 There are many types of risk-free assets.
-Ever since the end of 2014, overnight deposit rates (which are risk-free) have been very small in a number of countries \citep[see, e.g., ]{lopez2020have}.
+Two examples are overnight deposit rates and the ''reporänta''.
+Ever since the end of 2014, overnight deposit rates have been \textit{very} small in a number of countries (see, e.g., \cite{lopez2020have}).
 Sweden is among one of these. 
-The ''reporänta'' is another type of risk-free asset. 
-Although most investors can not invest in an asset connected to the ''reporänta'', it has been less than or equal to zero in Sweden\footnote{See the following visualization from Riksbanken \url{https://www.riksbank.se/sv/statistik/sok-rantor--valutakurser/reporanta-in--och-utlaningsranta/}}.
+Although most investors cannot invest in an asset connected to the ''reporänta'', it has been less than or equal to zero in Sweden\footnote{See the following visualization from Riksbanken \url{https://www.riksbank.se/sv/statistik/sok-rantor--valutakurser/reporanta-in--och-utlaningsranta/}}.
 For the sake of illustration, assume that $r_f=0$ for an investor.
 The portfolio \eqref{eqn:w_mean_variance_riskfree} reduces to $\bw_{TP} = \tilde\mu_0 \bSigma^{-1} \bmu / \bmu^\top \bSigma^{-1} \bmu$ or $\bSigma^{-1}\bmu / \gamma$ from \eqref{eqn:TP_def}. 
 The term $\bSigma^{-1} \bmu$ is part of the TP portfolio in \eqref{eqn:TP_def}. 
@@ -249,17 +251,9 @@ With a little work, \eqref{eqn:mean_var_solution} can be rewritten as
 $$
 \left(1 - \frac{\mu_0-\R}{\V^2} \R \right) \bw_{GMV} + \frac{\mu_0-\R}{\V} \bSigma^{-1} \bmu.
 $$
-There are two insights to be drawn from this equation.
-The first is that the weights on the efficient frontier is a combination of two portfolios, in this case the GMV and the Tangency portfolio. 
+This equation show that the weights on the efficient frontier is a combination of two portfolios, in this case the GMV and the Tangency portfolio. 
 This result is usually known as the Mutual fund theorem, see \citet{tobin1958liquidity}.
 All portfolios on the efficient frontier can be studied through these two portfolios, which is why this thesis studies these two at great length.
-The second is that the tangent portfolio, where the efficient frontier and the capital market line meet, is given by \eqref{eqn:w_mean_variance_riskfree} with 
-$$
-\tilde\mu_0 = \R + \frac{\mu_0-\R}{\V} \bmu^\top \bQ \bmu.
-$$
-It is still possible to compare the portfolios, regardless if there is a risk-free rate or not.
-The train of thought is the same if $r_f>0$.
-The derivations is therefore left to the reader.
 
 Throughout this section the inverse covariance matrix has been used.
 As promised, the assumptions that are imposed on it will be discussed in the next section.
@@ -278,7 +272,7 @@ It is not limited to the diagonal elements.
 This is due to the fact that covariances are involved on the off-diagonal.
 There is a need for a broader definition of singularity in multivariate distributions, which can be formulated in terms of positive or positive semidefinite matrices. 
 
-A real symmetric $p\times p$ matrix $\bA$ is called positive definite if $\bz^\top \bA \bz > 0$ or positive semidefinite if $\bz^\top \bA \bz \geq 0$ for all nonzero vectors $\bz \in \mathbbm{R}^p$ (see, e.g., \citet[ch 14.2]{harville1997matrix}).
+A real symmetric $p\times p$ matrix $\bA$ is called positive definite if $\bz^\top \bA \bz > 0$ or positive semidefinite if $\bz^\top \bA \bz \geq 0$ for all nonzero vectors $\bz \in \mathbbm{R}^p$ (see, e.g., \cite[ch 14.2]{harville1997matrix}).
 Let $\bA > 0$ or $\bA \geq 0$ denote a positive or positive semidefinite matrix $\bA$. 
 The concept of a singular or degenerate distribution is replaced by a quadratic form.
 It involves the covariance matrix of a multi- or matrixvariate distribution.
