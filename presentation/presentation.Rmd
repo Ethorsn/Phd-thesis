@@ -1,0 +1,328 @@
+---
+title: "Optimal portfolios in the high-dimensional setting"
+author: "Erik Thorsén"
+email: erik.thorsen@math.su.se
+header-includes: |
+  \newcommand{\bSigma}{\mathbf{\Sigma}}
+  \newcommand{\bS}{\mathbf{S}}
+  \newcommand{\bw}{\mathbf{w}}
+  \newcommand{\ones}{\mathbf{1}}
+  \newcommand{\bb}{\mathbf{b}}
+  \newcommand{\bI}{\mathbf{I}}
+output:
+  ioslides_presentation:
+    widescreen: true
+    incremental: true
+    logo: SU_logo_CMYK.png
+    self_contained: true
+    css: ["https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css", "styles.css"]
+bibliography: ../references.bib
+---
+
+```{r setup, include=FALSE}
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(kableExtra))
+knitr::opts_chunk$set(echo = FALSE)
+options("kableExtra.html.bsTable" = T)
+```
+
+# Introduction
+
+## One portfolio from Modern Portfolio Theory (MPT)
+
+One portfolio from MPT (@markowitz1959portfolio) is the Global Minimum Variance (GMV) portfolio, given by
+$$
+\min_\bw \bw^\top \bSigma \bw,\\\;\; \text{s.t.} \;\bw^\top \ones = 1.
+$$
+where the solution is
+$$
+\bw_{GMV}=\frac{\bSigma^{-1} \ones}{\ones^\top \bSigma^{-1} \ones}.
+$$
+
+## Development of wealth
+
+```{r, fig.cap= "", fig.align='center'}
+set.seed(124)
+n<-100
+tibble(
+  "GMV" = c(1, cumprod(1+rnorm(n,0.003, 0.02))),
+  "Not GMV" = c(1,cumprod(1+rnorm(n, 0.01, 0.06))),
+  "x"=0:n
+) %>% 
+  pivot_longer(-x) %>% 
+  ggplot() +
+  geom_line(aes(x=x, y=value, color=name), size=1.05) +
+  theme_void() +
+  scale_color_brewer("", type="qual", palette=6)
+```
+
+
+## Not knowing what to own & diversification
+
+- In practice we do not know $\bSigma$, _estimate_ with $\bS$ from $n$ obs. How accurate is that estimate?
+- We want $p$ to be large, e.g _diversify_ a lot.
+  * $\bS$ has $p(p+1)/2$ parameters $\rightarrow$ curse of dimensionality!
+  * We want to use $\bS^{-1}$ for GMV, not $\bS$. How accurate is $\bS^{-1}$ or
+  $$
+  \widehat{\bw}_{GMV} = \frac{\bS^{-1} \ones}{\ones^\top \bS^{-1} \ones}?
+  $$
+- Estimates are ''uncertain'' $\rightarrow$ can we understand that uncertainty or construct ''better'' estimates?
+
+## Summary of papers in this thesis 
+
+```{r}
+tibble(
+  "Paper" = as.roman(1:5),
+  "Portfolios"=c("Many!", "TP", rep("GMV", 3 )),
+  "Model" = c("Normal", "Normal with skewness", rep("Location-scale",3)),
+  "$n,p < \\infty$" = c("$\\cdot$", "$\\cdot$", "", "", ""),
+  "$n,p\\rightarrow \\infty$" = "$\\cdot$",
+) %>% 
+  kbl(escape = FALSE, align = c("c", "c", "c", "c", "c")) %>% 
+  kable_styling(bootstrap_options = "striped",  full_width = F, position = "center", font_size = 25)
+```
+<br/>
+
+- Paper I & II tries to understand what happens when we use estimates instead of true parameters.
+- Paper III-V constructs ''better estimates'' for the portfolio weights.
+
+# Paper I & II | Together with Taras Bodnar, Nestor Parolya, Holger Dette,<br/> Stepan Mazur & Farrukh Javed  {#title}
+
+## Paper I & II {.build}
+
+*Paper I*
+
+- Returns follow a normal distribution and observations are iid.
+- Investigates the sampling distribution of _any_ portfolio in the MPT framework.
+  * Sample quantities are biased, not even consistent
+  * We construct consistent estimators! 
+
+*Paper II*
+
+- Returns follow a skew-normal distribution, still iid.
+- Investigates the sampling portfolio from the expected quadratic utility/''mean-variance'' problem _with a risk-free asset_
+  * Same thing as the above, bias present due to skewness 
+
+# Paper III, IV & V | Together with Taras Bodnar & Nestor Parolya 
+
+## Shrinkage in high-dimensional portfolios
+
+These papers consider portfolios on the following form
+$$
+\widehat{\bw}_{SH}=\psi \widehat{\bw}_{GMV} + (1-\psi)\bb
+$$
+where $\bb$ is "some portfolio".
+
+- Introduces bias to the portfolio but will lower its variance.
+- How do we determine $\psi$? $$\min_{\psi} \widehat{\bw}_{SH}^\top \bSigma \widehat{\bw}_{SH}$$
+_note that $\bSigma$ is present again!_
+
+## Paper IV - Is variance informative?
+
+```{r, warning=FALSE, fig.height=2.5, fig.align='center', fig.pos='top', fig.}
+offset <- 0.01
+tibble(x = 1:11,
+       y = 1) %>% 
+  ggplot() +
+  geom_line(aes(x=x, y=y), linetype=13, 
+            arrow = arrow(length=unit(0.20,"cm"), ends="last", type = "closed")) +
+  # period 1
+  geom_segment(aes(x=1, xend=5, y=1-offset, yend=1-offset, color="Period 1"), size=3) +
+  geom_text(x=3, y=1-offset*3/2, label=expression(n[1])) +
+  # period 2
+  geom_segment(aes(x=5, xend=8, y=1+offset, yend=1+offset, color="Period 2"), size=3) +
+  geom_text(x=6.5, y=1+offset*3/2, label=expression(n[2])) +
+  coord_cartesian(ylim=c(1-offset*5, 1+5*offset)) +
+  scale_color_brewer("", type="qual", palette = 6) +
+  theme_void()
+```
+
+- Comparison between three different strategies to estimate $\psi$: @frahm2010, @bodnar2018estimation & sample GMV
+- Compared by the empirical out-of-sample variance
+$\hat{V}_{n_1, n_2} = \widehat{\bw}_{n_1}^\top \bS_{n_2} \widehat{\bw}_{n_1}$
+and the empirical relative loss
+$$
+\hat{L}_{n_1, n_2} = \left(1-\frac{p}{n_2}\right)\hat{V}_{n_1, n_2} \ones^\top \bS^{-1}_{n_1} \ones -1
+$$
+
+## Paper IV - Results {.build}
+
+- The Variance is informative, though bad for some $\bSigma$.
+- Dominance results/Ordering in loss and variance of the three different portfolios $n,p \rightarrow \infty$.
+- Empirically ordering holds $n,p < \infty$, example $n_1=n_2$
+
+```{r, fig.height=3.5, fig.width=10,cache=TRUE, fig.align='center'}
+s <- 19
+date <- Sys.Date()
+### Load data
+load("SP500_returns.dat")
+colnames(returns) <- str_remove(colnames(returns), ".Close")
+df_wide <- returns %>%
+  as.data.frame() %>%
+  rownames_to_column("Date") %>%
+  mutate(Date = lubridate::as_date(Date))
+
+seed <- 123; p_ <- 190; n_window <- 200;
+# omit Date
+ports <- sample(2:(ncol(df_wide)), p_)
+
+df_wide_adj <- zoo::na.locf(df_wide, fromLast = TRUE)
+dates <- df_wide_adj$Date
+
+# Extract p x n matrix
+Y_all <- df_wide_adj %>%
+  select_at(ports) %>%
+  as.matrix()
+# set up the target portfolio
+b <- rep(1/p_, p_)
+df_moving_window_overlap <- map_dfr((n_window+1):(length(dates)-n_window), ~{
+  # extract data from period  
+  Y <- Y_all[(.x-n_window):(.x), ] 
+  Y_eval <- Y_all[(.x+1):(.x+n_window), ] 
+  n <- nrow(Y)
+  #  
+  S <- var(Y)
+  S_inv <- solve(S)
+  # weights
+  o <- rep(1, nrow(S))
+  w_gmv <- S_inv %*% o / as.numeric(t(o) %*% S_inv %*% o)
+  # FM
+  alpha_FM <- 1- ((p_-3)/(n-p_+2)) / (
+    as.numeric(t(o) %*% S_inv %*% o) * as.numeric(t(b) %*% S %*% b) -1 
+  )
+  w_fm <- alpha_FM*w_gmv + (1-alpha_FM)*b
+  # BPS
+  alpha_BPS <- (
+    (1-p_/n)*(
+      (1-p_/n)*as.numeric(t(o) %*% S_inv %*% o) * as.numeric(t(b) %*% S %*% b)-1)
+  )/(
+    p_/n + (1-p_/n)*(
+      (1-p_/n)*as.numeric(t(o) %*% S_inv %*% o) * as.numeric(t(b) %*% S %*% b)-1)
+  )
+  w_bps <- alpha_BPS * w_gmv + (1-alpha_BPS)*b
+  #######
+  m <- nrow(Y_eval)
+  S_out <- var(Y_eval) 
+  S_out_inv <- solve(S_out)
+  c(
+    "L_GMV (Sample)" = ((1-p_/m))*as.numeric(t(o) %*% S_out_inv %*% o) * 
+      as.numeric(t(w_gmv) %*% S_out %*% w_gmv) - 1,
+    "L_FM" = ((1-p_/m))*as.numeric(t(o) %*% S_out_inv %*% o) * 
+      as.numeric(t(w_fm) %*% S_out %*% w_fm) - 1,
+    "L_BPS" = ((1-p_/m))*as.numeric(t(o) %*% S_out_inv %*% o) * 
+      as.numeric(t(w_bps) %*% S_out %*% w_bps) - 1,
+    "V_Traditional"=as.numeric(t(w_gmv) %*% S_out %*% w_gmv),
+    "V_FM"=as.numeric(t(w_fm) %*% S_out %*% w_fm),
+    "V_BPS"=as.numeric(t(w_bps) %*% S_out %*% w_bps), 
+    "p"=p_
+  )
+})
+df_moving_window_overlap  %>%
+  group_by(p) %>%
+  mutate(date=dates[(2*n_window+1):length(dates)]) %>%
+  pivot_longer(cols = `L_GMV (Sample)`:V_BPS) %>%
+  separate(name, sep = "_", into=c("type", "name")) %>%
+  mutate(type=if_else(type == "L", "Loss", "Variance")) %>% 
+  filter(type == "Loss") %>% 
+  ggplot() +
+  geom_line(aes(x=date, y=value, color=as.factor(name)), size=0.73) +
+  theme_minimal() +
+  scale_color_brewer("Weights type", type="qual", palette = 6) +
+  theme(legend.position = "right", text = element_text(size=12))+
+  labs(title="Relative loss (lower is better)", subtitle=expression('190 random stocks from S&P500, ' ~ n[1] ~'='~ n[2]~ '= 200 with a moving window.'))
+```
+
+
+## Paper III - Dynamic Shrinkage estimation
+
+```{r, warning=FALSE, fig.height=2.5, fig.align='center', fig.pos='top'}
+offset <- 0.01
+tibble(x = 1:11,
+       y = 1) %>% 
+  ggplot() +
+  geom_line(aes(x=x, y=y), linetype=13, 
+            arrow = arrow(length=unit(0.20,"cm"), ends="last", type = "closed")) +
+  # period 1
+  geom_segment(aes(x=1, xend=5, y=1-offset, yend=1-offset, color="Period 1"), size=3) +
+  geom_text(x=3, y=1-offset*3/2, label=expression(n[1])) +
+  # period 2
+  geom_segment(aes(x=5, xend=8, y=1+offset, yend=1+offset, color="Period 2"), size=3) +
+  geom_text(x=6.5, y=1+offset*3/2, label=expression(n[2])) +
+  # period 3
+  geom_segment(aes(x=8, xend=10, y=1-offset, yend=1-offset, color="Period 3"), size=3) +
+  geom_text(x=9, y=1-offset*3/2, label=expression(n[3])) +
+  coord_cartesian(ylim=c(1-offset*5, 1+5*offset)) +
+  scale_color_brewer("", type="qual", palette = 6) +
+  theme_void()
+```
+
+
+- We work with $\widehat{\bw}_{n_i}=\psi_{n_i} \widehat{\bw}_{GMV;n_i} + (1-\psi_{n_i})\widehat{\bw}_{n_{i-1}}$ (nontrivial extension of @bodnar2018estimation)
+- Estimate $\psi_{n_i}$ by $\hat{\psi}_{n_i}$ at each transition, equal/optimal when $n,p \rightarrow \infty$
+- Datasets can be overlapping, so Period 2 can contain data from Period 1!
+
+
+## Paper III - Results
+
+- We compare a number of different strategies, most notably @lw20 nonlinear covariance estimator
+- Simulations show that the method is robust and often provide the smallest relative loss.
+- Empirically, @lw20 is better at taking ''low-risk'' positions, our method provides better out-of-sample variance, mean, turnover.
+- Methods are in the `DOSPortfolio` package (on CRAN!).
+
+## Paper V - ''Double'' shrinkage
+
+- An extension to the linear shrinkage, includes ridge type regularization to $\bS$
+$$
+\widehat{\bw} = \psi \frac{(\bS + \eta \bI)^{-1}\ones}{\ones^\top(\bS + \eta \bI)^{-1}\ones} + (1-\psi) \bb
+$$
+
+- $c \in [0,\infty)$ or $p>n$, previously $c \in [0,1)$ or $p<n$.
+- We cant determine $\eta, \psi$ analytically $\rightarrow$ estimator of $\widehat{\bw}^\top \bSigma \widehat{\bw}$, consistent when $n,p \rightarrow \infty$.
+- Have to assume that $\bSigma$ have bounded spectral norm
+
+## Paper V - Results {.build}
+
+- We compare to a number of different strategies, @lw20, @bodnar2018estimation, @frahm2010 for different $\bb$
+- Simulations show that ''Double'' is also robust and on par with the @lw20.
+- Empirically, Double performs well, example $p=431, n=250$
+```{r}
+tibble(
+  "Variance" = c(0.0121, 0.01217, 0.01088, 0.01117, 0.01116, 0.01105 , 0.01322), 
+  "Mean"=c(0.000437, 0.00042, 0.000496, 0.000516, 0.000512, 0.000515, 0.000375), 
+  "Turnover" = c(3165.55, 3192.65, 69.99, 5.19, NaN, 660.56, 4254.45),
+  "Strategy" = c("BPS_ec", "BPS_ew", "Double_ec","Double_ew", "ew", "LW2020", "GMV (sample)")
+) %>% 
+  mutate(across(c(Turnover, Variance), ~{
+          case_when(
+            is.nan(.x) ~ "",
+            .x == min(.x, na.rm=T) ~ paste0("$\\mathbf{", .x, "}$"),
+            .x == nth(.x, n=2, order_by = .x) ~ paste0("$\\mathit{", .x, "}$*"),
+            TRUE ~ paste0("$", .x, "$")
+          )}),
+         Mean = case_when(
+           is.nan(Mean) ~ "",
+            Mean == max(Mean, na.rm=T) ~ paste0("$\\mathbf{", Mean, "}$"),
+            Mean == nth(Mean, n=2, order_by = desc(Mean)) ~ paste0("$\\mathit{", Mean, "}$*"),
+            TRUE ~ paste0("$", Mean, "$")
+         )) %>% 
+  pivot_longer(Variance:Turnover) %>% 
+  pivot_wider(names_from = Strategy,
+              values_from = value) %>% 
+  set_names(c("", "ec", "ew", "ec", "ew", "ew", "LW2020", "GMV (sample)")) %>% 
+  kable(caption = "Variance and Turnover, lower is better. Mean, higher is better.",
+      booktabs = T, escape = FALSE, longtable = T) %>% 
+  kable_styling(font_size = 14, bootstrap_options = c("striped")) %>%
+  add_header_above(c(" "=1, "BPS" = 2, "Double" = 2, " "=3))
+```
+
+- _Double is consistently the best in terms of low-risk positions!_
+
+## Summary
+
+This thesis provides some ways to better understand the investment process or to provide ''good'' portfolios when $n,p\rightarrow \infty$. 
+We either
+
+- assume a lot to get a deeper understanding of the quantities of interest.
+- assume little, construct ''good'' portfolios but we might understand less.
+
+## References
