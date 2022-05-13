@@ -28,9 +28,26 @@ options("kableExtra.html.bsTable" = T)
 
 # Introduction
 
-## One portfolio from Modern Portfolio Theory (MPT)
+## Development of wealth 
 
-One portfolio from MPT (@markowitz1959portfolio) is the Global Minimum Variance (GMV) portfolio, given by
+```{r, fig.cap= "", fig.align='center'}
+set.seed(124)
+n<-100
+tibble(
+  "Low risk - Low reward" = c(1, cumprod(1+rnorm(n,0.003, 0.02))),
+  "High risk - High reward" = c(1,cumprod(1+rnorm(n, 0.01, 0.06))),
+  "x"=0:n
+) %>% 
+  pivot_longer(-x) %>% 
+  ggplot() +
+  geom_line(aes(x=x, y=value, color=name), size=1.05) +
+  theme_void() +
+  scale_color_brewer("", palette="Dark2")
+```
+
+## The ''Low risk - Low reward'' portfolio
+
+Low risk portfolio from @markowitz1959portfolio is the Global Minimum Variance (GMV) portfolio
 $$
 \min_\bw \bw^\top \bSigma \bw,\\\;\; \text{s.t.} \;\bw^\top \ones = 1.
 $$
@@ -39,25 +56,7 @@ $$
 \bw_{GMV}=\frac{\bSigma^{-1} \ones}{\ones^\top \bSigma^{-1} \ones}.
 $$
 
-## Development of wealth
-
-```{r, fig.cap= "", fig.align='center'}
-set.seed(124)
-n<-100
-tibble(
-  "GMV" = c(1, cumprod(1+rnorm(n,0.003, 0.02))),
-  "Not GMV" = c(1,cumprod(1+rnorm(n, 0.01, 0.06))),
-  "x"=0:n
-) %>% 
-  pivot_longer(-x) %>% 
-  ggplot() +
-  geom_line(aes(x=x, y=value, color=name), size=1.05) +
-  theme_void() +
-  scale_color_brewer("", type="qual", palette=6)
-```
-
-
-## Not knowing what to own & diversification
+## This thesis in a slide - Estimation & diversification
 
 - In practice we do not know $\bSigma$, _estimate_ with $\bS$ from $n$ obs. How accurate is that estimate?
 - We want $p$ to be large, e.g _diversify_ a lot.
@@ -66,13 +65,14 @@ tibble(
   $$
   \widehat{\bw}_{GMV} = \frac{\bS^{-1} \ones}{\ones^\top \bS^{-1} \ones}?
   $$
-- Estimates are ''uncertain'' $\rightarrow$ can we understand that uncertainty or construct ''better'' estimates?
+- Estimates makes everything complicated $\rightarrow$ understand difference between using $\bSigma$ and $\bS$ or construct ''better'' estimates?
 
 ## Summary of papers in this thesis 
 
 ```{r}
 tibble(
   "Paper" = as.roman(1:5),
+  "Aim" = c("Understanding uncertainty", "Understanding uncertainty", "Better estimates", "Better estimates", "Better estimates"),
   "Portfolios"=c("Many!", "TP", rep("GMV", 3 )),
   "Model" = c("Normal", "Normal with skewness", rep("Location-scale",3)),
   "$n,p < \\infty$" = c("$\\cdot$", "$\\cdot$", "", "", ""),
@@ -88,7 +88,15 @@ tibble(
 
 # Paper I & II | Together with Taras Bodnar, Nestor Parolya, Holger Dette,<br/> Stepan Mazur & Farrukh Javed  {#title}
 
-## Paper I & II {.build}
+## Paper I & II - Sampling distributions & understanding uncertainty
+
+- If we use $\bS$ instead of $\bSigma$ we introduce estimation uncertainty.
+- Aim is to answer questions such as: 
+  * Have we bought the right amount of units in asset A? 
+  * We think that our portfolio should grow $3\%$ each year, how certain are we about it? 
+- To do this we assume a lot, but can get a deeper understanding of what happens! 
+
+## Paper I & II - Results {.build}
 
 *Paper I*
 
@@ -107,19 +115,20 @@ tibble(
 
 ## Shrinkage in high-dimensional portfolios
 
-These papers consider portfolios on the following form
+- Even though $\widehat{\bw}_{GMV}$ is supposed to minimize risk, it wont if $p$ is close to $n$.
+
+- These papers consider portfolios on the following form
 $$
-\widehat{\bw}_{SH}=\psi \widehat{\bw}_{GMV} + (1-\psi)\bb
+\widehat{\bw} =\psi \widehat{\bw}_{GMV} + (1-\psi)\bb
 $$
 where $\bb$ is "some portfolio".
-
-- Introduces bias to the portfolio but will lower its variance.
-- How do we determine $\psi$? $$\min_{\psi} \widehat{\bw}_{SH}^\top \bSigma \widehat{\bw}_{SH}$$
+  * Introduces bias to the portfolio but will lower its variance.
+  * How do we determine $\psi$? $$\min_{\psi} \widehat{\bw}^\top \bSigma \widehat{\bw}$$
 _note that $\bSigma$ is present again!_
 
 ## Paper IV - Is variance informative?
 
-```{r, warning=FALSE, fig.height=2.5, fig.align='center', fig.pos='top', fig.}
+```{r, warning=FALSE, fig.height=2.5, fig.align='center', fig.pos='top'}
 offset <- 0.01
 tibble(x = 1:11,
        y = 1) %>% 
@@ -317,12 +326,14 @@ tibble(
 
 - _Double is consistently the best in terms of low-risk positions!_
 
-## Summary
+## Summary {.build}
 
 This thesis provides some ways to better understand the investment process or to provide ''good'' portfolios when $n,p\rightarrow \infty$. 
 We either
 
 - assume a lot to get a deeper understanding of the quantities of interest.
-- assume little, construct ''good'' portfolios but we might understand less.
+- assume little, construct ''good'' portfolios but we might provide less intuition.
+
+All code for this thesis is available on [my github page (https://github.com/Ethorsn)](https://github.com/Ethorsn/Phd-thesis)
 
 ## References
