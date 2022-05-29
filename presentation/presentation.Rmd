@@ -119,7 +119,7 @@ $$
 $$
 where $\bb$ is "some target portfolio".
   * Introduces bias to the portfolio but will lower its variance/risk.
-  * How do we determine $\psi$? One option is to minimize future risk/out-of-sample variance.
+  * How do we determine $\psi$? Loss: $\widehat{\bw}^\top \bSigma \widehat{\bw}$, cross-validation/consistent estimator $\psi$.
 
 ## Paper IV - Informative risk measures, $n,p \rightarrow \infty$
 
